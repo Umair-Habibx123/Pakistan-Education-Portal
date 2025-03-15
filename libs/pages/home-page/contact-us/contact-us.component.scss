@@ -1,0 +1,83 @@
+/* Adjustments for tablets and small screens */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 40px 20px !important;
+        /* Reduce padding on smaller screens */
+    }
+
+    h1 {
+        font-size: 36px !important;
+        /* Reduce heading size */
+        margin: 10px 0 !important;
+        /* Adjust margin */
+    }
+
+    .col-md-6 {
+        flex: 0 0 100%;
+        /* Stack columns on smaller screens */
+        max-width: 100%;
+    }
+
+    .row.align-items-center {
+        padding: 16px !important;
+        /* Reduce padding for form and image section */
+    }
+
+    .p-4 {
+        padding: 20px !important;
+        /* Reduce form padding */
+    }
+
+    .form-control {
+        font-size: 14px !important;
+        /* Reduce form input font size */
+    }
+
+    .form-label {
+        font-size: 14px !important;
+        /* Reduce form label font size */
+    }
+
+    button {
+        font-size: 14px !important;
+        /* Reduce button font size */
+    }
+}
+
+/* Adjustments for mobile screens */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 28px !important;
+        /* Further reduce heading size */
+    }
+
+    .container-fluid {
+        padding: 20px 10px !important;
+        /* Further reduce padding */
+    }
+
+    .row.align-items-center {
+        padding: 8px !important;
+        /* Further reduce padding */
+    }
+
+    .p-4 {
+        padding: 16px !important;
+        /* Further reduce form padding */
+    }
+
+    .form-control {
+        font-size: 12px !important;
+        /* Further reduce form input font size */
+    }
+
+    .form-label {
+        font-size: 12px !important;
+        /* Further reduce form label font size */
+    }
+
+    button {
+        font-size: 12px !important;
+        /* Further reduce button font size */
+    }
+}

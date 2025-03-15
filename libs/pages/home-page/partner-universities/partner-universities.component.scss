@@ -1,0 +1,52 @@
+
+  /* Adjustments for tablets and small screens */
+  @media (max-width: 768px) {
+    .container-fluid {
+      padding: 40px 20px !important; /* Reduce padding on smaller screens */
+    }
+
+    h1 {
+      font-size: 36px !important; /* Reduce heading size */
+      margin: 10px 0 !important; /* Adjust margin */
+    }
+
+    p {
+      font-size: 14px !important; /* Reduce paragraph font size */
+      margin: 10px 0 !important; /* Adjust margin */
+    }
+
+    .col-6 {
+      flex: 0 0 50%; /* Ensure 2 columns on smaller screens */
+      max-width: 50%;
+    }
+
+    .col-md-3 {
+      flex: 0 0 100%; /* Switch to 1 column on small screens */
+      max-width: 100%;
+    }
+
+    .px-md-5 {
+      padding-left: 1rem !important; /* Reduce padding */
+      padding-right: 1rem !important;
+    }
+  }
+
+  /* Adjustments for mobile screens */
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 28px !important; /* Further reduce heading size */
+    }
+
+    p {
+      font-size: 12px !important; /* Further reduce paragraph font size */
+    }
+
+    .col-6 {
+      flex: 0 0 100%; /* Switch to 1 column on mobile */
+      max-width: 100%;
+    }
+
+    .d-inline-flex {
+      width: 100% !important; /* Make button full width */
+    }
+  }

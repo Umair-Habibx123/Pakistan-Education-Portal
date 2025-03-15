@@ -1,0 +1,166 @@
+<div class="navbar-container" [ngClass]="{'navbar-hidden': isNavbarHidden}">
+  <div class="px-4 px-sm-8 px-md-14 py-2" style="background-color: #f9ecf7">
+    <nav class="d-flex justify-content-between align-items-center py-2 px-4 px-md-8">
+      <!-- Logo -->
+      <div class="d-flex align-items-center">
+        <a [routerLink]="'/'">
+          <img
+            src="assets/logo.png"
+            alt="logo"
+            class="img-fluid"
+            style="height: 50px; width: 200px"
+          />
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button (Visible only on small screens) -->
+      <button
+        class="d-md-none"
+        (click)="toggleMenu()"
+        style="border: none; background: none"
+      >
+        <svg
+          style="width: 24px; height: 24px; color: #000000"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Navbar Links (Visible only on medium and larger screens) -->
+      <div class="d-none d-md-flex gap-4 font-sans" style="font-size: 18px">
+        <a
+          *ngFor="let link of navLinks"
+          [routerLink]="link.path"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: link.exact || false }"
+          style="
+            color: #000000;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            text-decoration: none;
+          "
+          class="router-link"
+        >
+          {{ link.label }}
+        </a>
+      </div>
+
+      <!-- Auth Buttons (Visible only on medium and larger screens) -->
+      <div
+        class="d-none d-md-flex align-items-center px-2 py-2"
+        style="border: 2px solid black; border-radius: 48px"
+      >
+        <a
+          routerLink="/login"
+          routerLinkActive="active-link"
+          style="
+            color: #000000;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            text-decoration: none;
+            padding: 2px 4px;
+          "
+        >
+          Log-in / Sign Up
+        </a>
+
+        <div
+          style="
+            width: 30px;
+            height: 30px;
+            background-color: black;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 19L19 5M19 5H9M19 5V15"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu (Visible only on small screens) -->
+    <div
+      *ngIf="isMenuOpen"
+      class="d-md-none d-flex flex-column gap-3 px-4 py-2"
+      style="
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border-top: 1px solid #e2e8f0;
+      "
+    >
+      <!-- Navbar Links for Mobile -->
+      <a
+        *ngFor="let link of navLinks"
+        [routerLink]="link.path"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: link.exact || false }"
+        style="
+          color: #000000;
+          font-weight: 500;
+          letter-spacing: 0.025em;
+          text-decoration: none;
+        "
+        (click)="closeMenu()"
+      >
+        {{ link.label }}
+      </a>
+
+      <!-- Auth Buttons for Mobile -->
+      <a
+        routerLink="/login"
+        routerLinkActive="active-link"
+        style="
+          color: #000000;
+          font-weight: 500;
+          letter-spacing: 0.025em;
+          text-decoration: none;
+        "
+        (click)="closeMenu()"
+      >
+        Sign in
+      </a>
+      <a routerLink="/register" routerLinkActive="active-link">
+        <button
+          style="
+            color: #ffffff;
+            background-color: #16bc88;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            width: 100%;
+          "
+          (click)="closeMenu()"
+        >
+          Register Now
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
