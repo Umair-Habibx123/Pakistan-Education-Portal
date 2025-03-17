@@ -1,0 +1,10 @@
+/* Ensure the sidebar is hidden by default on small screens */
+@media (max-width: 991.98px) {
+    aside {
+      transform: translateX(-100%);
+    }
+  
+    aside.translate-x-0 {
+      transform: translateX(0);
+    }
+  }

@@ -6,6 +6,8 @@ import { ProgramPageComponent } from 'libs/pages/program-page/program-page.compo
 import { UniversitiesPageComponent } from 'libs/pages/universities-page/universities-page.component';
 import { AboutUsPageComponent } from 'libs/pages/about-us-page/about-us-page.component';
 import { ContactUSPageComponent } from 'libs/pages/contact-us-page/contact-us-page.component';
+import { RegisterComponent } from 'libs/pages/register/register.component';
+import { AdminComponent } from 'libs/admin/admin.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -13,6 +15,9 @@ const routes: Routes = [
   { path: 'universities', component: UniversitiesPageComponent },
   { path: 'aboutUs', component: AboutUsPageComponent },
   { path: 'contactUs', component: ContactUSPageComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'admin-dashboard', component: AdminComponent },
+
 ];
 
 @NgModule({

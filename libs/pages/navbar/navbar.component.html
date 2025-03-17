@@ -57,11 +57,10 @@
       <!-- Auth Buttons (Visible only on medium and larger screens) -->
       <div
         class="d-none d-md-flex align-items-center px-2 py-2"
-        style="border: 2px solid black; border-radius: 48px"
+        style="border: 3px solid #009D77; border-radius: 48px"
       >
         <a
-          routerLink="/login"
-          routerLinkActive="active-link"
+          routerLink="/register"
           style="
             color: #000000;
             font-weight: 500;
@@ -77,7 +76,7 @@
           style="
             width: 30px;
             height: 30px;
-            background-color: black;
+            background-color: #009D77;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -131,36 +130,7 @@
       </a>
 
       <!-- Auth Buttons for Mobile -->
-      <a
-        routerLink="/login"
-        routerLinkActive="active-link"
-        style="
-          color: #000000;
-          font-weight: 500;
-          letter-spacing: 0.025em;
-          text-decoration: none;
-        "
-        (click)="closeMenu()"
-      >
-        Sign in
-      </a>
-      <a routerLink="/register" routerLinkActive="active-link">
-        <button
-          style="
-            color: #ffffff;
-            background-color: #16bc88;
-            font-weight: 500;
-            letter-spacing: 0.025em;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 2px solid transparent;
-            width: 100%;
-          "
-          (click)="closeMenu()"
-        >
-          Register Now
-        </button>
-      </a>
-    </div>
+
+  
   </div>
 </div>

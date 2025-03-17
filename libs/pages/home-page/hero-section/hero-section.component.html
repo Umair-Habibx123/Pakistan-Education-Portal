@@ -1,62 +1,27 @@
-<div
-  class="container-fluid w-100 d-flex justify-content-center align-items-center"
-  style="margin: 0; height: calc(100vh - 82px); padding: 72px 96px;"
->
-  <!-- Left Column (Image) -->
+<div class="container-fluid w-100 d-flex justify-content-center align-items-center" style="margin: 0; padding: 72px 96px;">
+  
   <div class="row align-items-center w-100 px-0 mx-0">
     <div class="col-12 col-md-2 d-flex justify-content-center align-items-center px-0">
       <div style="padding: 16px">
-        <img
-          src="assets/hero1.png"
-          alt="Rotated Image"
-          class="img-fluid"
-          style="max-width: 100px; height: auto"
-        />
+        <img src="assets/hero1.png" alt="Rotated Image" class="img-fluid" style="max-width: 100px; height: auto" />
       </div>
     </div>
 
-    <!-- Middle Column (Content) -->
     <div class="col-12 col-md-8 px-0">
-      <div
-        style="
-          padding: 40px 20px;
-          text-align: center;
-          max-width: 900px;
-          margin: 0 auto;
-        "
-      >
-        <!-- Badge -->
+      <div style="padding: 40px 20px; text-align: center; max-width: 900px; margin: 0 auto;">
+       
         <div class="row justify-content-center">
-          <div
-            class="w-auto p-2"
-            style="
-              background-color: #f3fcfb;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 48px;
-            "
-          >
-            <i
-              class="fas fa-graduation-cap px-2"
-              style="color: #009d77; font-size: 16px"
-            ></i>
-            <p style="font-weight: bold; font-size: 16px; margin: 0">
-              Start your Journey in Pakistan
-            </p>
+          <div class="w-auto p-2" style="background-color: #f3fcfb; display: flex; align-items: center; justify-content: center; border-radius: 48px;">
+            <i class="fas fa-graduation-cap px-2" style="color: #009d77; font-size: 16px"></i>
+            <p style="font-weight: bold; font-size: 16px; margin: 0">Start your Journey in Pakistan</p>
           </div>
         </div>
 
-        <!-- Heading -->
-        <h1
-          class="mt-3"
-          style="font-size: 72px; font-weight: bold; color: #000; margin: 20px 0"
-        >
+        <h1 class="mt-3" style="font-size: 72px; font-weight: bold; color: #000; margin: 20px 0">
           Start your journey to <br class="d-none d-md-block" />
           study In <span style="color: #ff4081">Pakistan</span>
         </h1>
 
-        <!-- Description -->
         <p style="font-size: 18px; color: #555; margin: 20px 0">
           Pakistan education portal helps students explore opportunities for
           overseas<br class="d-none d-md-block" />
@@ -64,91 +29,87 @@
           process.
         </p>
 
-        <!-- Search Form -->
-        <div
-          class="p-3"
-          style="
-            box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.2), 0 4px 8px -1px rgba(0, 0, 0, 0.15);
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            border-radius: 48px;
-            padding: 10px;
-          "
-        >
-          <select
-            style="
-              padding: 10px;
-              font-size: 16px;
-              border-radius: 48px;
-              border: 1px solid #ccc;
-              flex: 1;
-              min-width: 150px;
-            "
-          >
+        <div class="p-3" style="box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.2), 0 4px 8px -1px rgba(0, 0, 0, 0.15); display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; border: 1px solid #ccc; border-radius: 48px; padding: 10px;">
+          <select [(ngModel)]="selectedStudyLevel" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid #ccc; flex: 1; min-width: 150px;">
             <option disabled selected>Study Level</option>
             <option *ngFor="let level of studyLevels">{{ level }}</option>
           </select>
         
-          <select
-            style="
-              padding: 10px;
-              font-size: 16px;
-              border-radius: 48px;
-              border: 1px solid #ccc;
-              flex: 1;
-              min-width: 150px;
-            "
-          >
+          <select [(ngModel)]="selectedSubject" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid #ccc; flex: 1; min-width: 150px;">
             <option disabled selected>Subject</option>
             <option *ngFor="let subject of subjects">{{ subject }}</option>
           </select>
         
-          <select
-            style="
-              padding: 10px;
-              font-size: 16px;
-              border-radius: 48px;
-              border: 1px solid #ccc;
-              flex: 1;
-              min-width: 150px;
-            "
-          >
+          <select [(ngModel)]="selectedCity" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid #ccc; flex: 1; min-width: 150px;">
             <option disabled selected>City</option>
             <option *ngFor="let city of cities">{{ city }}</option>
           </select>
         
-          <button
-            style="
-              padding: 10px 20px;
-              font-size: 16px;
-              border-radius: 48px;
-              background-color: #009d77;
-              color: white;
-              border: none;
-              cursor: pointer;
-              flex-shrink: 0;
-            "
-          >
+          <button (click)="filterUniversities()" style="padding: 10px 20px; font-size: 16px; border-radius: 48px; background-color: #009d77; color: white; border: none; cursor: pointer; flex-shrink: 0;">
             Search
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Right Column (Image) -->
     <div class="col-12 col-md-2 d-flex justify-content-center align-items-center px-0">
       <div style="padding: 16px">
-        <img
-          src="assets/hero2.png"
-          alt="Rotated Image"
-          class="img-fluid"
-          style="max-width: 100px; height: auto"
-        />
+        <img src="assets/hero2.png" alt="Rotated Image" class="img-fluid" style="max-width: 100px; height: auto" />
       </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-12" style="padding: 0px 96px;">
+  <!-- Search Result Heading -->
+  <div *ngIf="filteredUniversities.length > 0" class="row mb-4">
+    <div class="col-12">
+      <h2 style="font-size: 24px;">
+        Your search for <span style="font-weight: bold; color: #000;">"{{ selectedStudyLevel }}" </span> in <span style="font-weight: bold; color: #000;">"{{ selectedCity }}"</span> found <span style="font-weight: bold; color: #000;">"{{ selectedSubject }}"</span> at <span style="font-weight: bold; color: #000;">{{ filteredUniversities.length }} Universities.</span>
+      </h2>
+      <p style="font-size:20px; color: #4E5255; margin-top: 10px;">Search Result</p>
+    </div>
+  </div>
+
+  <!-- University Cards -->
+  <div class="row">
+    <div *ngFor="let university of getPaginatedUniversities()" class="col-6 col-md-3 mb-4">
+      <div class="position-relative" style="width: 100%; padding-bottom: 55%; background: #f0f0f0; border-radius: 16px; overflow: hidden; position: relative;">
+        <img [src]="university.image" alt="University" class="w-100 h-100" style="object-fit: cover; position: absolute; top: 0; left: 0" />
+        <img [src]="university.logo" alt="Logo" class="position-absolute" style="width: 50px; height: 50px; object-fit: contain; bottom: 8px; left: 8px; background-color: white; border-radius: 50%; padding: 6px;" />
+      </div>
+      <p class="mt-2" style="font-size: 16px; font-weight: bold">{{ university.name }}</p>
+
+      <div >
+        <p style="font-size: 14px; color: #777; margin: 0">{{ university.location }} • {{ university.programs }} Programmes</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Section -->
+  <div *ngIf="filteredUniversities.length > 0 || isUniversityPage" class="d-flex flex-column flex-sm-row align-items-center justify-content-end gap-2 mt-4 border-top pt-4">
+    <div class="d-flex align-items-center gap-3">
+      <button *ngFor="let page of [].constructor(totalPages); let i = index" 
+              class="fw-bold btn btn-link p-0" 
+              [ngClass]="{'fw-bold': currentPage === i + 1, 'fw-medium': currentPage !== i + 1}" 
+              (click)="goToPage(i + 1)">
+        {{ i + 1 }}
+      </button>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light" 
+              [ngStyle]="{ color: colors.subtitle }" 
+              (click)="previousPage()">
+        <span>←</span>
+        <span>Previous</span>
+      </button>
+      <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light" 
+              [ngStyle]="{ color: colors.subtitle }" 
+              (click)="nextPage()">
+        <span>Next</span>
+        <span>→</span>
+      </button>
     </div>
   </div>
 </div>

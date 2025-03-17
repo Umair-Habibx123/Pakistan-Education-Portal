@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HomePageComponent {
 
+  filtersApplied: boolean = false;
+
+  onFiltersApplied(applied: boolean) {
+    this.filtersApplied = applied;
+  }
 }

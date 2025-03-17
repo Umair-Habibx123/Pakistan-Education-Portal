@@ -1,0 +1,118 @@
+<div class="d-flex vh-100 overflow-hidden">
+  <!-- Sidebar -->
+  <aside
+    class="position-fixed top-0 bottom-0 p-3 border-end transform transition-transform duration-300 d-flex flex-column z-50"
+    [ngClass]="{
+      'translate-x-0':
+        (isSidebarOpen && isLargeScreen) || (isSidebarOpen && !isLargeScreen),
+      '-translate-x-full':
+        (!isSidebarOpen && isLargeScreen) || (!isSidebarOpen && !isLargeScreen)
+    }"
+    style="width: 265px"
+    [ngStyle]="{ 'background-color': colors.background }"
+  >
+    <img src="../../../../assets/logo.png" class="w-100 h-auto mb-2" alt="Logo" />
+
+    <nav class="mt-3 flex-grow-1 overflow-auto">
+      <a
+        class="d-block p-3 rounded cursor-pointer text-decoration-none"
+        *ngFor="let item of menuItems"
+        style="cursor: pointer;"
+        [ngStyle]="{
+          color: currentSection === item.id ? colors.white : colors.text,
+          backgroundColor:
+            currentSection === item.id ? colors.primary : 'transparent'
+        }"
+        (click)="loadContent(item.id)"
+      >
+        <lucide-angular [name]="item.icon" class="me-2"></lucide-angular>
+        {{ item.label }}
+      </a>
+    </nav>
+
+    <button
+      class="d-block d-lg-none position-absolute top-1 end-1 p-2 bg-light rounded"
+      (click)="toggleSidebar()"
+    >
+      <lucide-angular name="X"></lucide-angular>
+    </button>
+
+    <div class="mt-auto">
+      <button
+        [ngStyle]="{ color: colors.white, 'background-color': colors.text }"
+        class="w-100 mt-3 p-2 p-lg-3 rounded d-flex align-items-center justify-content-center"
+      >
+        <lucide-angular name="LogOut" class="me-2"></lucide-angular>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main
+    class="flex-grow-1 d-flex flex-column vh-100 overflow-hidden"
+    [ngStyle]="{
+      'margin-left': isSidebarOpen && isLargeScreen ? '265px' : '0'
+    }"
+  >
+    <nav class="border-bottom px-3 px-lg-4">
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center p-2 p-lg-3"
+      >
+        <!-- Sidebar Toggle Button for Small Screens -->
+        <button class="p-2 d-lg-none" (click)="toggleSidebar()">
+          <lucide-angular name="Menu"></lucide-angular>
+        </button>
+
+        <div class="flex-grow-1 min-width-0 me-3">
+          <h1 class="h5 h4-lg fw-bold text-truncate mb-0">
+            {{ getTitle(currentSection) }}
+          </h1>
+          <p
+            [ngStyle]="{ color: colors.subtitle }"
+            class="mt-1 small text-truncate mb-0"
+          >
+            Here are the {{ getTitle(currentSection) }} details of your PYP
+          </p>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <lucide-angular name="Bell" class="my-icon" style="cursor: pointer;"></lucide-angular>
+
+          <div class="position-relative ms-3 d-flex align-items-center">
+            <img
+              src="../../../../assets/images/user.png"
+              class="rounded-circle cursor-pointer"
+              alt="User"
+              style="height: 2rem; width: 2rem;cursor: pointer;"
+            />
+            <lucide-angular
+              name="ChevronDown"
+              class="ms-2 d-none d-lg-block"
+              style="cursor: pointer;"
+            ></lucide-angular>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Dynamic Content Area -->
+    <div
+      id="main-content"
+      [ngStyle]="{ 'background-color': colors.dashboardBg }"
+      class="flex-1 overflow-y-auto overflow-x-hidden"
+    >
+      <ng-container [ngSwitch]="currentSection">
+        <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>
+        <app-sliders *ngSwitchCase="'sliders'"></app-sliders>
+        <app-universities *ngSwitchCase="'universities'"></app-universities>
+        <app-admin-about-us *ngSwitchCase="'aboutUs'"></app-admin-about-us>
+        <app-privacy *ngSwitchCase="'privacy'"></app-privacy>
+        <app-settings *ngSwitchCase="'settings'"></app-settings>
+        <div *ngSwitchDefault>
+          Welcome to the Dashboard. Select an option from the sidebar.
+        </div>
+      </ng-container>
+    </div>
+  </main>
+</div>

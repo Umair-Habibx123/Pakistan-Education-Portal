@@ -1,6 +1,8 @@
 <div style="margin-top: 75px;">
-<app-hero-section></app-hero-section>
-<app-partner-universities></app-partner-universities>
-<app-about-us></app-about-us>
-<app-contact-us></app-contact-us>
-</div>
+    <app-hero-section (filtersApplied)="onFiltersApplied($event)"></app-hero-section>
+    <div *ngIf="!filtersApplied">
+      <app-partner-universities></app-partner-universities>
+      <app-about-us></app-about-us>
+      <app-contact-us></app-contact-us>
+    </div>
+  </div>

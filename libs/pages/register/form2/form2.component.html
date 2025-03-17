@@ -1,0 +1,119 @@
+<div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4">
+  <h3 class="h5 font-weight-semibold">Educational Details</h3>
+  <button
+    class="btn text-white px-4 py-2 font-weight-semibold"
+    style="background-color: #16bc88; border: 2px solid; border-radius: 48px"
+    (click)="goToNext()"
+  >
+    Save & Next
+  </button>
+</div>
+
+<div class="row g-3">
+  <!-- University -->
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">University</label>
+      <select
+        class="form-select border-2 py-2 px-3 rounded"
+        [(ngModel)]="University"
+      >
+        <option value="null" disabled>Select University</option>
+        <option *ngFor="let uni of Universities" [value]="uni">
+          {{ uni }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Degree -->
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">Degree</label>
+      <select
+        class="form-select border-2 py-2 px-3 rounded"
+        [(ngModel)]="Degree"
+      >
+        <option value="null" disabled>Select Degree</option>
+        <option *ngFor="let deg of degree" [value]="deg">{{ deg }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Course Name -->
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">Course Name</label>
+      <select
+        class="form-select border-2 py-2 px-3 rounded"
+        [(ngModel)]="language"
+      >
+        <option value="null" disabled>Select Course Name</option>
+        <option *ngFor="let cour of course" [value]="cour">{{ cour }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Institute Name -->
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">Institute Name</label>
+      <input
+        type="text"
+        [(ngModel)]="InsttuteName"
+        required
+        placeholder="Enter Institute Name"
+        class="form-control border-2 py-2 px-3 rounded"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Upload Documents Section -->
+<div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-4 mb-4">
+  <h3 class="h5 font-weight-semibold">Upload Documents</h3>
+</div>
+
+<div class="row g-3">
+  <!-- Marksheets -->
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">Marksheets</label>
+      <div
+        class="py-2 px-3 rounded d-flex flex-column align-items-center justify-content-center"
+        style="height: 128px; border: 2px dashed #ccc"
+      >
+        <div class="text-center">
+          <span class="d-block">
+            Drag & drop files or
+            <span class="font-weight-bold cursor-pointer text-decoration-underline">
+              Browse
+            </span>
+          </span>
+          <span class="d-block text-muted">Supported formats: JPEG, PNG</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Degree Transcript -->
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">Degree Transcript</label>
+      <div
+        class="py-2 px-3 rounded d-flex flex-column align-items-center justify-content-center"
+        style="height: 128px; border: 2px dashed #ccc"
+      >
+        <div class="text-center">
+          <span class="d-block">
+            Drag & drop files or
+            <span class="font-weight-bold cursor-pointer text-decoration-underline">
+              Browse
+            </span>
+          </span>
+          <span class="d-block text-muted">Supported formats: JPEG, PNG</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

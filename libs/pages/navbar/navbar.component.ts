@@ -10,31 +10,31 @@ export class NavbarComponent implements OnInit {
   isMenuOpen = false;
   lastScrollPosition = 0;
   isNavbarHidden = false;
+  scrollThreshold = 100; // Set the scroll threshold (in pixels)
 
   navLinks = [
     { path: '/', label: 'Home', exact: true },
     { path: '/programs', label: 'Programs' },
     { path: '/universities', label: 'Universities' },
-    { path: '/aboutUs', label: 'About US' },
+    { path: '/aboutUs', label: 'About Us' },
     { path: '/contactUs', label: 'Contact' },
   ];
 
   ngOnInit(): void {
     this.lastScrollPosition = window.pageYOffset;
   }
-
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     const currentScrollPosition = window.pageYOffset;
-
-    if (currentScrollPosition > this.lastScrollPosition) {
-      // Scrolling down: Hide navbar
+  
+    // Hide navbar when scrolled down by at least 75px
+    if (currentScrollPosition > this.lastScrollPosition && currentScrollPosition > 75) {
       this.isNavbarHidden = true;
-    } else {
-      // Scrolling up: Show navbar
+    }
+    else if (currentScrollPosition < this.lastScrollPosition) {
       this.isNavbarHidden = false;
     }
-
+  
     this.lastScrollPosition = currentScrollPosition;
   }
 
