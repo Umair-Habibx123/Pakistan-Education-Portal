@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common'; // Import the Location service
-import { colors } from 'libs/styles/colors';
+
 
 @Component({
   selector: 'app-university-detail',
@@ -10,7 +10,7 @@ import { colors } from 'libs/styles/colors';
 })
 export class UniversityDetailComponent {
 
-  colors = colors;
+  
 
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();

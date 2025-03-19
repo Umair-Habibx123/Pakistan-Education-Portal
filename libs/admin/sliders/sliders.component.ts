@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { colors } from 'libs/styles/colors';
+
 
 @Component({
   selector: 'app-sliders',
@@ -7,7 +7,7 @@ import { colors } from 'libs/styles/colors';
   styleUrls: ['./sliders.component.scss']
 })
 export class SlidersComponent {
-  colors  = colors;
+  
   isModalOpen = false;
 
   slides = [

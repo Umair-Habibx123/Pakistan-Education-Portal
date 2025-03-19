@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms'; 
-import { LucideAngularModule, Bell, LayoutDashboard, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft } from 'lucide-angular';
+import { LucideAngularModule, Bell, LayoutDashboard, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight } from 'lucide-angular';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from '../../libs/admin/admin.component';
 import { NavbarComponent } from '../../libs/pages/navbar/navbar.component';
 import { HomePageComponent } from '../../libs/pages/home-page/home-page.component';
-import { ProgramPageComponent } from '../../libs/pages/program-page/program-page.component';
 import { HeroSectionComponent } from '../../libs/pages/home-page/hero-section/hero-section.component';
 import { PartnerUniversitiesComponent } from '../../libs/pages/home-page/partner-universities/partner-universities.component';
 import { FooterComponent } from '../../libs/pages/footer/footer.component';
@@ -49,7 +48,6 @@ import { ApplyThroughUSComponent } from '../../libs/pages/home-page/apply-throug
     AdminComponent,
     NavbarComponent,
     HomePageComponent,
-    ProgramPageComponent,
     HeroSectionComponent,
     PartnerUniversitiesComponent,
     FooterComponent,
@@ -83,7 +81,7 @@ import { ApplyThroughUSComponent } from '../../libs/pages/home-page/apply-throug
     NgbModule,
     FormsModule,
     BrowserAnimationsModule, // angular Animation Module... 
-    LucideAngularModule.pick({ArrowLeft, Bell, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings})
+    LucideAngularModule.pick({ArrowLeft,ArrowRight, Bell, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings})
   ],
   providers: [],
   bootstrap: [AppComponent]

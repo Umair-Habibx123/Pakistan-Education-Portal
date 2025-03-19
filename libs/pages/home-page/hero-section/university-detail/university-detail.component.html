@@ -3,8 +3,8 @@
     <!-- Back Button -->
     <div class="d-flex align-items-center gap-2 mb-4" style="cursor: pointer;" (click)="goBack.emit()">
       <h2 class="h5 fw-bold mb-0">
-        ← 
-        <span style="color: #16bc88"> {{ university.name }}</span> / Details
+         <lucide-angular name="ArrowLeft"></lucide-angular> 
+        <span style="color: var(--dark-green)"> {{ university.name }}</span> / Details
       </h2>
     </div>
 
@@ -35,11 +35,11 @@
     
       <!-- Right Side (40%) -->
       <div class="col-md-3 text-center">
-        <div class="d-inline-flex align-items-center justify-content-center px-3 py-2" style="border-radius: 48px; background-color: #009d77; width: auto; cursor: pointer;">
-          <a routerLink="/apply-through-us" routerLinkActive="active-link" style="color: white; font-weight: 500; letter-spacing: 0.025em; text-decoration: none; padding: 2px 4px;">
+        <div class="d-inline-flex align-items-center justify-content-center px-3 py-2" style="border-radius: 48px; background-color: var(--dark-green); width: auto; cursor: pointer;">
+          <a routerLink="/apply-through-us" routerLinkActive="active-link" style="color: var(--white); font-weight: 500; letter-spacing: 0.025em; text-decoration: none; padding: 2px 4px;">
             Apply through us
           </a>
-          <div style="width: 30px; height: 30px; background-color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+          <div style="width: 30px; height: 30px; background-color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 19L19 5M19 5H9M19 5V15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -55,20 +55,20 @@
 
 
     <div class="container-fluid my-4">
-      <div *ngFor="let contact of university.contactInfo" style="background-color: #e64980; color: white; padding: 10px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; text-align: center;">
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid rgba(255, 255, 255, 0.5);">
+      <div *ngFor="let contact of university.contactInfo" style="background-color: var(--active-link-pink); color: var(--white); padding: 10px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; text-align: center;">
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
           <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Employee Name</div>
           <div style="font-size: 14px; margin-top: 10px;">{{ contact.employeeName }}</div>
         </div>
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid rgba(255, 255, 255, 0.5);">
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
     <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Designation</div>
     <div style="font-size: 14px; margin-top: 10px;">{{ contact.designation }}</div>
   </div>
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid rgba(255, 255, 255, 0.5);">
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
     <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Email</div>
     <div style="font-size: 14px; margin-top: 10px;">{{ contact.email }}</div>
   </div>
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid rgba(255, 255, 255, 0.5);">
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
     <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Contact</div>
     <div style="font-size: 14px; margin-top: 10px;">{{ contact.contact }}</div>
   </div>
@@ -89,7 +89,7 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
         <div class="col" *ngFor="let program of getPaginatedPrograms()">
           <!-- Program Card Content -->
-          <div class="rounded-3 p-4 d-flex flex-column gap-3" style="box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); position: relative; background-color: #FAFAFB;">
+          <div class="rounded-3 p-4 d-flex flex-column gap-3" style="position: relative; background-color: var(--light-gray);;">
             <div class="pb-3 border-bottom border-2">
               <h5 class="fw-bold">{{ program.name }}</h5>
               <p class="text-muted m-0">{{ program.degreeLevel }}</p>
@@ -121,13 +121,13 @@
         </button>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light" [ngStyle]="{ color: colors.subtitle }" (click)="previousPage()">
-          <span>←</span>
+        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"  style="color: var(--subtitle);" (click)="previousPage()">
+          <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
           <span>Previous</span>
         </button>
-        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light" [ngStyle]="{ color: colors.subtitle }" (click)="nextPage()">
+        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"  style="color: var(--subtitle);" (click)="nextPage()">
           <span>Next</span>
-          <span>→</span>
+          <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
         </button>
       </div>
     </div>

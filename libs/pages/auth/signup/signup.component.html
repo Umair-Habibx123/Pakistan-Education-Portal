@@ -1,20 +1,18 @@
-  <!-- Screen Content -->
-  <div class="container-fluid vh-100 d-flex align-items-center">
-    <div class="row w-100">
-      <!-- Left Side Image -->
-     
-      <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center">
-        <img src="assets/signup.png" class="img-fluid" alt="Illustration" />
-      </div>
-    
+<!-- Screen Content -->
+<div class="container-fluid vh-100 d-flex align-items-center  justify-content-center">
+  <div class="row w-100">
+    <!-- Left Side Image -->
+    <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center">
+      <img src="assets/signup.png" class="img-fluid" alt="Illustration" />
+    </div>
 
-      <!-- Right Side Form -->
-      <div class="col-md-6 d-flex justify-content-center align-items-center">
-        <div class="p-4" style="max-width: 400px; width: 100%">
-          <h4 class="fw-bold mb-4">Please Sign up to Apply</h4>
-          <div class="form"></div>
+    <!-- Right Side Form -->
+    <div class="col-md-6 d-flex justify-content-center align-items-start">
+      <div class="p-4" style="max-width: 400px; width: 100%">
+        <h4 class="fw-bold mb-4">Please Sign up to Apply</h4>
+        <div class="form">
           <!-- Email Field -->
-          <div class="mb-2">
+          <div class="mb-4"> 
             <div class="input-group">
               <input
                 type="email"
@@ -28,7 +26,7 @@
           </div>
 
           <!-- Mobile Field -->
-          <div class="mb-2">
+          <div class="mb-4"> 
             <div class="input-group">
               <input
                 type="text"
@@ -42,54 +40,64 @@
           </div>
 
           <!-- Password Field -->
-          <div class="mb-2">
+          <div class="mb-4">
             <div class="input-group">
               <input
-                type="password"
+                [type]="showPassword ? 'text' : 'password'"
                 class="form-control border border-secondary bg-light"
-                placeholder="Create Password"
+                placeholder="Password"
               />
-              <span class="input-group-text bg-white border border-secondary">
-                <i class="bi bi-eye-slash"></i>
+              <span
+                class="input-group-text bg-light border border-secondary cursor-pointer"
+                (click)="togglePasswordVisibility()"
+              >
+                <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
               </span>
-            </div>
             <small class="text-muted">
               <i class="bi bi-info-circle"></i> Must be at least 8 characters with one uppercase letter
             </small>
           </div>
+          </div>
 
           <!-- Confirm Password Field -->
-          <div class="mb-2">
+          <div class="mb-4">
             <div class="input-group">
               <input
-                type="password"
+                [type]="showPassword ? 'text' : 'password'"
                 class="form-control border border-secondary bg-light"
                 placeholder="Confirm Password"
               />
-              <span class="input-group-text bg-white border border-secondary">
-                <i class="bi bi-eye-slash"></i>
+              <span
+                class="input-group-text bg-light border border-secondary cursor-pointer"
+                (click)="togglePasswordVisibility()"
+              >
+                <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
               </span>
             </div>
           </div>
 
           <!-- Signup Button -->
-          <button class="btn btn-dark w-100 border-1 rounded-5">Sign up</button>
+          <button class="btn btn-dark w-100 border-1 rounded-5 mb-1">Sign up</button> 
 
-          <!-- OR Divider -->
-          <div class="text-center my-3">Or</div>
+          <div class="d-flex align-items-center my-4">
+            <hr class="flex-grow-1 border-secondary" />
+            <span class="mx-2 text-secondary">OR</span>
+            <hr class="flex-grow-1 border-secondary" />
+          </div>
 
           <!-- Google Sign-up Button -->
-          <button class="btn btn-outline-secondary w-100 border-1 rounded-5">
+          <button class="btn btn-outline-secondary w-100 border-1 rounded-5 mb-1"> 
             <i class="fa-brands fa-google"></i> Sign up with Google
           </button>
 
           <!-- Sign-in Link -->
-          <div class="text-center mt-3">
+          <div class="text-center mt-4"> 
             Already a member?
-            <a  [routerLink]="'/auth/login'"
-             class="text-primary fw-bold">Sign in</a>
+            <a [routerLink]="'/auth/login'" class="fw-bold text-decoration-none"
+            style="color: var(--dark-green)">Sign in</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

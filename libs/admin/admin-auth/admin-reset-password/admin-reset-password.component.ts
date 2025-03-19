@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-reset-password.component.scss']
 })
 export class AdminResetPasswordComponent {
+  showPassword: boolean = false; // Tracks password visibility
+
+  // Toggles password visibility
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
 
 }

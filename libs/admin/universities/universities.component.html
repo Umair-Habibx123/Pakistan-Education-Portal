@@ -53,7 +53,7 @@
               <label class="form-label">University Logo</label>
               <div
                 class="text-center p-4 rounded"
-                style=" border: 1px dashed #6c757d;"
+                style=" border: 1px dashed var(--gray);"
               >
                 <i class="bi bi-upload fs-1"></i>
                 <p class="fw-bold">Upload Image</p>
@@ -77,7 +77,7 @@
               <label class="form-label">University Image</label>
               <div
                 class="text-center p-4 rounded"
-                style=" border: 1px dashed #6c757d;"
+                style=" border: 1px dashed var(--gray);"
               >
                 <i class="bi bi-upload fs-1"></i>
                 <p class="fw-bold">Upload Image</p>
@@ -143,7 +143,7 @@
           <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col" *ngFor="let university of filteredUniversities" (click)="showUniversityDetail(university)">
               <div class="d-flex align-items-center gap-3 border rounded-3 p-3 shadow-sm position-relative"
-                   style="background-color: #FAFAFB; height: 150px; cursor: pointer;">
+                   style="background-color: var(--light-gray); height: 150px; cursor: pointer;">
                 <div>
                   <img [src]="university.logo"
                        alt="{{ university.name }} Logo"
@@ -184,16 +184,16 @@
           </div>
           <div class="d-flex align-items-center gap-2">
             <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
-                    [ngStyle]="{ color: colors.subtitle }"
+                    style="color: var(--subtitle);"
                     (click)="previousPage()">
-              <span>←</span>
+              <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
               <span>Previous</span>
             </button>
             <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
-                    [ngStyle]="{ color: colors.subtitle }"
+                    style="color: var(--subtitle);"
                     (click)="nextPage()">
               <span>Next</span>
-              <span>→</span>
+              <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
             </button>
           </div>
         </div>

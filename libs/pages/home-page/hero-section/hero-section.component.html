@@ -12,41 +12,41 @@
       <div style="padding: 40px 20px; text-align: center; max-width: 900px; margin: 0 auto;">
        
         <div class="row justify-content-center">
-          <div class="w-auto p-2" style="background-color: #f3fcfb; display: flex; align-items: center; justify-content: center; border-radius: 48px;">
-            <i class="fas fa-graduation-cap px-2" style="color: #009d77; font-size: 16px"></i>
+          <div class="w-auto p-2" style="background-color: var(--light-green); display: flex; align-items: center; justify-content: center; border-radius: 48px;">
+            <i class="fas fa-graduation-cap px-2" style="color: var(--dark-green); font-size: 16px"></i>
             <p style="font-weight: bold; font-size: 16px; margin: 0">Start your Journey in Pakistan</p>
           </div>
         </div>
 
-        <h1 class="mt-3" style="font-size: 72px; font-weight: bold; color: #000; margin: 20px 0">
+        <h1 class="mt-3" style="font-size: 72px; font-weight: bold; color: var(--black); margin: 20px 0">
           Start your journey to <br class="d-none d-md-block" />
-          study In <span style="color: #ff4081">Pakistan</span>
+          study In <span style="color: var(--active-link-pink)">Pakistan</span>
         </h1>
 
-        <p style="font-size: 18px; color: #555; margin: 20px 0">
+        <p style="font-size: 18px; color: var(--gray); margin: 20px 0">
           Pakistan education portal helps students explore opportunities for
           overseas<br class="d-none d-md-block" />
           education and provides counseling and assistance for the admission
           process.
         </p>
 
-        <div class="p-3" style="box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.2), 0 4px 8px -1px rgba(0, 0, 0, 0.15); display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; border: 1px solid #ccc; border-radius: 48px; padding: 10px;">
-          <select [(ngModel)]="tempSelectedStudyLevel" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid #ccc; flex: 1; min-width: 150px;">
+        <div class="p-3 shadow" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; border: 1px solid var(--gray); border-radius: 48px; padding: 10px;">
+          <select [(ngModel)]="tempSelectedStudyLevel" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid var(--gray); flex: 1; min-width: 150px;">
             <option value="" disabled selected>Study Level</option>
             <option *ngFor="let level of studyLevels">{{ level }}</option>
           </select>
         
-          <select [(ngModel)]="tempSelectedSubject" [disabled]="!tempSelectedStudyLevel" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid #ccc; flex: 1; min-width: 150px;">
+          <select [(ngModel)]="tempSelectedSubject" [disabled]="!tempSelectedStudyLevel" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid var(--gray); flex: 1; min-width: 150px;">
             <option value="" disabled selected>Subject</option>
             <option *ngFor="let subject of subjects">{{ subject }}</option>
           </select>
         
-          <select [(ngModel)]="tempSelectedCity" [disabled]="!tempSelectedStudyLevel || !tempSelectedSubject" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid #ccc; flex: 1; min-width: 150px;">
+          <select [(ngModel)]="tempSelectedCity" [disabled]="!tempSelectedStudyLevel || !tempSelectedSubject" style="padding: 10px; font-size: 16px; border-radius: 48px; border: 1px solid var(--gray); flex: 1; min-width: 150px;">
             <option value="" disabled selected>City</option>
             <option *ngFor="let city of cities">{{ city }}</option>
           </select>
         
-          <button (click)="applyFilters()" style="padding: 10px 20px; font-size: 16px; border-radius: 48px; background-color: #009d77; color: white; border: none; cursor: pointer; flex-shrink: 0;">
+          <button (click)="applyFilters()" style="padding: 10px 20px; font-size: 16px; border-radius: 48px; background-color: var(--dark-green); color: var(--white); border: none; cursor: pointer; flex-shrink: 0;">
             Search
           </button>
         </div>
@@ -70,15 +70,15 @@
     <div class="col-12">
       <h2 style="font-size: 24px;">
         <ng-container *ngIf="selectedStudyLevel && !selectedSubject && !selectedCity">
-          Your search for <span style="font-weight: bold; color: #000;">{{ selectedStudyLevel }}</span> found <span style="font-weight: bold; color: #000;">{{ filteredUniversities.length }} Universities.</span>
+          Your search for <span style="font-weight: bold; color: var(--black);">{{ selectedStudyLevel }}</span> found <span style="font-weight: bold; color: var(--black);">{{ filteredUniversities.length }} Universities.</span>
         </ng-container>
 
         <ng-container *ngIf="selectedStudyLevel && selectedSubject && !selectedCity">
-          Your search for <span style="font-weight: bold; color: #000;">{{ selectedStudyLevel }}</span> found <span style="font-weight: bold; color: #000;">{{ selectedSubject }}</span> at <span style="font-weight: bold; color: #000;">{{ filteredUniversities.length }} Universities.</span>
+          Your search for <span style="font-weight: bold; color: var(--black);">{{ selectedStudyLevel }}</span> found <span style="font-weight: bold; color: var(--black);">{{ selectedSubject }}</span> at <span style="font-weight: bold; color: var(--black);">{{ filteredUniversities.length }} Universities.</span>
         </ng-container>
 
         <ng-container *ngIf="selectedStudyLevel && selectedSubject && selectedCity">
-          Your search for <span style="font-weight: bold; color: #000;">{{ selectedStudyLevel }} in {{ selectedCity }}</span> found <span style="font-weight: bold; color: #000;">{{ selectedSubject }}</span> at <span style="font-weight: bold; color: #000;">{{ filteredUniversities.length }} Universities.</span>
+          Your search for <span style="font-weight: bold; color: var(--black);">{{ selectedStudyLevel }} in {{ selectedCity }}</span> found <span style="font-weight: bold; color: var(--black);">{{ selectedSubject }}</span> at <span style="font-weight: bold; color: var(--black);">{{ filteredUniversities.length }} Universities.</span>
         </ng-container>
       </h2>
       <p style="font-size:20px; color: #4E5255; margin-top: 10px;">Search Result</p>
@@ -87,19 +87,19 @@
 
   <div *ngIf="filteredUniversities.length === 0 && hasSearched" class="row mb-4">
     <div class="col-12 text-center">
-      <h2 style="font-size: 24px; color: #000;">No universities found matching your criteria.</h2>
+      <h2 style="font-size: 24px; color: var(--black);">No universities found matching your criteria.</h2>
     </div>
   </div>
 
   <div class="row">
-    <div *ngFor="let university of getPaginatedUniversities()" (click)="showUniversityDetail(university)" class="col-6 col-md-3 mb-4" style="cursor: pointer;"> <div class="position-relative" style="width: 100%; padding-bottom: 55%; background: #f0f0f0; border-radius: 16px; overflow: hidden; position: relative;">
+    <div *ngFor="let university of getPaginatedUniversities()" (click)="showUniversityDetail(university)" class="col-6 col-md-3 mb-4" style="cursor: pointer;"> <div class="position-relative" style="width: 100%; padding-bottom: 55%; background: var(--white); border-radius: 16px; overflow: hidden; position: relative;">
         <img [src]="university.image" alt="University" class="w-100 h-100" style="object-fit: cover; position: absolute; top: 0; left: 0" />
-        <img [src]="university.logo" alt="Logo" class="position-absolute" style="width: 50px; height: 50px; object-fit: contain; bottom: 8px; left: 8px; background-color: white; border-radius: 50%; padding: 6px;" />
+        <img [src]="university.logo" alt="Logo" class="position-absolute" style="width: 50px; height: 50px; object-fit: contain; bottom: 8px; left: 8px; background-color: var(--white); border-radius: 50%; padding: 6px;" />
       </div>
       <p class="mt-2" style="font-size: 16px; font-weight: bold">{{ university.name }}</p>
 
       <div >
-        <p style="font-size: 14px; color: #777; margin: 0">{{ university.location }} • {{ university.programsCount }} Programmes</p>
+        <p style="font-size: 14px; color: var(--gray); margin: 0">{{ university.location }} • {{ university.programsCount }} Programmes</p>
       </div>
     </div>
   </div>
@@ -116,16 +116,16 @@
     </div>
     <div class="d-flex align-items-center gap-2">
       <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light" 
-              [ngStyle]="{ color: colors.subtitle }" 
+               style="color: var(--subtitle);" 
               (click)="previousPage()">
-        <span>←</span>
+        <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
         <span>Previous</span>
       </button>
       <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light" 
-              [ngStyle]="{ color: colors.subtitle }" 
+               style="color: var(--subtitle);" 
               (click)="nextPage()">
         <span>Next</span>
-        <span>→</span>
+        <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
       </button>
     </div>
   </div>

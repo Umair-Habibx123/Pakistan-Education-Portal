@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { colors } from 'libs/styles/colors';
+
 
 @Component({
   selector: 'app-admin',
@@ -7,7 +7,7 @@ import { colors } from 'libs/styles/colors';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
-  colors = colors;
+  
   isSidebarOpen = true;
   isLargeScreen = window.innerWidth >= 992;
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { colors } from '../../styles/colors';
+;
 
 @Component({
   selector: 'app-settings',
@@ -7,6 +7,6 @@ import { colors } from '../../styles/colors';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-  colors = colors;
+  
 
 }

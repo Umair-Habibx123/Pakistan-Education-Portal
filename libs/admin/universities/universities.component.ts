@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UniversityDataService } from '../../service/UniversityData/university-data.service';
-import { colors } from 'libs/styles/colors';
+
 
 @Component({
   selector: 'app-universities',
@@ -9,7 +9,7 @@ import { colors } from 'libs/styles/colors';
 })
 export class UniversitiesComponent implements OnInit {
 
-  colors = colors;
+  
 
   universities: any[] = [];
   filteredUniversities: any[] = [];

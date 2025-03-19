@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { colors } from 'libs/styles/colors';
+
 import { UniversityDataService } from '../../../service/UniversityData/university-data.service';
 
 interface University {
@@ -28,7 +28,7 @@ interface Program {
   styleUrls: ['./hero-section.component.scss']
 })
 export class HeroSectionComponent implements OnInit {
-  colors = colors;
+  
 
   @Output() filtersApplied = new EventEmitter<boolean>();
 

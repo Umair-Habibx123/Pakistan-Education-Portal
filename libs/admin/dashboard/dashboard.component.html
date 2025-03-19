@@ -1,14 +1,14 @@
 <div class="d-flex flex-column">
     <!-- Scrollable Content -->
-    <div class="flex-grow-1 overflow-auto p-4 p-sm-6">
+    <div class="flex-grow-1 overflow-auto p-1">
       <div
         class="border border-2 rounded-3 m-2 p-3"
-        style="background-color: white"
+        style="background-color: var(--white)"
       >
         <div class="row text-center">
            
             <div class="col-3 border-end d-flex flex-column align-items-start justify-content-start">
-                <div style="background-color: #FFF8E6; width: 50px;
+                <div style="background-color: var(--BgYellow); width: 50px;
       height: 50px;
       border-radius: 12px;
       display: flex;
@@ -16,14 +16,14 @@
       justify-content: center;
     "
   >
-                    <i class="fas fa-book-open" style="color: #FFB100; font-size: 24px;"></i>
+                    <i class="fas fa-book-open" style="color: var(--yellow); font-size: 24px;"></i>
                 </div>
-                <p style="color: #6C757D; font-weight: 500; margin-top: 10px;">Available Subjects</p>
+                <p style="color: var(--gray); font-weight: 500; margin-top: 10px;">Available Subjects</p>
                 <h4 style="font-weight: 700;">20</h4>
             </div>
 
             <div class="col-3 border-end d-flex flex-column align-items-start justify-content-start">
-                <div style="background-color: #E6F0FF; width: 50px;
+                <div style="background-color: var(--BgBlue); width: 50px;
       height: 50px;
       border-radius: 12px;
       display: flex;
@@ -31,14 +31,14 @@
       justify-content: center;
     "
   >
-                    <i class="fas fa-university" style="color: #0066FF; font-size: 24px;"></i>
+                    <i class="fas fa-university" style="color: var(--blue); font-size: 24px;"></i>
                 </div>
-                <p style="color: #6C757D; font-weight: 500; margin-top: 10px;">Available Universities</p>
+                <p style="color: var(--gray); font-weight: 500; margin-top: 10px;">Available Universities</p>
                 <h4 style="font-weight: 700;">45</h4>
             </div>
 
             <div class="col-3 border-end d-flex flex-column align-items-start justify-content-start">
-                <div style="background-color: #FFEAF5; width: 50px;
+                <div style="background-color: var(--light-pink); width: 50px;
       height: 50px;
       border-radius: 12px;
       display: flex;
@@ -46,14 +46,14 @@
       justify-content: center;
     "
   >
-                    <i class="fas fa-users" style="color: #FF4081; font-size: 24px;"></i>
+                    <i class="fas fa-users" style="color: var(--active-link-pink); font-size: 24px;"></i>
                 </div>
-                <p style="color: #6C757D; font-weight: 500; margin-top: 10px;">Successful Candidates</p>
+                <p style="color: var(--gray); font-weight: 500; margin-top: 10px;">Successful Candidates</p>
                 <h4 style="font-weight: 700;">400</h4>
             </div>
 
             <div class="col-3 d-flex flex-column align-items-start justify-content-start">
-                <div style="background-color: #F5F9FF; width: 50px;
+                <div style="background-color: var(--BgBlue); width: 50px;
       height: 50px;
       border-radius: 12px;
       display: flex;
@@ -61,9 +61,9 @@
       justify-content: center;
     "
   >
-                    <i class="fas fa-tablet-alt" style="color: #0099FF; font-size: 24px;"></i>
+                    <i class="fas fa-tablet-alt" style="color: var(--blue); font-size: 24px;"></i>
                 </div>
-                <p style="color: #6C757D; font-weight: 500; margin-top: 10px;">Testimonials</p>
+                <p style="color: var(--gray); font-weight: 500; margin-top: 10px;">Testimonials</p>
                 <h4 style="font-weight: 700;">320</h4>
             </div>
 
@@ -73,36 +73,93 @@
 
     </div>
 
-        <div class="flex-grow-1 overflow-auto p-4 p-sm-6">
+        <div class="flex-grow-1 p-1">
             <div class="row">
-              
-                <div class="col-8">
-                    <div class="border border-2 rounded-3 m-2 p-3" style="background-color: white">
+                    <div class="col-9" style="padding-left: 14px; padding-right: 0px; display: flex;">
+                        <div class="border border-2 rounded-3 m-2 p-3" style="background-color: var(--white); flex: 1;">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="m-0">New Students</h4>
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle border border-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Option
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item">Option 1</a></li>
-                                    <li><a class="dropdown-item">Option 2</a></li>
-                                    <li><a class="dropdown-item">Option 3</a></li>
-                                </ul>
+                                <select class="form-select" (change)="onYearChange($event)">
+                                    <option *ngFor="let year of years" [value]="year" [selected]="year === selectedYear">{{ year }}</option>
+                                </select>
+                            </div>
+                        </div>
+                
+                        <div class="container-fluid d-flex align-items-center">
+                            <!-- Black Box (Card) -->
+                            <div class="card-custom d-flex flex-column" style="background: var(--black); color: var(--white); border-radius: 10px; padding: 20px; width: 250px; height: 200px; flex-shrink: 0;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="icon-circle me-2" style="width: 40px; height: 40px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-people-fill text-white"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-white-50">Total</small><br>
+                                        <strong>Students</strong>
+                                    </div>
+                                </div>
+                                <h1 class="fw-bold">24,330</h1>
+                                <p class="mb-0"><strong>143</strong> New Students this month</p>
+                            </div>
+                
+                            <!-- Graph Container -->
+                            <div class="chart-container" style="position: relative; height: 200px; width: 100%; margin-left: 20px;">
+                                <canvas id="barChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
     
              
-                <div class="col-4">
-                    <div class="border border-2 rounded-3 m-2 p-3" style="background-color: white">
-                       
+                <div class="col-3" style="padding-left: 0px; padding-right: 14px;">
+                    <div class="border border-2 rounded-3 m-2 p-3" style="background-color: var(--white)">
+                      <div class="container">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <h5 style="font-weight: bold;">Statics</h5>
+                          <div class="dropdown">
+                            <select class="form-select">
+                              <option>This Month</option>
+                            </select>
+                          </div>
+                        </div>
+                  
+                        <!-- Graph Placeholder -->
+                        <canvas id="pieChart"></canvas>
+                  
+                        <!-- Legend Section -->
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div>
+                            <span style="display: inline-block; width: 10px; height: 10px; background-color: #c4c4c4; border-radius: 50%;"></span>
+                            <span style="font-size: 14px; color: #6c757d;">Site Visitors : 2300</span>
+                          </div>
+                          <div>
+                            <span style="display: inline-block; width: 10px; height: 10px; background-color: #009D77; border-radius: 50%;"></span>
+                            <span style="font-size: 14px; color: #6c757d;">Leads : 1300</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
             </div>
-        </div>
+            </div>
+        
 
+
+            
+        <div class="flex-grow-1 p-1">
+            <div class="row">
+                    <div class="col-6" style="padding-left: 14px; padding-right: 0px; display: flex;">
+
+                          
+                </div>
+    
+             
+                <div class="col-6" style="padding-left: 14px; padding-right: 0px; display: flex;">
+
+            </div>
+
+            </div>
+            </div>
 
 
     </div>

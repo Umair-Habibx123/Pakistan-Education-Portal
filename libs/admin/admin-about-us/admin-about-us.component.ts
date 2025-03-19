@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { colors } from 'libs/styles/colors';
+
 
 @Component({
   selector: 'app-admin-about-us',
@@ -7,7 +7,7 @@ import { colors } from 'libs/styles/colors';
   styleUrls: ['./admin-about-us.component.scss']
 })
 export class AdminAboutUsComponent {
-  colors  = colors;
+  
 
   aboutUs = [
     {

@@ -5,7 +5,8 @@
       class="btn btn-light border border-2 rounded-pill"
       (click)="goBack.emit()"
     >
-      ← Back
+    <lucide-angular name="ArrowLeft"></lucide-angular>
+      Back
     </button>
   </div>
 
@@ -13,7 +14,7 @@
     class="px-4 py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center"
   >
     <h2 class="h5 fw-bold mb-0">
-      <span style="color: #16bc88">{{ university.name }}</span> / Programs
+      <span style="color: var(--dark-green)">{{ university.name }}</span> / Programs
     </h2>
     <div
       class="d-flex flex-column flex-sm-row align-items-center gap-3"
@@ -114,9 +115,8 @@
         <div
           class="rounded-3 p-4 d-flex flex-column gap-3"
           style="
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             position: relative;
-            background-color: #fafafb;
+            background-color: var(--light-gray);
           "
         >
           <div class="pb-3 border-bottom border-2">
@@ -145,7 +145,6 @@
               position: absolute;
               top: 10px;
               right: 10px;
-              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             "
           >
             <i class="fas fa-trash-alt text-danger"></i>
@@ -177,19 +176,19 @@
     <div class="d-flex align-items-center gap-2">
       <button
         class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
-        [ngStyle]="{ color: colors.subtitle }"
+        style="color: var(--subtitle);"
         (click)="previousPage()"
       >
-        <span>←</span>
+        <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
         <span>Previous</span>
       </button>
       <button
         class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
-        [ngStyle]="{ color: colors.subtitle }"
+        style="color: var(--subtitle);"
         (click)="nextPage()"
       >
         <span>Next</span>
-        <span>→</span>
+        <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
       </button>
     </div>
   </div>

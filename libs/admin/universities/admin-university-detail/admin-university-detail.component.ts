@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common';
-import { colors } from 'libs/styles/colors';
+
 
 @Component({
   selector: 'app-admin-university-detail',
@@ -8,7 +8,7 @@ import { colors } from 'libs/styles/colors';
   styleUrls: ['./admin-university-detail.component.scss']
 })
 export class AdminUniversityDetailComponent {
-  colors = colors;
+  
 
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();
