@@ -2,58 +2,45 @@
 @media (max-width: 768px) {
     footer {
         padding: 24px 48px !important;
-        /* Reduce padding on smaller screens */
     }
 
     .col-md-3 {
         flex: 0 0 50%;
-        /* Switch to 2 columns on smaller screens */
         max-width: 50%;
         margin-bottom: 24px;
-        /* Add spacing between columns */
     }
 
     .text-center.text-md-start {
         text-align: center !important;
-        /* Center-align text on smaller screens */
     }
 
     .d-flex.justify-content-md-start {
         justify-content: center !important;
-        /* Center-align social icons */
     }
 
     .row.text-center.text-md-start {
         text-align: center;
-        /* Center-align all text */
     }
 }
-
-/* Adjustments for mobile screens */
 @media (max-width: 576px) {
     footer {
         padding: 16px 24px !important;
-        /* Further reduce padding */
     }
 
     .col-md-3 {
         flex: 0 0 100%;
-        /* Switch to 1 column on mobile */
         max-width: 100%;
     }
 
     .text-lg {
         font-size: 18px !important;
-        /* Reduce heading size */
     }
 
     .text-sm {
         font-size: 12px !important;
-        /* Reduce description and copyright text size */
     }
 
     .d-flex.gap-4 {
         gap: 12px !important;
-        /* Reduce gap between social icons */
     }
 }

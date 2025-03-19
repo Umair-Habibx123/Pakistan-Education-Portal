@@ -17,9 +17,124 @@
                 placeholder="Search here..."
               />
             </div>
-            <button class="btn px-3 py-2 border border-2 rounded-pill w-25 w-sm-auto">
+            <button 
+            data-bs-toggle="modal"
+      data-bs-target="#universityModal"
+            class="btn px-3 py-2 border border-2 rounded-pill w-25 w-sm-auto">
               Add University +
             </button>
+
+
+              <!-- Modal -->
+    <div
+    class="modal fade"
+    id="universityModal"
+    tabindex="-1"
+    aria-labelledby="universityModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="universityModalLabel">
+            Add New University
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- University Logo Upload -->
+            <div class="col-md-6">
+              <label class="form-label">University Logo</label>
+              <div
+                class="text-center p-4 rounded"
+                style=" border: 1px dashed #6c757d;"
+              >
+                <i class="bi bi-upload fs-1"></i>
+                <p class="fw-bold">Upload Image</p>
+                <p class="text-muted small">
+                  Supported Formats: Svg, Png, Jpg
+                </p>
+                <input
+                  type="file"
+                  class="form-control d-none"
+                  id="logoUpload"
+                />
+                <label
+                  for="logoUpload"
+                  class="btn btn-outline-secondary btn-sm"
+                  >Choose File</label
+                >
+              </div>
+            </div>
+            <!-- University Image Upload -->
+            <div class="col-md-6">
+              <label class="form-label">University Image</label>
+              <div
+                class="text-center p-4 rounded"
+                style=" border: 1px dashed #6c757d;"
+              >
+                <i class="bi bi-upload fs-1"></i>
+                <p class="fw-bold">Upload Image</p>
+                <p class="text-muted small">Supported Formats: Png, Jpg</p>
+                <input
+                  type="file"
+                  class="form-control d-none"
+                  id="imageUpload"
+                />
+                <label
+                  for="imageUpload"
+                  class="btn btn-outline-secondary btn-sm"
+                  >Choose File</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- University Details -->
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <label class="form-label">University Name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="COMSATS University"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Campus Name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Islamabad, Punjab, Pakistan"
+              />
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <label class="form-label">Location</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Islamabad, Punjab, Pakistan"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success w-100">
+            Add University
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
           </div>
         </div>
 

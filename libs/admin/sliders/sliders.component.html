@@ -5,30 +5,95 @@
       class="border border-2 rounded-3 m-2 p-3"
       style="background-color: white"
     >
+      <div
+        class="px-4 py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center"
+      >
+        <h2 class="h5 font-weight-bold mb-0">Slider Details</h2>
 
-        <div class="px-4 py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center">
-            <h2 class="h5 font-weight-bold mb-0">Slider Details</h2>
-            
-            <div class="d-flex flex-column flex-sm-row align-items-center gap-3" style="width: 65%;">
-              <!-- Search Input -->
-              <div class="input-group w-75 w-sm-64" style="height: 45px">
-                <span class="input-group-text bg-light border-0">
-                  <i class="fas fa-search text-muted"></i>
-                </span>
-                <input
-                  type="text"
-                  class="form-control border-0 bg-light"
-                  placeholder="Search here..."
-                />
+        <div
+          class="d-flex flex-column flex-sm-row align-items-center gap-3"
+          style="width: 65%"
+        >
+          <!-- Search Input -->
+          <div class="input-group w-75 w-sm-64" style="height: 45px">
+            <span class="input-group-text bg-light border-0">
+              <i class="fas fa-search text-muted"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control border-0 bg-light"
+              placeholder="Search here..."
+            />
+          </div>
+          <!-- Add Slider Button -->
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#sliderModal"
+            class="btn px-3 py-2 border border-2 rounded-5 w-25 w-sm-auto"
+          >
+            Add Slider +
+          </button>
+
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="sliderModal"
+            tabindex="-1"
+            aria-labelledby="sliderModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="sliderModalLabel">
+                    Add New Slider
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body" >
+                  <label class="form-label">Slider Image</label>
+
+                  <div
+                    style="
+                      border: 1px dashed #6c757d;
+                      text-align: center;
+                      padding: 10px;
+                      border-radius: 8px;
+                    "
+                  >
+                    <i class="bi bi-upload fs-1"></i>
+                    <p class="fw-bold">Upload Image</p>
+                    <p class="text-muted small">
+                      Supported Formats: Svg, Png, Jpg
+                    </p>
+                    <input
+                      type="file"
+                      class="form-control d-none"
+                      id="fileUpload"
+                    />
+                    <label
+                      for="fileUpload"
+                      class="btn btn-outline-secondary btn-sm"
+                      >Choose File</label
+                    >
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success w-100">
+                    Add Slider
+                  </button>
+                </div>
               </div>
-              <!-- Add Slider Button -->
-              <button class="btn px-3 py-2 border border-2 rounded-5 w-25 w-sm-auto">
-                Add Slider +
-              </button>
             </div>
           </div>
-          
-          
+        </div>
+      </div>
+
       <!-- Grid Section -->
       <div class="px-4 py-4 row row-cols-1 row-cols-sm-2 row-cols-lg-2 g-4">
         <div *ngFor="let slide of slides" class="col">

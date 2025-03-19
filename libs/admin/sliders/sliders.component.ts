@@ -8,6 +8,7 @@ import { colors } from 'libs/styles/colors';
 })
 export class SlidersComponent {
   colors  = colors;
+  isModalOpen = false;
 
   slides = [
     { logo: '../../../assets/slider.png' },
@@ -15,5 +16,6 @@ export class SlidersComponent {
     { logo: '../../../assets/slider.png' },
     { logo: '../../../assets/slider.png' },
   ];
+
 
 }

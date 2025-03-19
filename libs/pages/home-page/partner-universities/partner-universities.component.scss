@@ -1,52 +1,49 @@
-
-  /* Adjustments for tablets and small screens */
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     .container-fluid {
-      padding: 40px 20px !important; /* Reduce padding on smaller screens */
+      padding: 40px 20px !important; 
     }
 
     h1 {
-      font-size: 36px !important; /* Reduce heading size */
-      margin: 10px 0 !important; /* Adjust margin */
+      font-size: 36px !important; 
+      margin: 10px 0 !important;
     }
 
     p {
-      font-size: 14px !important; /* Reduce paragraph font size */
-      margin: 10px 0 !important; /* Adjust margin */
+      font-size: 14px !important; 
+      margin: 10px 0 !important; 
     }
 
     .col-6 {
-      flex: 0 0 50%; /* Ensure 2 columns on smaller screens */
+      flex: 0 0 50%; 
       max-width: 50%;
     }
 
     .col-md-3 {
-      flex: 0 0 100%; /* Switch to 1 column on small screens */
+      flex: 0 0 100%; 
       max-width: 100%;
     }
 
     .px-md-5 {
-      padding-left: 1rem !important; /* Reduce padding */
+      padding-left: 1rem !important; 
       padding-right: 1rem !important;
     }
   }
 
-  /* Adjustments for mobile screens */
   @media (max-width: 576px) {
     h1 {
-      font-size: 28px !important; /* Further reduce heading size */
+      font-size: 28px !important;
     }
 
     p {
-      font-size: 12px !important; /* Further reduce paragraph font size */
+      font-size: 12px !important; 
     }
 
     .col-6 {
-      flex: 0 0 100%; /* Switch to 1 column on mobile */
+      flex: 0 0 100%; 
       max-width: 100%;
     }
 
     .d-inline-flex {
-      width: 100% !important; /* Make button full width */
+      width: 100% !important; 
     }
   }

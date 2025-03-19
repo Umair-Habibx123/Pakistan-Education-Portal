@@ -1,6 +1,6 @@
 export const colors = {
-  primary: '#16BC88', //greenish
-  secondary: '#FFFFFF', //
+  primary: '#16BC88',
+  secondary: '#FFFFFF', 
   background: '#FFFFFF',
   text: '#000000',
   buttonBg: '#EAFFF9',
@@ -13,7 +13,7 @@ export const colors = {
   title: '#000000', 
   subtitle: '#646464',
   buttonLightBg: '#EAFFF9',
-  buttonDarkBg: '#16BC88', //greenish
+  buttonDarkBg: '#16BC88',
   footerBg: '#0E2129',
   successStoryBg: '#f0fdf4',
   modalBg: '#00000080',

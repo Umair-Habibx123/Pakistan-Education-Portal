@@ -1,57 +1,55 @@
 
-  /* Adjustments for tablets and small screens */
   @media (max-width: 768px) {
     .container-fluid {
-      padding: 40px 20px !important; /* Reduce padding on smaller screens */
+      padding: 40px 20px !important; 
     }
 
     h1 {
-      font-size: 36px !important; /* Reduce heading size */
-      margin: 10px 0 !important; /* Adjust margin */
+      font-size: 36px !important; 
+      margin: 10px 0 !important; 
     }
 
     p {
-      font-size: 14px !important; /* Reduce paragraph font size */
-      margin: 10px 0 !important; /* Adjust margin */
+      font-size: 14px !important; 
+      margin: 10px 0 !important; 
     }
 
     h5 {
-      font-size: 20px !important; /* Reduce feature heading size */
+      font-size: 20px !important; 
     }
 
     .col-md-6 {
-      flex: 0 0 100%; /* Stack columns on smaller screens */
+      flex: 0 0 100%; 
       max-width: 100%;
     }
 
     .order-1 {
-      order: 2 !important; /* Reorder image to bottom on smaller screens */
+      order: 2 !important; 
     }
 
     .order-2 {
-      order: 1 !important; /* Reorder text to top on smaller screens */
+      order: 1 !important; 
     }
 
     .text-md-start {
-      text-align: center !important; /* Center-align text on smaller screens */
+      text-align: center !important; 
     }
   }
 
-  /* Adjustments for mobile screens */
   @media (max-width: 576px) {
     h1 {
-      font-size: 28px !important; /* Further reduce heading size */
+      font-size: 28px !important;
     }
 
     p {
-      font-size: 12px !important; /* Further reduce paragraph font size */
+      font-size: 12px !important; 
     }
 
     h5 {
-      font-size: 18px !important; /* Further reduce feature heading size */
+      font-size: 18px !important;
     }
 
     .d-flex.gap-3 {
-      gap: 10px !important; /* Reduce gap between features */
+      gap: 10px !important; 
     }
   }
