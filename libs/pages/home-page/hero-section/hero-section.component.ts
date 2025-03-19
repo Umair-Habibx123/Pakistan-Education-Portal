@@ -1,17 +1,25 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { colors } from 'libs/styles/colors';
+import { UniversityDataService } from '../../../service/UniversityData/university-data.service';
 
 interface University {
   name: string;
   image: string;
   logo: string;
   location: string;
-  programs: number;
+  programs: Program[];
   tuitionFee: string;
   studyLevel: string;
-  subject: string;
   city: string;
+  programsCount: number;
+}
+
+interface Program {
+  name: string;
+  degreeLevel: string;
+  applicationFee: string;
+  duration: string;
 }
 
 @Component({
@@ -19,60 +27,32 @@ interface University {
   templateUrl: './hero-section.component.html',
   styleUrls: ['./hero-section.component.scss']
 })
-export class HeroSectionComponent {
+export class HeroSectionComponent implements OnInit {
   colors = colors;
-  
+
   @Output() filtersApplied = new EventEmitter<boolean>();
 
-  universities: University[] = [
-    {
-      name: 'Bahauddin Zakariya University',
-      image: 'assets/Uni1.png',
-      logo: 'assets/Uni1-logo.png',
-      location: 'Multan, Punjab',
-      programs: 36,
-      tuitionFee: '$18k - $19k',
-      studyLevel: 'Bachelor’s',
-      subject: 'Computer Science',
-      city: 'Multan'
-    },
-    {
-      name: 'COMSATS University',
-      image: 'assets/Uni2.png',
-      logo: 'assets/Uni2-logo.png',
-      location: 'Multan, Punjab',
-      programs: 36,
-      tuitionFee: '$18k - $19k',
-      studyLevel: 'Master’s',
-      subject: 'Business Administration',
-      city: 'Islamabad'
-    },
-    {
-      name: 'University of Punjab',
-      image: 'assets/Uni3.png',
-      logo: 'assets/Uni3-logo.png',
-      location: 'Multan, Punjab',
-      programs: 36,
-      tuitionFee: '$18k - $19k',
-      studyLevel: 'PhD',
-      subject: 'Business Administration',
-      city: 'Islamabad'
-    },
-    {
-      name: 'University of Central Punjab',
-      image: 'assets/Uni4.png',
-      logo: 'assets/Uni4-logo.png',
-      location: 'Multan, Punjab',
-      programs: 36,
-      tuitionFee: '$18k - $19k',
-      studyLevel: 'PhD',
-      subject: 'Business Administration',
-      city: 'Islamabad'
-    },
-  ];
-
-  filteredUniversities: University[] = []; 
+  universities: any[] = [];
+  filteredUniversities: University[] = [];
   isUniversityPage: boolean = false;
+  hasSearched: boolean = false;
+
+  // Temporary variables for dropdown selections
+  tempSelectedStudyLevel: string = '';
+  tempSelectedSubject: string = '';
+  tempSelectedCity: string = '';
+
+  selectedStudyLevel: string = '';
+  selectedSubject: string = '';
+  selectedCity: string = '';
+
+  currentPage: number = 1;
+  itemsPerPage: number = 16;
+  totalPages: number = 0;
+
+  selectedUniversity: any = null;
+  showDetailView = false;
+
 
   studyLevels: string[] = [
     'PhD',
@@ -106,32 +86,60 @@ export class HeroSectionComponent {
     'Sialkot'
   ];
 
-  selectedStudyLevel: string = '';
-  selectedSubject: string = '';
-  selectedCity: string = '';
-
-  currentPage: number = 1;
-  itemsPerPage: number = 16; 
-  totalPages: number = 0;
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private universityDataService: UniversityDataService) {
     this.isUniversityPage = this.router.url === '/universities';
   }
 
+
+  ngOnInit(): void {
+    this.universities = this.universityDataService.getUniversities();
+  }
+
+
+  applyFilters() {
+    if (!this.tempSelectedStudyLevel) {
+      alert('Please select a Study Level before searching.');
+      return;
+    }
+
+    this.selectedStudyLevel = this.tempSelectedStudyLevel;
+    this.selectedSubject = this.tempSelectedSubject;
+    this.selectedCity = this.tempSelectedCity;
+
+    this.hasSearched = true;
+
+    this.filterUniversities();
+  }
+
+
+  showUniversityDetail(university: any) {
+    this.selectedUniversity = university;
+    this.showDetailView = true;
+  }
+
+  goBack() {
+    this.showDetailView = false;
+    this.selectedUniversity = null;
+    window.location.reload(); // Reloads the entire page
+  }
+
+
   filterUniversities() {
-    this.filteredUniversities = this.universities.filter(university => {
-      return (!this.selectedStudyLevel || university.studyLevel === this.selectedStudyLevel) &&
-        (!this.selectedSubject || university.subject === this.selectedSubject) &&
-        (!this.selectedCity || university.city === this.selectedCity);
+    this.filteredUniversities = this.universities.filter((university: University) => {
+      const matchesStudyLevel = !this.selectedStudyLevel || university.studyLevel === this.selectedStudyLevel;
+      const matchesCity = !this.selectedCity || university.city === this.selectedCity;
+      const matchesSubject = !this.selectedSubject || 
+        university.programs.some((program: Program) => program.name === this.selectedSubject);
+  
+      return matchesStudyLevel && matchesCity && matchesSubject;
     });
-
-    // Emit event based on whether filters are applied
+  
     this.filtersApplied.emit(this.filteredUniversities.length > 0);
-
-    // Reset to the first page after filtering
+  
     this.currentPage = 1;
     this.totalPages = Math.ceil(this.filteredUniversities.length / this.itemsPerPage);
   }
+  
 
   getPaginatedUniversities(): University[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

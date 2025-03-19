@@ -1,1 +1,88 @@
-<p>admin-about-us works!</p>
+<div class="d-flex flex-column">
+  <!-- Scrollable Content -->
+  <div class="flex-grow-1 overflow-auto p-4 p-sm-6">
+    <div
+      class="border border-2 rounded-3 m-2 p-3"
+      style="background-color: white"
+    >
+      <div
+        class="px-4 py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center"
+      >
+        <h2 class="h5 font-weight-bold mb-0">About Details</h2>
+
+        <div
+          class="d-flex flex-column flex-sm-row align-items-center gap-3"
+          style="width: 65%"
+        >
+          <!-- Search Input -->
+          <div class="input-group w-75 w-sm-64" style="height: 45px">
+            <span class="input-group-text bg-light border-0">
+              <i class="fas fa-search text-muted"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control border-0 bg-light"
+              placeholder="Search here..."
+            />
+          </div>
+          <!-- Add Slider Button -->
+          <button
+            class="btn px-3 py-2 border border-2 rounded-5 w-25 w-sm-auto"
+          >
+            Add About +
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-hidden px-4 py-4">
+        <!-- Header Section -->
+        <div
+          class="row row-cols-1 row-cols-md-12 g-4 border-bottom p-4 align-items-center d-none d-md-flex"
+        >
+          <div class="col-md-1">Image</div>
+          <div class="col-md-3">Heading</div>
+          <div class="col-md-7">Description</div>
+          <div class="col-md-1">Action</div>
+        </div>
+
+        <!-- Data Rows -->
+        <div
+          *ngFor="let blog of filteredAboutUs"
+          class="row row-cols-1 row-cols-md-12 g-4 border-bottom p-4 align-items-center"
+          style="background-color: #f3f4f6"
+        >
+          <!-- Image Column -->
+          <div class="col-md-1 d-flex align-items-center">
+            <input type="radio" name="selected" class="me-2" />
+            <img [src]="blog.image" alt="Blog" class="rounded" style="height: 50px; width: 50px;" />
+          </div>
+
+          <!-- Heading Column -->
+          <div class="col-md-3" style="color: var(--colors-subtitle)">
+            {{ blog.heading }}
+          </div>
+
+          <!-- Description Column -->
+          <div class="col-md-7" style="color: var(--colors-subtitle)">
+            {{ blog.description }}
+          </div>
+
+          <!-- Action Column -->
+          <div
+            class="col-md-1 d-flex gap-2"
+            style="color: var(--colors-subtitle)"
+          >
+            <i
+              class="fas fa-trash-alt cursor-pointer pe-1"
+              style="color: red"
+            ></i>
+            <i
+              class="fas fa-edit cursor-pointer pe-1"
+              style="color: blue"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

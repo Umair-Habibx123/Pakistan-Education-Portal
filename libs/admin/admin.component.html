@@ -81,7 +81,7 @@
 
           <div class="position-relative ms-3 d-flex align-items-center">
             <img
-              src="../../../../assets/images/user.png"
+              src="../../../../assets/user.png"
               class="rounded-circle cursor-pointer"
               alt="User"
               style="height: 2rem; width: 2rem;cursor: pointer;"
@@ -101,6 +101,7 @@
       id="main-content"
       [ngStyle]="{ 'background-color': colors.dashboardBg }"
       class="flex-1 overflow-y-auto overflow-x-hidden"
+      style="height: 100vh;"
     >
       <ng-container [ngSwitch]="currentSection">
         <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>

@@ -1,0 +1,45 @@
+<div class="d-flex flex-column align-items-center gap-2 py-5 px-2 px-sm-3 px-md-4 px-lg-5" style="margin-top: 75px;">
+  
+    <!-- Back Button -->
+    <a [routerLink]="'/'" class="d-flex align-items-center w-100 px-3 py-2 text-decoration-none cursor-pointer">
+      <i class="fas fa-arrow-left text-dark me-2"></i> 
+      <p class="mb-0 text-dark font-weight-medium">Back</p>
+    </a>
+  
+    <!-- Step Indicators -->
+    <div class="d-flex justify-content-start align-items-center w-100 px-3 py-2 flex-column flex-sm-row">
+      <!-- Step 1 -->
+      <div class="d-flex align-items-center mb-2 mb-sm-0 me-sm-2 me-md-3 me-lg-4 cursor-pointer text-sm text-sm-base text-md-xl gap-1">
+        <span class="d-flex align-items-center justify-content-center rounded-circle font-weight-semi-bold" 
+              [style.backgroundColor]="currentStep >= 1 ? '#16BC88' : '#9ca3af'"
+              style="width: 24px; height: 24px; color: white;">
+          1
+        </span>
+        <span class="font-weight-semi-bold text-sm text-sm-base text-md-xl"
+              [style.color]="currentStep >= 1 ? '#16BC88' : '#9ca3af'">
+          Personal Information
+        </span>
+      </div>
+  
+      <!-- Step 2 -->
+      <div class="d-flex align-items-center cursor-pointer text-sm text-sm-base text-md-xl gap-1">
+        <span class="d-flex align-items-center justify-content-center rounded-circle font-weight-semi-bold" 
+              [style.backgroundColor]="currentStep >= 2 ? '#16BC88' : '#9ca3af'"
+              style="width: 24px; height: 24px; color: white;">
+          2
+        </span>
+        <span class="font-weight-semi-bold text-sm text-sm-base text-md-xl"
+              [style.color]="currentStep >= 2 ? '#16BC88' : '#9ca3af'">
+          Educational Information
+        </span>
+      </div>
+    </div>
+  
+    <!-- Form Container -->
+    <div class="d-flex flex-column align-items-center w-100 px-3 py-2">
+      <div class="d-flex flex-column w-100 w-sm-90 w-md-85 pb-3 pb-sm-4 pb-md-5">
+        <app-form1 *ngIf="currentStep === 1" (nextStep)="nextStep()"></app-form1>
+        <app-form2 *ngIf="currentStep === 2" (nextStep)="nextStep()"></app-form2>
+      </div>
+    </div>
+  </div>

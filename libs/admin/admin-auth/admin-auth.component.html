@@ -1,0 +1,26 @@
+<div class="vh-100 overflow-hidden">
+    <div
+      class="d-flex align-items-center justify-content-between px-5 py-2 border-bottom px-3 px-lg-4"
+    >
+      <a [routerLink]="'/'">
+        <img
+          src="assets/logo.png"
+          style="width: 200px; height: 50px"
+          class="img-fluid"
+          alt="Illustration"
+        />
+      </a>
+      <a [routerLink]="'/'">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          onclick=""
+        ></button>
+      </a>
+    </div>
+  
+    <router-outlet></router-outlet>
+  </div>
+  

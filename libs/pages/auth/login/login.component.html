@@ -1,0 +1,82 @@
+  <!-- Screen Content -->
+  <div class="container-fluid vh-100 d-flex align-items-center">
+    <div class="row w-100">
+      <!-- Left Side Image -->
+     
+      <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center">
+        <img src="assets/userlogin.png" class="img-fluid" alt="Illustration" />
+      </div>
+    
+
+      <!-- Right Side Form -->
+      <div class="col-md-6 d-flex justify-content-center align-items-center">
+        <div class="p-4" style="max-width: 400px; width: 100%">
+          <h4 class="fw-bold mb-4">Please Login to Apply</h4>
+          <div class="form"></div>
+          <!-- Email Field -->
+          <div class="mb-2">
+            <div class="input-group">
+              <input
+                type="email"
+                class="form-control border border-secondary bg-light"
+                placeholder="shilpa.m@xyz.com"
+              />
+              <span class="input-group-text bg-light border border-secondary">
+                <i class="bi bi-envelope"></i>
+              </span>
+            </div>
+          </div>
+
+
+          <!-- Password Field -->
+          <div class="mb-2">
+            <div class="input-group">
+              <input
+                type="password"
+                class="form-control border border-secondary bg-light"
+                placeholder="Create Password"
+              />
+              <span class="input-group-text bg-white border border-secondary">
+                <i class="bi bi-eye-slash"></i>
+              </span>
+            </div>
+            <small class="text-muted">
+              <i class="bi bi-info-circle"></i> Must be at least 8 characters with one uppercase letter
+            </small>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <!-- <div class="mb-2">
+            <div class="input-group">
+              <input
+                type="password"
+                class="form-control border border-secondary bg-light"
+                placeholder="Confirm Password"
+              />
+              <span class="input-group-text bg-white border border-secondary">
+                <i class="bi bi-eye-slash"></i>
+              </span>
+            </div>
+          </div> -->
+
+          <!-- Signup Button -->
+          <button class="btn btn-dark w-100">Login</button>
+
+          <!-- OR Divider -->
+          <div class="text-center my-3">Or</div>
+
+          <!-- Google Sign-up Button -->
+          <button class="btn btn-outline-secondary w-100">
+            <i class="bi bi-google"></i> Sign up with Google
+          </button>
+
+          <!-- Sign-in Link -->
+          <div class="text-center mt-3">
+            Dont't Have an Account?
+            <a  [routerLink]="'/auth/signup'"
+             class="text-primary fw-bold">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
