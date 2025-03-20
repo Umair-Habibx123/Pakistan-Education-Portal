@@ -1,31 +1,31 @@
 <div class="d-flex flex-column">
   <!-- Scrollable Content -->
-  <div class="flex-grow-1 overflow-auto p-4 p-sm-6">
-    <div class="border border-2 rounded-3 m-2 p-3 bg-white">
+  <div class="flex-grow-1 p-4 p-sm-6 overflow-auto">
+    <div class="bg-white border border-2 m-2 p-3 rounded-3">
       <!-- Grid View -->
       <div *ngIf="!showDetailView">
         <div
-          class="px-4 py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center"
+          class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
         >
-          <h2 class="h5 fw-bold mb-0">Universities Details</h2>
+          <h2 class="fw-bold h5 mb-0">Universities Details</h2>
           <div
             class="d-flex flex-column flex-sm-row align-items-center gap-3"
             style="width: 65%"
           >
             <div class="input-group w-75 w-sm-64" style="height: 45px">
               <span class="input-group-text bg-light border-0">
-                <i class="fas fa-search text-muted"></i>
+                <i class="text-muted fa-search fas"></i>
               </span>
               <input
                 type="text"
-                class="form-control border-0 bg-light"
+                class="form-control bg-light border-0"
                 placeholder="Search here..."
               />
             </div>
             <button
               data-bs-toggle="modal"
               data-bs-target="#universityModal"
-              class="btn px-3 py-2 border border-2 rounded-pill w-25 w-sm-auto"
+              class="btn border border-2 rounded-pill w-25 w-sm-auto px-3 py-2"
             >
               Add University +
             </button>
@@ -62,8 +62,8 @@
                           >University Logo</label
                         >
                         <div
-                          class="text-center p-4 rounded"
-                          style="border: 1px dashed var(--gray)"
+                          class="p-4 rounded text-center"
+                          style="border: 2px dashed var(--gray)"
                         >
                           <i class="bi bi-upload fs-1"></i>
                           <p class="fw-bold">Upload Image</p>
@@ -72,7 +72,7 @@
                           </p>
                           <input
                             type="file"
-                            class="form-control d-none"
+                            class="d-none form-control"
                             id="logoUpload"
                           />
                         </div>
@@ -83,8 +83,8 @@
                           >University Image</label
                         >
                         <div
-                          class="text-center p-4 rounded"
-                          style="border: 1px dashed var(--gray)"
+                          class="p-4 rounded text-center"
+                          style="border: 2px dashed var(--gray)"
                         >
                           <i class="bi bi-upload fs-1"></i>
                           <p class="fw-bold">Upload Image</p>
@@ -93,7 +93,7 @@
                           </p>
                           <input
                             type="file"
-                            class="form-control d-none"
+                            class="d-none form-control"
                             id="imageUpload"
                           />
                         </div>
@@ -148,14 +148,14 @@
 
         <!-- Grid Section -->
         <div class="container-fluid my-4">
-          <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="g-4 row row-cols-1 row-cols-md-3">
             <div
               class="col"
               *ngFor="let university of filteredUniversities"
               (click)="showUniversityDetail(university)"
             >
               <div
-                class="d-flex align-items-center gap-3 border rounded-3 p-3 shadow-sm position-relative"
+                class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3"
                 style="
                   background-color: var(--light-gray);
                   height: 150px;
@@ -186,25 +186,25 @@
                     {{ university.name }}
                   </h5>
                   <div class="text-muted small">
-                    <i class="fas fa-map-marker-alt"></i>
+                    <i class="fa-map-marker-alt fas"></i>
                     {{ university.location }}
                   </div>
                   <div class="d-flex gap-1 mt-1">
                     <span
                       *ngFor="let campus of university.campuses"
-                      class="badge bg-white text-dark border border-2 rounded-5"
+                      class="badge bg-white border border-2 rounded-5 text-dark"
                       >{{ campus }}</span
                     >
                   </div>
-                  <div class="fw-semibold text-success mt-1">
+                  <div class="text-success fw-semibold mt-1">
                     {{ university.programsCount }} Programs
                   </div>
                 </div>
                 <div
-                  class="d-flex gap-2 position-absolute top-0 end-0 mt-2 me-2 bg-white px-2 py-1 rounded-pill shadow-sm"
+                  class="d-flex bg-white position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0"
                 >
-                  <i class="fas fa-trash-alt text-danger cursor-pointer"></i>
-                  <i class="fas fa-edit text-primary cursor-pointer"></i>
+                  <i class="text-danger cursor-pointer fa-trash-alt fas"></i>
+                  <i class="text-primary cursor-pointer fa-edit fas"></i>
                 </div>
               </div>
             </div>
@@ -214,12 +214,12 @@
         <!-- Pagination Section -->
         <div
           *ngIf="filteredUniversities.length > 0"
-          class="d-flex flex-column flex-sm-row align-items-center justify-content-end gap-2 mt-4 border-top pt-4"
+          class="d-flex flex-column flex-sm-row align-items-center border-top justify-content-end gap-2 mt-4 pt-4"
         >
           <div class="d-flex align-items-center gap-3">
             <button
               *ngFor="let page of [].constructor(totalPages); let i = index"
-              class="fw-bold btn btn-link p-0"
+              class="btn btn-link p-0 fw-bold"
               [ngClass]="{
                 'fw-bold': currentPage === i + 1,
                 'fw-medium': currentPage !== i + 1
@@ -231,7 +231,7 @@
           </div>
           <div class="d-flex align-items-center gap-2">
             <button
-              class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
+              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2"
               style="color: var(--subtitle)"
               (click)="previousPage()"
             >
@@ -239,7 +239,7 @@
               <span>Previous</span>
             </button>
             <button
-              class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
+              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2"
               style="color: var(--subtitle)"
               (click)="nextPage()"
             >
