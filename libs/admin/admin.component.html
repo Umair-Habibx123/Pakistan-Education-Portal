@@ -77,7 +77,7 @@
             style="color: var(--subtitle)"
             class="mt-1 small text-truncate mb-0"
           >
-            Here are the {{ getTitle(currentSection) }} details of your PYP
+          Here you can manage your {{ getTitle(currentSection) }}
           </p>
         </div>
 
@@ -113,6 +113,7 @@
     >
       <ng-container [ngSwitch]="currentSection">
         <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>
+        <app-registrations *ngSwitchCase="'registrations'"></app-registrations>
         <app-sliders *ngSwitchCase="'sliders'"></app-sliders>
         <app-universities *ngSwitchCase="'universities'"></app-universities>
         <app-admin-about-us *ngSwitchCase="'aboutUs'"></app-admin-about-us>

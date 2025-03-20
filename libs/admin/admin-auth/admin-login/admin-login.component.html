@@ -15,7 +15,6 @@
 
         <!-- Email Input -->
         <div class="mb-3">
-          <!-- <label class="form-label">Email</label> -->
           <div class="input-group">
             <input
               type="email"
@@ -27,6 +26,30 @@
             ></span>
           </div>
         </div>
+<!-- 
+
+        <p class="p-0">
+          <mat-form-field appearance="outline" class="bg-light">
+            <mat-label>Outline form field</mat-label>
+            <input matInput placeholder="Placeholder">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            <mat-hint class="bg-white w-100" style="padding-left: 0px;">Hint</mat-hint>
+          </mat-form-field>
+        </p> -->
+
+        <div class="bg-light">
+        <mat-form-field class="w-100 p-0" appearance="outline">
+         
+          <mat-label>Guest Name</mat-label>
+          <input matInput maxlength="15"  />
+       <mat-hint style="display: none !important; visibility: hidden;">...</mat-hint>
+        </mat-form-field>
+         </div>
+        
+          <!-- <mat-form-field appearance="outline" class="w-100 ps-3 pe-3">
+          <mat-label>Enter Email</mat-label>
+          <input matInputname="email" />
+        </mat-form-field> -->
 
         <div class="mb-4">
           <div class="input-group">
@@ -46,7 +69,7 @@
 
 
         <!-- Login Button -->
-        <button class="btn btn-dark w-100 border-1 rounded-5">Login</button>
+        <button class="btn btn-success w-100 border-1 rounded-5" >Login</button>
       </div>
     </div>
   </div>

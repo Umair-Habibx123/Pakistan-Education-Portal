@@ -15,6 +15,7 @@ export class AdminComponent {
 
   menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
+    { id: 'registrations', label: 'Registrations', icon: 'NotebookTabs' },
     { id: 'sliders', label: 'Sliders', icon: 'Images' },
     { id: 'universities', label: 'Universities', icon: 'University' },
     { id: 'aboutUs', label: 'About Us', icon: 'FileText' },
@@ -42,6 +43,7 @@ export class AdminComponent {
   getTitle(section: string): string {
     const titles: { [key: string]: string } = {
       dashboard: 'Dashboard',
+      registrations: 'Registrations',
       sliders: 'Sliders',
       universities: 'Universities',
       aboutUs: 'About Us',

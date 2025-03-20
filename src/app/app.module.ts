@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms'; 
-import { LucideAngularModule, Bell, LayoutDashboard, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight } from 'lucide-angular';
+import { LucideAngularModule, Bell, LayoutDashboard,Send, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight, CalendarDays, NotebookTabs } from 'lucide-angular';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,12 +33,13 @@ import { AuthComponent } from '../../libs/pages/auth/auth.component';
 import { SignupComponent } from '../../libs/pages/auth/signup/signup.component';
 
 import { AdminAuthComponent } from '../../libs/admin/admin-auth/admin-auth.component';
-import { AdminLoginComponent } from '../../libs/admin/admin-auth/admin-login/admin-login.component';
+// import { AdminLoginComponent } from '../../libs/admin/admin-auth/admin-login/admin-login.component';
 import { AdminResetPasswordComponent } from '../../libs/admin/admin-auth/admin-reset-password/admin-reset-password.component';
 import { LoginComponent } from '../../libs/pages/auth/login/login.component';
 import { AdminUniversityDetailComponent } from '../../libs/admin/universities/admin-university-detail/admin-university-detail.component';
 import { UniversityDetailComponent } from '../../libs/pages/home-page/hero-section/university-detail/university-detail.component';
 import { ApplyThroughUSComponent } from '../../libs/pages/home-page/apply-through-us/apply-through-us.component';
+import { RegistrationsComponent } from '../../libs/admin/registrations/registrations.component';
 
 
 
@@ -68,12 +69,13 @@ import { ApplyThroughUSComponent } from '../../libs/pages/home-page/apply-throug
     SignupComponent,
     AuthComponent,
     AdminAuthComponent,
-    AdminLoginComponent,
+    // AdminLoginComponent,
     AdminResetPasswordComponent,
     LoginComponent,
     AdminUniversityDetailComponent,
     UniversityDetailComponent,
     ApplyThroughUSComponent,
+    RegistrationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +83,7 @@ import { ApplyThroughUSComponent } from '../../libs/pages/home-page/apply-throug
     NgbModule,
     FormsModule,
     BrowserAnimationsModule, // angular Animation Module... 
-    LucideAngularModule.pick({ArrowLeft,ArrowRight, Bell, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings})
+    LucideAngularModule.pick({ArrowLeft,ArrowRight, Bell, Send, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings , CalendarDays , NotebookTabs})
   ],
   providers: [],
   bootstrap: [AppComponent]

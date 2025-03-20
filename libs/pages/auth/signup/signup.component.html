@@ -1,17 +1,17 @@
 <!-- Screen Content -->
 <div
-  class="container-fluid vh-100 d-flex align-items-center justify-content-center"
+  class="container-fluid d-flex align-items-center justify-content-center vh-100"
 >
   <div class="row w-100">
     <!-- Left Side Image -->
     <div
-      class="col-md-6 d-none d-md-flex justify-content-center align-items-center"
+      class="col-md-6 d-md-flex d-none align-items-center justify-content-center"
     >
       <img src="assets/signup.png" class="img-fluid" alt="Illustration" />
     </div>
 
     <!-- Right Side Form -->
-    <div class="col-md-6 d-flex justify-content-center align-items-start gFont">
+    <div class="col-md-6 d-flex align-items-start justify-content-center">
       <div class="p-4" style="max-width: 400px; width: 100%">
         <h4 class="fw-bold mb-4">Please Sign up to Apply</h4>
         <div class="form">
@@ -20,7 +20,7 @@
             <div class="input-group">
               <input
                 type="email"
-                class="form-control border border-secondary bg-light"
+                class="form-control bg-light border border-secondary"
                 placeholder="shilpa.m@xyz.com"
               />
               <span class="input-group-text bg-light border border-secondary">
@@ -34,7 +34,7 @@
             <div class="input-group">
               <input
                 type="text"
-                class="form-control border border-secondary bg-light"
+                class="form-control bg-light border border-secondary"
                 placeholder="9463728345"
               />
               <span class="input-group-text bg-light border border-secondary">
@@ -48,7 +48,7 @@
             <div class="input-group">
               <input
                 [type]="showPassword ? 'text' : 'password'"
-                class="form-control border border-secondary bg-light"
+                class="form-control bg-light border border-secondary"
                 placeholder="Password"
               />
               <span
@@ -69,7 +69,7 @@
             <div class="input-group">
               <input
                 [type]="showPassword ? 'text' : 'password'"
-                class="form-control border border-secondary bg-light"
+                class="form-control bg-light border border-secondary"
                 placeholder="Confirm Password"
               />
               <span
@@ -82,19 +82,19 @@
           </div>
 
           <!-- Signup Button -->
-          <button class="btn btn-dark w-100 border-1 rounded-5 mb-1">
+          <button class="btn btn-dark border-1 rounded-5 w-100 mb-1">
             Sign up
           </button>
 
           <div class="d-flex align-items-center my-4">
             <hr class="flex-grow-1 border-secondary" />
-            <span class="mx-2 text-secondary">OR</span>
+            <span class="text-secondary mx-2">OR</span>
             <hr class="flex-grow-1 border-secondary" />
           </div>
 
           <!-- Google Sign-up Button -->
           <button
-            class="btn btn-outline-secondary w-100 border-1 rounded-5 mb-1"
+            class="btn btn-outline-secondary border-1 rounded-5 w-100 mb-1"
           >
             <i class="fa-brands fa-google"></i> Sign up with Google
           </button>
@@ -104,7 +104,7 @@
             Already a member?
             <a
               [routerLink]="'/auth/login'"
-              class="fw-bold text-decoration-none"
+              class="text-decoration-none fw-bold"
               style="color: var(--dark-green)"
               >Sign in</a
             >

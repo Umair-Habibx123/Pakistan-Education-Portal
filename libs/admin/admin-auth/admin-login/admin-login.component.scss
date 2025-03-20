@@ -1,0 +1,22 @@
+.custom-email-field {
+    width: 100%;
+    background-color: #f5f6f7; /* Light grey background */
+    border-radius: 8px; /* Rounded corners */
+  }
+  
+  .custom-email-field .mat-form-field-wrapper {
+    padding: 8px;
+  }
+  
+  .custom-email-field .mat-form-field-flex {
+    background-color: #f5f6f7;
+    border-radius: 8px;
+  }
+  
+  .custom-email-field .mat-form-field-outline {
+    border-color: transparent !important; /* Remove default border */
+  }
+  
+  .custom-email-field .mat-form-field-infix {
+    padding: 10px 0;
+  }
