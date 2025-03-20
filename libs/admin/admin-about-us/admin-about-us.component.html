@@ -27,110 +27,125 @@
           </div>
           <!-- Add Slider Button -->
           <button
-          data-bs-toggle="modal"
-          data-bs-target="#aboutModal"
+            data-bs-toggle="modal"
+            data-bs-target="#aboutModal"
             class="btn px-3 py-2 border border-2 rounded-5 w-25 w-sm-auto"
           >
             Add About +
           </button>
 
-           <!-- Modal -->
-    <div
-    class="modal fade"
-    id="aboutModal"
-    tabindex="-1"
-    aria-labelledby="aboutModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="aboutModalLabel">Add New About</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <!-- Heading -->
-          <div class="mb-3">
-            <label class="form-label">Heading</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter heading"
-            />
-          </div>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="aboutModal"
+            tabindex="-1"
+            aria-labelledby="aboutModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog gFont">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5
+                    class="modal-title"
+                    id="aboutModalLabel"
+                    style="font-size: 20px"
+                  >
+                    Add New About
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body gFont">
+                  <!-- Heading -->
+                  <div class="mb-1">
+                    <label class="form-label" style="font-size: 18px"
+                      >Heading</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter heading"
+                    />
+                  </div>
 
-          <!-- Description -->
-          <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea
-              class="form-control"
-              rows="4"
-              style="resize: none;"
-              placeholder="Write description"
-            ></textarea>
-          </div>
+                  <!-- Description -->
+                  <div class="mb-1">
+                    <label class="form-label" style="font-size: 18px"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      rows="2"
+                      style="resize: none"
+                      placeholder="Write here the address of marketplace"
+                    ></textarea>
+                  </div>
 
-          <!-- Sub Heading -->
-          <div class="mb-3">
-            <label class="form-label">Sub Heading</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter sub heading"
-            />
-          </div>
+                  <!-- Sub Heading -->
+                  <div class="mb-1">
+                    <label class="form-label" style="font-size: 18px"
+                      >Sub Heading</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter sub heading"
+                    />
+                  </div>
 
-          <!-- Description -->
-          <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea
-              class="form-control"
-              rows="4"
-              style="resize: none;"
-              placeholder="Write description"
-            ></textarea>
-          </div>
+                  <!-- Description -->
+                  <div class="mb-1">
+                    <label class="form-label" style="font-size: 18px"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      rows="2"
+                      style="resize: none"
+                      placeholder="Write here the address of marketplace"
+                    ></textarea>
+                  </div>
 
+                  <div class="mb-1">
+                    <label class="form-label" style="font-size: 18px"
+                      >Image</label
+                    >
+                    <div
+                      class="text-center p-0 rounded"
+                      style="border: 1px dashed var(--gray)"
+                    >
+                      <i class="bi bi-upload fs-1"></i>
+                      <p class="fw-bold" style="font-size: 20px">
+                        Upload Image
+                      </p>
+                      <p class="text-muted small">
+                        Supported Formats: Svg,Png, Jpg
+                      </p>
+                      <input
+                        type="file"
+                        class="form-control d-none"
+                        id="imageUpload"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-
-          <div class="mb-3">
-            <label class="form-label">Image</label>
-            <div
-              class="text-center p-4 rounded"
-              style=" border: 1px dashed var(--gray);"
-            >
-              <i class="bi bi-upload fs-1"></i>
-              <p class="fw-bold">Upload Image</p>
-              <p class="text-muted small">Supported Formats: Png, Jpg</p>
-              <input
-                type="file"
-                class="form-control d-none"
-                id="imageUpload"
-              />
-              <label
-                for="imageUpload"
-                class="btn btn-outline-secondary btn-sm"
-                >Choose File</label
-              >
+                <div class="modal-footer p-1 gFont">
+                  <button
+                    type="button"
+                    class="btn btn-success w-100"
+                    style="font-size: 18px"
+                  >
+                    Add About
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success w-100">
-            Add About
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
         </div>
       </div>
 
@@ -154,7 +169,12 @@
           <!-- Image Column -->
           <div class="col-md-1 d-flex align-items-center">
             <input type="radio" name="selected" class="me-2" />
-            <img [src]="blog.image" alt="Blog" class="rounded" style="height: 50px; width: 50px;" />
+            <img
+              [src]="blog.image"
+              alt="Blog"
+              class="rounded"
+              style="height: 50px; width: 50px"
+            />
           </div>
 
           <!-- Heading Column -->
@@ -168,17 +188,14 @@
           </div>
 
           <!-- Action Column -->
-          <div
-            class="col-md-1 d-flex gap-2"
-            style="color: var(--subtitle)"
-          >
+          <div class="col-md-1 d-flex gap-2" style="color: var(--subtitle)">
             <i
               class="fas fa-trash-alt cursor-pointer pe-1"
               style="color: var(--red)"
             ></i>
             <i
               class="fas fa-edit cursor-pointer pe-1"
-              style="color: var(--blue);"
+              style="color: var(--blue)"
             ></i>
           </div>
         </div>

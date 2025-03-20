@@ -5,7 +5,7 @@
       class="btn btn-light border border-2 rounded-pill"
       (click)="goBack.emit()"
     >
-    <lucide-angular name="ArrowLeft"></lucide-angular>
+      <lucide-angular name="ArrowLeft"></lucide-angular>
       Back
     </button>
   </div>
@@ -14,97 +14,111 @@
     class="px-4 py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center"
   >
     <h2 class="h5 fw-bold mb-0">
-      <span style="color: var(--dark-green)">{{ university.name }}</span> / Programs
+      <span style="color: var(--dark-green)">{{ university.name }}</span> /
+      Programs
     </h2>
     <div
       class="d-flex flex-column flex-sm-row align-items-center gap-3"
       style="width: 65%"
     >
-    <div class="input-group w-75 w-sm-64" style="height: 45px">
-      <span class="input-group-text bg-light border-0">
-        <i class="fas fa-search text-muted"></i>
-      </span>
-      <input
-        type="text"
-        class="form-control border-0 bg-light"
-        placeholder="Search here..."
-      />
-    </div>
-      <button 
-      data-bs-toggle="modal"
-      data-bs-target="#programModal"
-      class="btn px-3 py-2 border border-2 rounded-pill w-25 w-sm-auto">
+      <div class="input-group w-75 w-sm-64" style="height: 45px">
+        <span class="input-group-text bg-light border-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control border-0 bg-light"
+          placeholder="Search here..."
+        />
+      </div>
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#programModal"
+        class="btn px-3 py-2 border border-2 rounded-pill w-25 w-sm-auto"
+      >
         Add Program +
       </button>
 
-
-      
-    <!-- Modal -->
-    <div
-    class="modal fade"
-    id="programModal"
-    tabindex="-1"
-    aria-labelledby="programModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="programModalLabel">Add New Program</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <!-- Degree Level -->
-            <div class="col-md-6">
-              <label class="form-label">Degree Level</label>
-              <select class="form-select">
-                <option selected>MS</option>
-                <option>BS</option>
-                <option>PhD</option>
-              </select>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="programModal"
+        tabindex="-1"
+        aria-labelledby="programModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content gFont">
+            <div class="modal-header">
+              <h5
+                class="modal-title"
+                id="programModalLabel"
+                style="font-size: 20px"
+              >
+                Add New Program
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
-            <!-- Subjects -->
-            <div class="col-md-6">
-              <label class="form-label">Subjects</label>
-              <select class="form-select">
-                <option selected>Data Science</option>
-                <option>Computer Science</option>
-                <option>Artificial Intelligence</option>
-              </select>
+            <div class="modal-body gFont">
+              <div class="row">
+                <!-- Degree Level -->
+                <div class="col-md-6">
+                  <label class="form-label" style="font-size: 18px"
+                    >Degree Level</label
+                  >
+                  <select class="form-select">
+                    <option selected>MS</option>
+                    <option>BS</option>
+                    <option>PhD</option>
+                  </select>
+                </div>
+                <!-- Subjects -->
+                <div class="col-md-6">
+                  <label class="form-label" style="font-size: 18px"
+                    >Subjects</label
+                  >
+                  <select class="form-select">
+                    <option selected>Data Science</option>
+                    <option>Computer Science</option>
+                    <option>Artificial Intelligence</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <!-- Application Fee -->
+                <div class="col-md-6">
+                  <label class="form-label" style="font-size: 18px"
+                    >Application Fee</label
+                  >
+                  <input type="text" class="form-control" placeholder="$125" />
+                </div>
+                <!-- Duration -->
+                <div class="col-md-6">
+                  <label class="form-label" style="font-size: 18px"
+                    >Duration</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="24 Month"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer g font">
+              <button type="button" class="btn btn-success w-100">
+                Add Program
+              </button>
             </div>
           </div>
-
-          <div class="row mt-3">
-            <!-- Application Fee -->
-            <div class="col-md-6">
-              <label class="form-label">Application Fee</label>
-              <input type="text" class="form-control" placeholder="$125" />
-            </div>
-            <!-- Duration -->
-            <div class="col-md-6">
-              <label class="form-label">Duration</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="24 Month"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success w-100">
-            Add Program
-          </button>
         </div>
       </div>
-    </div>
-  </div>
     </div>
   </div>
 
@@ -114,10 +128,7 @@
         <!-- Program Card Content -->
         <div
           class="rounded-3 p-4 d-flex flex-column gap-3"
-          style="
-            position: relative;
-            background-color: var(--light-gray);
-          "
+          style="position: relative; background-color: var(--light-gray)"
         >
           <div class="pb-3 border-bottom border-2">
             <h5 class="fw-bold">{{ program.name }}</h5>
@@ -141,11 +152,7 @@
 
           <div
             class="bg-white d-flex gap-2 p-2 rounded-pill"
-            style="
-              position: absolute;
-              top: 10px;
-              right: 10px;
-            "
+            style="position: absolute; top: 10px; right: 10px"
           >
             <i class="fas fa-trash-alt text-danger"></i>
             <i class="fas fa-edit text-primary"></i>
@@ -176,7 +183,7 @@
     <div class="d-flex align-items-center gap-2">
       <button
         class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
-        style="color: var(--subtitle);"
+        style="color: var(--subtitle)"
         (click)="previousPage()"
       >
         <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
@@ -184,7 +191,7 @@
       </button>
       <button
         class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"
-        style="color: var(--subtitle);"
+        style="color: var(--subtitle)"
         (click)="nextPage()"
       >
         <span>Next</span>
