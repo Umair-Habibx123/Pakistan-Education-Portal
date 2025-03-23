@@ -1,0 +1,67 @@
+/* Container styles */
+.screen-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Left Side Image */
+  .left-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Right Side Form */
+  .right-form {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .form-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  
+  .input-group-text-custom {
+    cursor: pointer;
+  }
+  
+  /* Button Styles */
+  .btn-signup {
+    border-radius: 50px;
+    width: 100%;
+    background-color: var(--dark-green);
+  }
+  
+  .btn-google {
+    border-radius: 50px;
+    width: 100%;
+  }
+  
+  /* Divider Styles */
+  .divider {
+    display: flex;
+    align-items: center;
+  }
+  
+  .divider-line {
+    flex-grow: 1;
+    border: 1px solid var(--secondary);
+  }
+  
+  .divider-text {
+    color: var(--secondary);
+    margin: 0 0.5rem;
+  }
+  
+  /* Sign-in Link Styles */
+  .signin-link {
+    color: var(--dark-green);
+    font-weight: bold;
+    text-decoration: none;
+  }

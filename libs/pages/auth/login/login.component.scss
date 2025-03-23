@@ -1,0 +1,32 @@
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .input-style {
+    border: 1px solid #6c757d;
+    background-color: #f8f9fa;
+  }
+  
+  .input-icon {
+    background-color: #f8f9fa;
+    border: 1px solid #6c757d;
+    cursor: pointer;
+  }
+  
+  .separator-line {
+    border-color: #6c757d;
+  }
+  
+  .signup-link {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--dark-green);
+  }
+  .login-btn
+  {
+    background-color: var(--dark-green);
+    color: var(--white);
+  }
+  

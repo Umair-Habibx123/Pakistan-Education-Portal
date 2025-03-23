@@ -1,8 +1,7 @@
 <div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4">
   <h3 class="h5 font-weight-semibold">Educational Details</h3>
   <button
-    class="btn text-white px-4 py-2 font-weight-semibold"
-    style="background-color: var(--dark-green); border: 2px solid; border-radius: 48px"
+    class="btn custom-btn"
     (click)="goToNext()"
   >
     Save & Next
@@ -79,18 +78,13 @@
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Marksheets</label>
-      <div
-        class="py-2 px-3 rounded d-flex flex-column align-items-center justify-content-center"
-        style="height: 128px; border: 2px dashed var(--gray)"
-      >
-        <div class="text-center">
-          <span class="d-block">
+      <div class="upload-container">
+        <div>
+          <span>
             Drag & drop files or
-            <span class="font-weight-bold cursor-pointer text-decoration-underline">
-              Browse
-            </span>
+            <span class="browse-link">Browse</span>
           </span>
-          <span class="d-block text-muted">Supported formats: JPEG, PNG</span>
+          <span class="supported-formats">Supported formats: JPEG, PNG</span>
         </div>
       </div>
     </div>
@@ -100,18 +94,13 @@
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Degree Transcript</label>
-      <div
-        class="py-2 px-3 rounded d-flex flex-column align-items-center justify-content-center"
-        style="height: 128px; border: 2px dashed var(--gray)"
-      >
-        <div class="text-center">
-          <span class="d-block">
+      <div class="upload-container">
+        <div>
+          <span>
             Drag & drop files or
-            <span class="font-weight-bold cursor-pointer text-decoration-underline">
-              Browse
-            </span>
+            <span class="browse-link">Browse</span>
           </span>
-          <span class="d-block text-muted">Supported formats: JPEG, PNG</span>
+          <span class="supported-formats">Supported formats: JPEG, PNG</span>
         </div>
       </div>
     </div>

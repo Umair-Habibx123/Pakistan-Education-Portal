@@ -1,0 +1,46 @@
+/* Custom Styles */
+.custom-white-bg {
+  background-color: var(--white);
+}
+
+.custom-dark-green-btn {
+  background-color: var(--dark-green);
+  color: var(--white);
+}
+
+.custom-subtitle-color {
+  color: var(--subtitle);
+}
+
+.custom-rounded-circle {
+  width: 37px;
+  height: 38px;
+}
+
+.custom-black-icon {
+  color: var(--black);
+  font-size: 1rem;
+}
+
+.custom-blue-icon {
+  color: var(--blue);
+  font-size: 1rem;
+}
+
+.custom-red-icon {
+  color: var(--red);
+  font-size: 1rem;
+}
+
+.custom-pagination-btn {
+  color: var(--subtitle);
+}
+
+.cursor-pointer
+{
+  cursor: pointer;
+}
+.heading
+{
+  font-size: 20px;
+}

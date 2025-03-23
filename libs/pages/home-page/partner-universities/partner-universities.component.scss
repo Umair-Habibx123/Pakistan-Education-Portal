@@ -1,3 +1,120 @@
+.partner-section {
+  padding: 72px 96px;
+  margin: 0 auto;
+  background-color: var(--partnerBg);
+}
+
+.badge-container {
+  width: auto;
+  padding: 2px;
+  margin: 0 auto;
+  background-color: var(--light-green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 48px;
+}
+
+.badge-icon {
+  color: var(--dark-green);
+  font-size: 16px;
+  padding: 0 8px;
+}
+
+.badge-text {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0;
+}
+
+.section-heading {
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--black);
+  margin: 20px 0;
+}
+
+.highlight-text {
+  color: var(--active-link-pink);
+}
+
+.section-description {
+  font-size: 16px;
+  color: var(--gray);
+  margin: 20px 0;
+}
+
+.university-card {
+  width: 100%;
+  padding-bottom: 55%;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.university-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.university-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  bottom: 8px;
+  left: 8px;
+  background-color: var(--white);
+  border-radius: 50%;
+  padding: 6px;
+  position: absolute;
+}
+
+.university-name {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.university-details {
+  font-size: 14px;
+  color: var(--gray);
+  margin: 0;
+}
+
+.view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 48px;
+  background-color: var(--dark-green);
+  cursor: pointer;
+}
+
+.view-button-text {
+  color: var(--white);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  padding: 2px 4px;
+}
+
+.view-button-icon {
+  width: 30px;
+  height: 30px;
+  background-color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 @media (max-width: 768px) {
     .container-fluid {
       padding: 40px 20px !important; 

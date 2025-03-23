@@ -1,27 +1,27 @@
-<div class="container-fluid">
-  <div class="d-flex flex-column" style="margin: 0; padding: 72px 72px;">
+<div class="container-fluid custom-container-padding">
+  <div class="d-flex flex-column">
     <!-- Back Button -->
-    <div class="d-flex align-items-center gap-2 mb-4" style="cursor: pointer;" (click)="goBack.emit()">
+    <div class="d-flex align-items-center gap-2 mb-4 custom-back-button" (click)="goBack.emit()">
       <h2 class="h5 fw-bold mb-0">
-         <lucide-angular name="ArrowLeft"></lucide-angular> 
-        <span style="color: var(--dark-green)"> {{ university.name }}</span> / Details
+        <lucide-angular name="ArrowLeft"></lucide-angular>
+        <span class="custom-dark-green-text"> {{ university.name }}</span> / Details
       </h2>
     </div>
 
     <!-- University Image -->
     <div class="d-flex align-items-center gap-2 mt-4">
-      <img [src]="university.image" class="img-fluid" style="height: auto; max-height: 515px; width: 100%;" />
+      <img [src]="university.image" class="img-fluid custom-university-image" />
     </div>
 
     <!-- University Details -->
     <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 mt-4">
       <!-- Left Side (60%) -->
-      <div class="col-md-9 d-flex align-items-center gap-3 p-3" style="height: 150px; cursor: pointer;">
+      <div class="col-12 col-md-9 d-flex align-items-center gap-3 p-3" style="height: auto; cursor: pointer;">
         <div>
-          <img [src]="university.logo" alt="{{ university.name }} Logo" class="rounded-circle" style="width: 100px; height: 100px;" />
+          <img [src]="university.logo" alt="{{ university.name }} Logo" class="rounded-circle custom-university-logo" />
         </div>
         <div class="flex-grow-1">
-          <h5 class="fw-bold mb-1" style="white-space: normal; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical;">
+          <h5 class="fw-bold mb-1 custom-university-name">
             {{ university.name }}
           </h5>
           <div class="text-muted small">
@@ -32,14 +32,14 @@
           </div>
         </div>
       </div>
-    
+
       <!-- Right Side (40%) -->
-      <div class="col-md-3 text-center">
-        <div class="d-inline-flex align-items-center justify-content-center px-3 py-2" style="border-radius: 48px; background-color: var(--dark-green); width: auto; cursor: pointer;">
-          <a routerLink="/apply-through-us" routerLinkActive="active-link" style="color: var(--white); font-weight: 500; letter-spacing: 0.025em; text-decoration: none; padding: 2px 4px;">
+      <div class="col-12 col-md-3 text-center mt-3 mt-md-0">
+        <div class="d-inline-flex align-items-center justify-content-center px-3 py-2 custom-apply-button">
+          <a routerLink="/apply-through-us" routerLinkActive="active-link" class="custom-apply-link">
             Apply through us
           </a>
-          <div style="width: 30px; height: 30px; background-color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+          <div class="custom-apply-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 19L19 5M19 5H9M19 5V15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -48,37 +48,35 @@
       </div>
     </div>
 
-    
-     <div class="d-flex align-items-center gap-2 mt-4">
+    <!-- Contact Information -->
+    <div class="d-flex align-items-center gap-2 mt-4">
       <h2 class="h5 fw-bold mb-0">Contact Information</h2>
     </div>
 
-
     <div class="container-fluid my-4">
-      <div *ngFor="let contact of university.contactInfo" style="background-color: var(--active-link-pink); color: var(--white); padding: 10px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; text-align: center;">
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
+      <div *ngFor="let contact of university.contactInfo" class="custom-contact-info">
+        <div class="custom-contact-column">
           <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Employee Name</div>
           <div style="font-size: 14px; margin-top: 10px;">{{ contact.employeeName }}</div>
         </div>
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
-    <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Designation</div>
-    <div style="font-size: 14px; margin-top: 10px;">{{ contact.designation }}</div>
-  </div>
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
-    <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Email</div>
-    <div style="font-size: 14px; margin-top: 10px;">{{ contact.email }}</div>
-  </div>
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px; border-right: 2px solid var(--gray);">
-    <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Contact</div>
-    <div style="font-size: 14px; margin-top: 10px;">{{ contact.contact }}</div>
-  </div>
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 10px;">
-    <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">WhatsApp</div>
-    <div style="font-size: 14px; margin-top: 10px;">{{ contact.whatsApp }}</div>
-  </div>
-</div>
-</div>
-
+        <div class="custom-contact-column">
+          <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Designation</div>
+          <div style="font-size: 14px; margin-top: 10px;">{{ contact.designation }}</div>
+        </div>
+        <div class="custom-contact-column">
+          <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Email</div>
+          <div style="font-size: 14px; margin-top: 10px;">{{ contact.email }}</div>
+        </div>
+        <div class="custom-contact-column">
+          <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Contact</div>
+          <div style="font-size: 14px; margin-top: 10px;">{{ contact.contact }}</div>
+        </div>
+        <div class="custom-contact-column">
+          <div style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">WhatsApp</div>
+          <div style="font-size: 14px; margin-top: 10px;">{{ contact.whatsApp }}</div>
+        </div>
+      </div>
+    </div>
 
     <!-- Programs Section -->
     <div class="d-flex align-items-center gap-2 mt-4">
@@ -89,7 +87,7 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
         <div class="col" *ngFor="let program of getPaginatedPrograms()">
           <!-- Program Card Content -->
-          <div class="rounded-3 p-4 d-flex flex-column gap-3" style="position: relative; background-color: var(--light-gray);;">
+          <div class="rounded-3 p-4 d-flex flex-column gap-3 custom-program-card">
             <div class="pb-3 border-bottom border-2">
               <h5 class="fw-bold">{{ program.name }}</h5>
               <p class="text-muted m-0">{{ program.degreeLevel }}</p>
@@ -121,11 +119,11 @@
         </button>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"  style="color: var(--subtitle);" (click)="previousPage()">
+        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light custom-pagination-btn" (click)="previousPage()">
           <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
           <span>Previous</span>
         </button>
-        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light"  style="color: var(--subtitle);" (click)="nextPage()">
+        <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light custom-pagination-btn" (click)="nextPage()">
           <span>Next</span>
           <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
         </button>
@@ -133,3 +131,4 @@
     </div>
   </div>
 </div>
+

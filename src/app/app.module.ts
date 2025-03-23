@@ -33,13 +33,15 @@ import { AuthComponent } from '../../libs/pages/auth/auth.component';
 import { SignupComponent } from '../../libs/pages/auth/signup/signup.component';
 
 import { AdminAuthComponent } from '../../libs/admin/admin-auth/admin-auth.component';
-// import { AdminLoginComponent } from '../../libs/admin/admin-auth/admin-login/admin-login.component';
+import { AdminLoginComponent } from '../../libs/admin/admin-auth/admin-login/admin-login.component';
 import { AdminResetPasswordComponent } from '../../libs/admin/admin-auth/admin-reset-password/admin-reset-password.component';
 import { LoginComponent } from '../../libs/pages/auth/login/login.component';
 import { AdminUniversityDetailComponent } from '../../libs/admin/universities/admin-university-detail/admin-university-detail.component';
 import { UniversityDetailComponent } from '../../libs/pages/home-page/hero-section/university-detail/university-detail.component';
 import { ApplyThroughUSComponent } from '../../libs/pages/home-page/apply-through-us/apply-through-us.component';
 import { RegistrationsComponent } from '../../libs/admin/registrations/registrations.component';
+import { AdminForgotComponent } from '../../libs/admin/admin-auth/admin-forgot/admin-forgot.component';
+import { AdminEnterCodeComponent } from '../../libs/admin/admin-auth/admin-enter-code/admin-enter-code.component';
 
 
 
@@ -69,13 +71,15 @@ import { RegistrationsComponent } from '../../libs/admin/registrations/registrat
     SignupComponent,
     AuthComponent,
     AdminAuthComponent,
-    // AdminLoginComponent,
+    AdminLoginComponent,
     AdminResetPasswordComponent,
     LoginComponent,
     AdminUniversityDetailComponent,
     UniversityDetailComponent,
     ApplyThroughUSComponent,
     RegistrationsComponent,
+    AdminForgotComponent,
+    AdminEnterCodeComponent,
   ],
   imports: [
     BrowserModule,

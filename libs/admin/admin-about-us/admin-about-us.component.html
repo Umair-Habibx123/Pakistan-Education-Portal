@@ -1,21 +1,13 @@
 <div class="d-flex flex-column">
   <!-- Scrollable Content -->
   <div class="flex-grow-1 p-4 p-sm-6 overflow-auto">
-    <div
-      class="border border-2 m-2 p-3 rounded-3"
-      style="background-color: var(--white)"
-    >
-      <div
-        class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
-      >
+    <div class="border border-2 m-2 p-3 rounded-3 custom-white-bg">
+      <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4">
         <h2 class="font-weight-bold h5 mb-0">About Details</h2>
 
-        <div
-          class="d-flex flex-column flex-sm-row align-items-center gap-3"
-          style="width: 65%"
-        >
+        <div class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65">
           <!-- Search Input -->
-          <div class="input-group w-75 w-sm-64" style="height: 45px">
+          <div class="input-group w-75 w-sm-75 custom-input-height">
             <span class="input-group-text bg-light border-0">
               <i class="text-muted fa-search fas"></i>
             </span>
@@ -29,123 +21,10 @@
           <button
             data-bs-toggle="modal"
             data-bs-target="#aboutModal"
-            class="btn border border-2 rounded-5 w-25 w-sm-auto px-3 py-2"
+            class="btn border border-2 rounded-5 w-25 w-sm-auto px-3 py-2 mt-2 mt-sm-0"
           >
             Add About +
           </button>
-
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="aboutModal"
-            tabindex="-1"
-            aria-labelledby="aboutModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5
-                    class="modal-title"
-                    id="aboutModalLabel"
-                    style="font-size: 20px"
-                  >
-                    Add New About
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <!-- Heading -->
-                  <div class="mb-1">
-                    <label class="form-label" style="font-size: 18px"
-                      >Heading</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter heading"
-                    />
-                  </div>
-
-                  <!-- Description -->
-                  <div class="mb-1">
-                    <label class="form-label" style="font-size: 18px"
-                      >Description</label
-                    >
-                    <textarea
-                      class="form-control"
-                      rows="2"
-                      style="resize: none"
-                      placeholder="Write here the address of marketplace"
-                    ></textarea>
-                  </div>
-
-                  <!-- Sub Heading -->
-                  <div class="mb-1">
-                    <label class="form-label" style="font-size: 18px"
-                      >Sub Heading</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter sub heading"
-                    />
-                  </div>
-
-                  <!-- Description -->
-                  <div class="mb-1">
-                    <label class="form-label" style="font-size: 18px"
-                      >Description</label
-                    >
-                    <textarea
-                      class="form-control"
-                      rows="2"
-                      style="resize: none"
-                      placeholder="Write here the address of marketplace"
-                    ></textarea>
-                  </div>
-
-                  <div class="mb-1">
-                    <label class="form-label" style="font-size: 18px"
-                      >Image</label
-                    >
-                    <div
-                      class="p-0 rounded text-center"
-                      style="border: 2px dashed var(--gray)"
-                    >
-                      <i class="bi bi-upload fs-1"></i>
-                      <p class="fw-bold" style="font-size: 20px">
-                        Upload Image
-                      </p>
-                      <p class="text-muted small">
-                        Supported Formats: Svg,Png, Jpg
-                      </p>
-                      <input
-                        type="file"
-                        class="d-none form-control"
-                        id="imageUpload"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="modal-footer p-1">
-                  <button
-                    type="button"
-                    class="btn btn-success w-100"
-                    style="font-size: 18px"
-                  >
-                    Add About
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -163,8 +42,7 @@
         <!-- Data Rows -->
         <div
           *ngFor="let blog of filteredAboutUs"
-          class="g-4 row row-cols-1 row-cols-md-12 align-items-center border-bottom p-4"
-          style="background-color: #f3f4f6"
+          class="g-4 row row-cols-1 row-cols-md-12 align-items-center border-bottom p-4 custom-bg-light-gray"
         >
           <!-- Image Column -->
           <div class="col-md-1 d-flex align-items-center">
@@ -172,8 +50,7 @@
             <img
               [src]="blog.image"
               alt="Blog"
-              class="rounded"
-              style="height: 50px; width: 50px"
+              class="rounded custom-radio-img"
             />
           </div>
 
@@ -190,12 +67,10 @@
           <!-- Action Column -->
           <div class="col-md-1 d-flex gap-2" style="color: var(--subtitle)">
             <i
-              class="cursor-pointer fa-trash-alt fas pe-1"
-              style="color: var(--red)"
+              class="cursor-pointer fa-trash-alt fas pe-1 custom-red-color"
             ></i>
             <i
-              class="cursor-pointer fa-edit fas pe-1"
-              style="color: var(--blue)"
+              class="cursor-pointer fa-edit fas pe-1 custom-blue-color"
             ></i>
           </div>
         </div>
@@ -203,3 +78,95 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="aboutModal"
+  tabindex="-1"
+  aria-labelledby="aboutModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title custom-modal-title" id="aboutModalLabel">
+          Add New About
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Heading -->
+        <div class="mb-1">
+          <label class="form-label custom-form-label">Heading</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter heading"
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-1">
+          <label class="form-label custom-form-label">Description</label>
+          <textarea
+            class="form-control custom-textarea-resize"
+            rows="2"
+            placeholder="Write here the address of marketplace"
+          ></textarea>
+        </div>
+
+        <!-- Sub Heading -->
+        <div class="mb-1">
+          <label class="form-label custom-form-label">Sub Heading</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter sub heading"
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-1">
+          <label class="form-label custom-form-label">Description</label>
+          <textarea
+            class="form-control custom-textarea-resize"
+            rows="2"
+            placeholder="Write here the address of marketplace"
+          ></textarea>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label custom-form-label">Image</label>
+          <div class="p-0 rounded text-center custom-dashed-border">
+            <i class="bi bi-upload fs-1"></i>
+            <p class="fw-bold custom-upload-text">Upload Image</p>
+            <p class="text-muted small">
+              Supported Formats: Svg,Png, Jpg
+            </p>
+            <input
+              type="file"
+              class="d-none form-control"
+              id="imageUpload"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer p-1">
+        <button
+          type="button"
+          class="btn btn-success w-100 custom-modal-footer-btn"
+        >
+          Add About
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

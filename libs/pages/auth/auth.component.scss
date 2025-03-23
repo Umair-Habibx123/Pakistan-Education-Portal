@@ -1,0 +1,20 @@
+.container-wrapper {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 3rem;
+    border-bottom: 1px solid var(--gray);
+    background-color: var(--white);
+    z-index: 1000;
+}
+
+.header-logo {
+    width: 200px;
+    height: 50px;
+}

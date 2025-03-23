@@ -1,3 +1,47 @@
+.about-container {
+    padding: 72px 96px;
+    background-color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  
+  .about-image {
+    max-width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+  
+  .about-text {
+    padding: 20px;
+  }
+  
+  .about-heading {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--black);
+    margin: 20px 0;
+  }
+  
+  .about-description {
+    font-size: 16px;
+    color: var(--gray);
+    margin: 20px 0;
+  }
+  
+  .about-feature-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .about-feature-text {
+    font-size: 16px;
+    color: var(--gray);
+    margin: 5px 0;
+  }
+  
+
 
 @media (max-width: 768px) {
     .container-fluid {

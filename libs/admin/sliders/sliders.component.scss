@@ -1,0 +1,99 @@
+
+.custom-white-bg {
+    background-color: var(--white);
+  }
+
+  .custom-width-65 {
+    width: 65%;
+  }
+
+  .custom-input-height {
+    height: 45px;
+  }
+
+  .custom-modal-title {
+    font-size: 20px;
+  }
+
+  .custom-form-label {
+    font-size: 18px;
+  }
+
+  .custom-dashed-border {
+    border: 2px dashed var(--gray);
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .custom-upload-text {
+    font-size: 20px;
+  }
+
+  .custom-modal-footer-btn {
+    font-size: 18px;
+  }
+
+  .custom-slider-image {
+    height: 192px; 
+    height: 224px; 
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .custom-action-buttons {
+    background: var(--white);
+    border-radius: 50px;
+    padding: 8px;
+    position: absolute;
+    top: 12px; 
+    right: 12px; 
+  }
+
+  .custom-blue-icon {
+    color: var(--blue);
+    font-size: 1rem;
+  }
+
+  .custom-red-icon {
+    color: var(--red);
+    font-size: 1rem;
+  }
+
+  
+  @media (max-width: 767.98px) {
+    .custom-width-65 {
+      width: 100%;
+    }
+
+    .input-group {
+      width: 100% !important;
+    }
+
+    .btn {
+      width: 100% !important;
+    }
+
+    .custom-slider-image {
+      height: 150px; 
+    }
+
+    .custom-action-buttons {
+      top: 8px; 
+      right: 8px; 
+    }
+
+    .modal-dialog {
+      margin: 1rem;
+    }
+
+    .modal-content {
+      padding: 1rem;
+    }
+
+    .row-cols-lg-2 > .col,
+    .row-cols-sm-2 > .col {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }

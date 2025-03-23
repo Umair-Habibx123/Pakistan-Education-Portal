@@ -1,0 +1,23 @@
+.custom-white-bg {
+    background-color: var(--white);
+  }
+  
+  .custom-dark-green-bg {
+    background-color: var(--dark-green);
+    color: var(--white);
+  }
+  
+  .custom-subtitle-color {
+    color: var(--subtitle);
+  }
+  
+  .custom-profile-pic {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-width: 4px !important;
+  }
+  
+  .custom-dark-green-text {
+    color: var(--dark-green);
+  }

@@ -1,0 +1,94 @@
+.custom-white-bg {
+    background-color: var(--white);
+}
+
+.custom-width-65 {
+    width: 65%;
+}
+
+.custom-input-height {
+    height: 45px;
+}
+
+.custom-modal-title {
+    font-size: 20px;
+}
+
+.custom-form-label {
+    font-size: 18px;
+}
+
+.custom-textarea-resize {
+    resize: none;
+}
+
+.custom-dashed-border {
+    border: 2px dashed var(--gray);
+}
+
+.custom-upload-text {
+    font-size: 20px;
+}
+
+.custom-modal-footer-btn {
+    font-size: 18px;
+}
+
+.custom-radio-img {
+    height: 50px;
+    width: 50px;
+}
+
+.custom-red-color {
+    color: var(--red);
+}
+
+.custom-blue-color {
+    color: var(--blue);
+}
+
+.custom-bg-light-gray {
+    background-color: #f3f4f6;
+}
+
+
+@media (max-width: 768px) {
+    .custom-width-65 {
+        width: 100%;
+    }
+
+    .input-group {
+        width: 100% !important;
+    }
+
+    .btn {
+        width: 100% !important;
+    }
+
+    .d-md-flex {
+        display: none !important;
+    }
+
+    .row-cols-md-12>div {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .col-md-1,
+    .col-md-3,
+    .col-md-7,
+    .col-md-1 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .custom-radio-img {
+        margin: 0 auto;
+    }
+
+    .d-flex.gap-2 {
+        justify-content: center;
+    }
+}

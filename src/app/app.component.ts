@@ -17,15 +17,12 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Scroll to the top of the page
         window.scrollTo(0, 0);
       }
     });
   }
 
   isHidden(): boolean {
-    return [ '/admin-dashboard', '/auth/signup' , '/adminAuth/adminLogin' , '/adminAuth/adminResetPassword','/auth/login' ].includes(this.router.url);
+    return ['/adminAuth/adminEnterCode','/adminAuth/adminForgotPassword' ,'/admin-dashboard', '/auth/signup' , '/adminAuth/adminLogin' , '/adminAuth/adminResetPassword','/auth/login' ].includes(this.router.url);
   }
-
-
 }

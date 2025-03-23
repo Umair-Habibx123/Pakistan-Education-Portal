@@ -1,39 +1,19 @@
-<div
-  class="container-fluid"
-  style="padding: 72px 96px; margin: 0 auto; background-color: var(--partnerBg)"
->
+<div class="container-fluid partner-section">
   <div class="row justify-content-center gap-2">
     <div class="col-12 text-center">
       <!-- Badge -->
-      <div
-        class="w-auto p-2 mx-auto"
-        style="
-          background-color: var(--light-green);
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 48px;
-        "
-      >
-        <i
-          class="fas fa-graduation-cap px-2"
-          style="color: var(--dark-green); font-size: 16px"
-        ></i>
-        <p style="font-weight: bold; font-size: 16px; margin: 0">
-          Partner Universities
-        </p>
+      <div class="badge-container">
+        <i class="fas fa-graduation-cap badge-icon"></i>
+        <p class="badge-text">Partner Universities</p>
       </div>
 
       <!-- Heading -->
-      <h1
-        class="mt-3"
-        style="font-size: 48px; font-weight: bold; color: var(--black); margin: 20px 0"
-      >
-        Trusted by <span style="color: var(--active-link-pink)">50+ </span> global universities
+      <h1 class="section-heading">
+        Trusted by <span class="highlight-text">50+ </span> global universities
       </h1>
 
       <!-- Description -->
-      <p style="font-size: 16px; color: var(--gray); margin: 20px 0">
+      <p class="section-description">
         Connect with the next wave of expert mentors, guiding you with fresh
         <br class="d-none d-md-block" />
         perspectives, innovative insights, and proven expertise.
@@ -43,53 +23,19 @@
     <!-- University Grid -->
     <div class="col-12 px-3 px-md-5">
       <div class="row">
-        <div
-          *ngFor="let university of universities"
-          class="col-6 col-md-3 mb-4"
-        >
-          <div
-            class="position-relative"
-            style="
-              width: 100%;
-              padding-bottom: 55%;
-              background: var(--white);
-              border-radius: 16px;
-              overflow: hidden;
-              position: relative;
-            "
-          >
-            <img
-              [src]="university.image"
-              alt="University"
-              class="w-100 h-100"
-              style="object-fit: cover; position: absolute; top: 0; left: 0"
-            />
-            <img
-              [src]="university.logo"
-              alt="Logo"
-              class="position-absolute"
-              style="
-                width: 50px;
-                height: 50px;
-                object-fit: contain;
-                bottom: 8px;
-                left: 8px;
-                background-color: var(--white);
-                border-radius: 50%;
-                padding: 6px;
-              "
-            />
+        <div *ngFor="let university of universities" class="col-6 col-md-3 mb-4">
+          <div class="university-card">
+            <img [src]="university.image" alt="University" class="university-image" />
+            <img [src]="university.logo" alt="Logo" class="university-logo" />
           </div>
-          <p class="mt-2" style="font-size: 16px; font-weight: bold">
-            {{ university.name }}
-          </p>
+          <p class="university-name">{{ university.name }}</p>
 
           <!-- Additional details if route is /universities -->
           <div *ngIf="isUniversityPage">
-            <p style="font-size: 14px; color: var(--gray); margin: 0">
+            <p class="university-details">
               {{ university.location }} • {{ university.programs }} Programmes
             </p>
-            <p style="font-size: 14px; color: var(--gray); margin: 0">
+            <p class="university-details">
               Tuition Fee: {{ university.tuitionFee }} / year
             </p>
           </div>
@@ -99,54 +45,13 @@
 
     <!-- Button -->
     <div class="col-12 text-center">
-      <div
-        class="d-inline-flex align-items-center justify-content-center px-3 py-2"
-        style="
-          border-radius: 48px;
-          background-color: var(--dark-green);
-          width: auto;
-          cursor: pointer;
-        "
-      >
-        <a
-          routerLink="/universities"
-          routerLinkActive="active-link"
-          style="
-            color: var(--white);
-            font-weight: 500;
-            letter-spacing: 0.025em;
-            text-decoration: none;
-            padding: 2px 4px;
-          "
-        >
+      <div class="view-button">
+        <a routerLink="/universities" routerLinkActive="active-link" class="view-button-text">
           View All Universities
         </a>
-
-        <div
-          style="
-            width: 30px;
-            height: 30px;
-            background-color: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          "
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5 19L19 5M19 5H9M19 5V15"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+        <div class="view-button-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 19L19 5M19 5H9M19 5V15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
       </div>

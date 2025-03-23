@@ -1,46 +1,141 @@
+/* Container Styles */
+.container-fluid {
+    padding: 72px 96px;
+}
+
+/* Heading Section Styles */
+.heading-text {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--black);
+    margin: 20px 0;
+}
+
+.active-link-pink {
+    color: var(--active-link-pink);
+}
+
+.dots-container {
+    padding: 10px;
+}
+
+.dot-row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding-bottom: 8px;
+}
+
+.dot {
+    height: 8px;
+    width: 8px;
+    background: var(--gray);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Form Section Styles */
+.form-container {
+    border-radius: 16px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+    padding: 16px;
+    width: 100%;
+}
+
+.form-control-custom {
+    background-color: transparent;
+}
+
+.textarea-custom {
+    resize: none;
+    height: 150px;
+    background-color: transparent;
+}
+
+.submit-button {
+    border-radius: 48px;
+    font-size: 16px;
+    background-color: var(--dark-green);
+    color: var(--white);
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+}
+
+.icon-circle {
+    width: 30px;
+    height: 30px;
+    background-color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+/* Image Section Styles */
+.contact-image {
+    border-radius: 16px;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    width: 100%;
+}
+
 /* Adjustments for tablets and small screens */
 @media (max-width: 768px) {
     .container-fluid {
         padding: 40px 20px !important;
-       
+
     }
 
     h1 {
         font-size: 36px !important;
-       
+
         margin: 10px 0 !important;
-       
+
     }
 
     .col-md-6 {
         flex: 0 0 100%;
-       
+
         max-width: 100%;
+
+    }
+
+    .contact-image {
+        display: none;
     }
 
     .row.align-items-center {
         padding: 16px !important;
-       
+
     }
 
     .p-4 {
         padding: 20px !important;
-      
+
     }
 
     .form-control {
         font-size: 14px !important;
-       
+
     }
 
     .form-label {
         font-size: 14px !important;
-        
+
     }
 
     button {
         font-size: 14px !important;
-        
+
     }
 }
 
@@ -51,31 +146,31 @@
 
     .container-fluid {
         padding: 20px 10px !important;
-      
+
     }
 
     .row.align-items-center {
         padding: 8px !important;
-      
+
     }
 
     .p-4 {
         padding: 16px !important;
-      
+
     }
 
     .form-control {
         font-size: 12px !important;
-        
+
     }
 
     .form-label {
         font-size: 12px !important;
-       
+
     }
 
     button {
         font-size: 12px !important;
-       
+
     }
 }

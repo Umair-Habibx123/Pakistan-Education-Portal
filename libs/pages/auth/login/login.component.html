@@ -1,75 +1,51 @@
 <!-- Screen Content -->
-<div
-  class="container-fluid vh-100 d-flex align-items-center justify-content-center"
->
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
   <div class="row w-100">
     <!-- Left Side Image -->
-    <div
-      class="col-md-6 d-none d-md-flex justify-content-center align-items-center"
-    >
+    <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center">
       <img src="assets/userlogin.png" class="img-fluid" alt="Illustration" />
     </div>
 
     <!-- Right Side Form -->
     <div class="col-md-6 d-flex justify-content-center align-items-center">
-      <div class="p-4" style="max-width: 400px; width: 100%">
+      <div class="login-container">
         <h4 class="fw-bold mb-4">Please Login to Apply</h4>
         <div class="form">
           <!-- Email Field -->
           <div class="mb-4">
             <div class="input-group">
-              <input
-                type="email"
-                class="form-control border border-secondary bg-light"
-                placeholder="Email"
-              />
-              <span class="input-group-text bg-light border border-secondary">
+              <input type="email" class="form-control input-style" placeholder="Email" />
+              <span class="input-group-text input-icon">
                 <i class="bi bi-envelope"></i>
               </span>
             </div>
           </div>
 
+          <!-- Password Field -->
           <div class="mb-4">
             <div class="input-group">
-              <input
-                [type]="showPassword ? 'text' : 'password'"
-                class="form-control border border-secondary bg-light"
-                placeholder="Password"
-              />
-              <span
-                class="input-group-text bg-light border border-secondary cursor-pointer"
-                (click)="togglePasswordVisibility()"
-              >
+              <input [type]="showPassword ? 'text' : 'password'" class="form-control input-style" placeholder="Password" />
+              <span class="input-group-text input-icon cursor-pointer" (click)="togglePasswordVisibility()">
                 <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
               </span>
             </div>
           </div>
 
-          <button class="btn btn-dark w-100 border-1 rounded-5 mb-3">
-            Login
-          </button>
+          <button class="btn w-100 border-1 rounded-5 mb-3 login-btn">Login</button>
 
           <div class="d-flex align-items-center my-4">
-            <hr class="flex-grow-1 border-secondary" />
+            <hr class="flex-grow-1 separator-line" />
             <span class="mx-2 text-secondary">OR</span>
-            <hr class="flex-grow-1 border-secondary" />
+            <hr class="flex-grow-1 separator-line" />
           </div>
 
-          <button
-            class="btn btn-outline-secondary w-100 border-1 rounded-5 mb-3"
-          >
+          <button class="btn btn-outline-secondary w-100 border-1 rounded-5 mb-3">
             <i class="bi bi-google"></i> Sign up with Google
           </button>
 
           <div class="text-center mt-4">
             Don't Have an Account?
-            <a
-              [routerLink]="'/auth/signup'"
-              class="fw-bold text-decoration-none"
-              style="color: var(--dark-green)"
-            >
-              Sign Up
-            </a>
+            <a [routerLink]="'/auth/signup'" class="signup-link">Sign Up</a>
           </div>
         </div>
       </div>

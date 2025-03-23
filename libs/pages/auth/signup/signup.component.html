@@ -1,29 +1,25 @@
 <!-- Screen Content -->
-<div
-  class="container-fluid d-flex align-items-center justify-content-center vh-100"
->
+<div class="container-fluid screen-container">
   <div class="row w-100">
     <!-- Left Side Image -->
-    <div
-      class="col-md-6 d-md-flex d-none align-items-center justify-content-center"
-    >
+    <div class="col-md-6 d-md-flex d-none left-image">
       <img src="assets/signup.png" class="img-fluid" alt="Illustration" />
     </div>
 
     <!-- Right Side Form -->
-    <div class="col-md-6 d-flex align-items-start justify-content-center">
-      <div class="p-4" style="max-width: 400px; width: 100%">
+    <div class="col-md-6 right-form">
+      <div class="form-container">
         <h4 class="fw-bold mb-4">Please Sign up to Apply</h4>
         <div class="form">
           <!-- Email Field -->
           <div class="mb-4">
-            <div class="input-group">
+            <div class="input-group input-group-custom">
               <input
                 type="email"
                 class="form-control bg-light border border-secondary"
                 placeholder="shilpa.m@xyz.com"
               />
-              <span class="input-group-text bg-light border border-secondary">
+              <span class="input-group-text border border-secondary input-group-text-custom">
                 <i class="bi bi-envelope"></i>
               </span>
             </div>
@@ -31,13 +27,13 @@
 
           <!-- Mobile Field -->
           <div class="mb-4">
-            <div class="input-group">
+            <div class="input-group input-group-custom">
               <input
                 type="text"
                 class="form-control bg-light border border-secondary"
                 placeholder="9463728345"
               />
-              <span class="input-group-text bg-light border border-secondary">
+              <span class="input-group-text border border-secondary input-group-text-custom">
                 <i class="bi bi-phone"></i>
               </span>
             </div>
@@ -45,14 +41,14 @@
 
           <!-- Password Field -->
           <div class="mb-4">
-            <div class="input-group">
+            <div class="input-group input-group-custom">
               <input
                 [type]="showPassword ? 'text' : 'password'"
                 class="form-control bg-light border border-secondary"
                 placeholder="Password"
               />
               <span
-                class="input-group-text bg-light border border-secondary cursor-pointer"
+                class="input-group-text border border-secondary input-group-text-custom"
                 (click)="togglePasswordVisibility()"
               >
                 <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
@@ -66,14 +62,14 @@
 
           <!-- Confirm Password Field -->
           <div class="mb-4">
-            <div class="input-group">
+            <div class="input-group input-group-custom">
               <input
                 [type]="showPassword ? 'text' : 'password'"
                 class="form-control bg-light border border-secondary"
                 placeholder="Confirm Password"
               />
               <span
-                class="input-group-text bg-light border border-secondary cursor-pointer"
+                class="input-group-text border border-secondary input-group-text-custom"
                 (click)="togglePasswordVisibility()"
               >
                 <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
@@ -82,32 +78,24 @@
           </div>
 
           <!-- Signup Button -->
-          <button class="btn btn-dark border-1 rounded-5 w-100 mb-1">
-            Sign up
-          </button>
+          <button class="btn btn-dark btn-signup mb-1">Sign up</button>
 
-          <div class="d-flex align-items-center my-4">
-            <hr class="flex-grow-1 border-secondary" />
-            <span class="text-secondary mx-2">OR</span>
-            <hr class="flex-grow-1 border-secondary" />
+          <!-- Divider -->
+          <div class="divider my-4">
+            <hr class="divider-line" />
+            <span class="divider-text">OR</span>
+            <hr class="divider-line" />
           </div>
 
           <!-- Google Sign-up Button -->
-          <button
-            class="btn btn-outline-secondary border-1 rounded-5 w-100 mb-1"
-          >
+          <button class="btn btn-outline-secondary btn-google mb-1 border: 1px solid var(--secondary);">
             <i class="fa-brands fa-google"></i> Sign up with Google
           </button>
 
           <!-- Sign-in Link -->
           <div class="text-center mt-4">
             Already a member?
-            <a
-              [routerLink]="'/auth/login'"
-              class="text-decoration-none fw-bold"
-              style="color: var(--dark-green)"
-              >Sign in</a
-            >
+            <a [routerLink]="'/auth/login'" class="signin-link">Sign in</a>
           </div>
         </div>
       </div>

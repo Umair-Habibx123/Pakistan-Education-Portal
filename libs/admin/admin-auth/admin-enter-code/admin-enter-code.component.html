@@ -1,0 +1,94 @@
+<div class="container vh-100 d-flex align-items-center">
+  <div class="row w-100">
+    <!-- Left Side Image -->
+    <div
+      class="col-md-6 d-none d-md-flex justify-content-center align-items-center"
+    >
+      <img src="assets/getcode.png" class="img-fluid" alt="getcode" />
+    </div>
+
+    <!-- Right Side Form -->
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+      <div class="p-4 w-100" style="max-width: 400px">
+        <img
+        src="assets/logo.png"
+        class="img-fluid my-4"
+        alt="Login Illustration"
+        height="35px"
+        width="150px"
+      />
+        <h4 class="fw-bold mb-5 heading">Enter Code</h4>
+        <p>Check your mail and enter PIN</p>
+
+        <div class="d-flex justify-content-between mb-3">
+          <input
+            id="input1"
+            type="text"
+            class="form-control text-center border border-secondary bg-light"
+            placeholder="●"
+            maxlength="1"
+            (input)="moveToNext($event, 'input2')"
+            (keydown)="onKeyDown($event, 'input1')"
+          />
+          <input
+            id="input2"
+            type="text"
+            class="form-control text-center border border-secondary bg-light"
+            placeholder="●"
+            maxlength="1"
+            (input)="moveToNext($event, 'input3')"
+            (keydown)="onKeyDown($event, 'input2')"
+          />
+          <input
+            id="input3"
+            type="text"
+            class="form-control text-center border border-secondary bg-light"
+            placeholder="●"
+            maxlength="1"
+            (input)="moveToNext($event, 'input4')"
+            (keydown)="onKeyDown($event, 'input3')"
+          />
+          <input
+            id="input4"
+            type="text"
+            class="form-control text-center border border-secondary bg-light"
+            placeholder="●"
+            maxlength="1"
+            (input)="moveToNext($event, 'input5')"
+            (keydown)="onKeyDown($event, 'input4')"
+          />
+          <input
+            id="input5"
+            type="text"
+            class="form-control text-center border border-secondary bg-light"
+            placeholder="●"
+            maxlength="1"
+            (input)="moveToNext($event, 'input6')"
+            (keydown)="onKeyDown($event, 'input5')"
+          />
+          <input
+            id="input6"
+            type="text"
+            class="form-control text-center border border-secondary bg-light"
+            placeholder="●"
+            maxlength="1"
+            (input)="moveToNext($event, '')"
+            (keydown)="onKeyDown($event, 'input6')"
+          />
+        </div>
+
+        <p>
+          <a
+            class="text-success text-decoration-none"
+            >Enter Code to Continue or Resend</a
+          >
+        </p>
+
+        <!-- Continue Button -->
+        <button 
+        [routerLink]="'/adminAuth/adminResetPassword'"
+        class="btn btn-success rounded-pill w-100">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>

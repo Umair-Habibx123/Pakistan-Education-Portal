@@ -1,17 +1,27 @@
-
 <div class="container vh-100 d-flex align-items-center">
   <div class="row w-100">
     <!-- Left Side Image -->
     <div
       class="col-md-6 d-none d-md-flex justify-content-center align-items-center"
     >
-      <img src="assets/loginpage.png" class="img-fluid" alt="Login Illustration" />
+      <img
+        src="assets/loginpage.png"
+        class="img-fluid"
+        alt="Login Illustration"
+      />
     </div>
 
     <!-- Right Side Login Form -->
     <div class="col-md-6 d-flex justify-content-center align-items-center">
-      <div class="p-4 w-100" style="max-width: 400px">
-        <h4 class="fw-bold mb-4">Login Here</h4>
+      <div class="p-4 w-100 container-custom">
+        <img
+          src="assets/logo.png"
+          class="img-fluid my-4"
+          alt="Login Illustration"
+          height="35px"
+          width="150px"
+        />
+        <h4 class="fw-bold mb-5 heading">Login Here</h4>
 
         <!-- Email Input -->
         <div class="mb-3">
@@ -21,35 +31,11 @@
               class="form-control border border-secondary bg-light"
               placeholder="shilpa.m@xyz.com"
             />
-            <span class="input-group-text bg-white border border-secondary "
+            <span class="input-group-text bg-light border border-secondary"
               ><i class="bi bi-envelope"></i
             ></span>
           </div>
         </div>
-<!-- 
-
-        <p class="p-0">
-          <mat-form-field appearance="outline" class="bg-light">
-            <mat-label>Outline form field</mat-label>
-            <input matInput placeholder="Placeholder">
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint class="bg-white w-100" style="padding-left: 0px;">Hint</mat-hint>
-          </mat-form-field>
-        </p> -->
-
-        <div class="bg-light">
-        <mat-form-field class="w-100 p-0" appearance="outline">
-         
-          <mat-label>Guest Name</mat-label>
-          <input matInput maxlength="15"  />
-       <mat-hint style="display: none !important; visibility: hidden;">...</mat-hint>
-        </mat-form-field>
-         </div>
-        
-          <!-- <mat-form-field appearance="outline" class="w-100 ps-3 pe-3">
-          <mat-label>Enter Email</mat-label>
-          <input matInputname="email" />
-        </mat-form-field> -->
 
         <div class="mb-4">
           <div class="input-group">
@@ -67,9 +53,12 @@
           </div>
         </div>
 
+          <div class="text-end my-2">
+            <a [routerLink]="'/adminAuth/adminForgotPassword'" class="forgot-password-link">Forgot Password?</a>
+          </div>
 
         <!-- Login Button -->
-        <button class="btn btn-success w-100 border-1 rounded-5" >Login</button>
+        <button class="btn btn-success w-100 border-1 rounded-5">Login</button>
       </div>
     </div>
   </div>

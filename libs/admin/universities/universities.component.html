@@ -4,15 +4,13 @@
     <div class="bg-white border border-2 m-2 p-3 rounded-3">
       <!-- Grid View -->
       <div *ngIf="!showDetailView">
-        <div
-          class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
-        >
-          <h2 class="fw-bold h5 mb-0">Universities Details</h2>
-          <div
-            class="d-flex flex-column flex-sm-row align-items-center gap-3"
-            style="width: 65%"
-          >
-            <div class="input-group w-75 w-sm-64" style="height: 45px">
+
+        <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4">
+          <h2 class="font-weight-bold h5 mb-0">University Details</h2>
+  
+          <div class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65">
+            <!-- Search Input -->
+            <div class="input-group w-75 w-sm-75 custom-input-height">
               <span class="input-group-text bg-light border-0">
                 <i class="text-muted fa-search fas"></i>
               </span>
@@ -22,167 +20,35 @@
                 placeholder="Search here..."
               />
             </div>
+            <!-- Add Slider Button -->
             <button
               data-bs-toggle="modal"
-              data-bs-target="#universityModal"
-              class="btn border border-2 rounded-pill w-25 w-sm-auto px-3 py-2"
+              data-bs-target="#aboutModal"
+              class="btn border border-2 rounded-5 w-25 w-sm-auto px-3 py-2 mt-2 mt-sm-0"
             >
               Add University +
             </button>
-
-            <!-- Modal -->
-            <div
-              class="modal fade"
-              id="universityModal"
-              tabindex="-1"
-              aria-labelledby="universityModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5
-                      class="modal-title"
-                      id="universityModalLabel  fs-5"
-                    >
-                      Add New University
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <!-- University Logo Upload -->
-                      <div class="col-md-6">
-                        <label class="form-label" style="font-size: 18px"
-                          >University Logo</label
-                        >
-                        <div
-                          class="p-4 rounded text-center"
-                          style="border: 2px dashed var(--gray)"
-                        >
-                          <i class="bi bi-upload fs-1"></i>
-                          <p class="fw-bold">Upload Image</p>
-                          <p class="text-muted small">
-                            Supported Formats: Svg, Png, Jpg
-                          </p>
-                          <input
-                            type="file"
-                            class="d-none form-control"
-                            id="logoUpload"
-                          />
-                        </div>
-                      </div>
-                      <!-- University Image Upload -->
-                      <div class="col-md-6">
-                        <label class="form-label" style="font-size: 18px"
-                          >University Image</label
-                        >
-                        <div
-                          class="p-4 rounded text-center"
-                          style="border: 2px dashed var(--gray)"
-                        >
-                          <i class="bi bi-upload fs-1"></i>
-                          <p class="fw-bold">Upload Image</p>
-                          <p class="text-muted small">
-                            Supported Formats: Png, Jpg
-                          </p>
-                          <input
-                            type="file"
-                            class="d-none form-control"
-                            id="imageUpload"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- University Details -->
-                    <div class="row mt-4" style="font-size: 18px">
-                      <div class="col-md-6">
-                        <label class="form-label">University Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="COMSATS University"
-                        />
-                      </div>
-                      <div class="col-md-6">
-                        <label class="form-label">Campus Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Islamabad, Punjab, Pakistan"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="mt-3">
-                      <label class="form-label" style="font-size: 18px"
-                        >Location</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Islamabad, Punjab, Pakistan"
-                      />
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-success w-100"
-                      style="font-size: 18px"
-                    >
-                      Add University
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
         <!-- Grid Section -->
         <div class="container-fluid my-4">
-          <div class="g-4 row row-cols-1 row-cols-md-3">
+          <div class="g-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
             <div
               class="col"
               *ngFor="let university of filteredUniversities"
               (click)="showUniversityDetail(university)"
             >
-              <div
-                class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3"
-                style="
-                  background-color: var(--light-gray);
-                  height: 150px;
-                  cursor: pointer;
-                "
-              >
+              <div class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card">
                 <div>
                   <img
                     [src]="university.logo"
                     alt="{{ university.name }} Logo"
-                    class="rounded-circle"
-                    style="width: 50px; height: 50px"
+                    class="rounded-circle custom-university-logo"
                   />
                 </div>
                 <div class="flex-grow-1">
-                  <h5
-                    class="fw-bold mb-1"
-                    style="
-                      white-space: normal;
-                      overflow: hidden;
-                      text-overflow: ellipsis;
-                      display: -webkit-box;
-                      -webkit-line-clamp: 2;
-                      line-clamp: 2;
-                      -webkit-box-orient: vertical;
-                    "
-                  >
+                  <h5 class="fw-bold mb-1 custom-university-name">
                     {{ university.name }}
                   </h5>
                   <div class="text-muted small">
@@ -192,7 +58,7 @@
                   <div class="d-flex gap-1 mt-1">
                     <span
                       *ngFor="let campus of university.campuses"
-                      class="badge bg-white border border-2 rounded-5 text-dark"
+                      class="badge custom-badge"
                       >{{ campus }}</span
                     >
                   </div>
@@ -200,9 +66,7 @@
                     {{ university.programsCount }} Programs
                   </div>
                 </div>
-                <div
-                  class="d-flex bg-white position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0"
-                >
+                <div class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons">
                   <i class="text-danger cursor-pointer fa-trash-alt fas"></i>
                   <i class="text-primary cursor-pointer fa-edit fas"></i>
                 </div>
@@ -231,16 +95,14 @@
           </div>
           <div class="d-flex align-items-center gap-2">
             <button
-              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2"
-              style="color: var(--subtitle)"
+              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 custom-pagination-btn"
               (click)="previousPage()"
             >
               <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
               <span>Previous</span>
             </button>
             <button
-              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2"
-              style="color: var(--subtitle)"
+              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 custom-pagination-btn"
               (click)="nextPage()"
             >
               <span>Next</span>
@@ -256,6 +118,104 @@
           [university]="selectedUniversity"
           (goBack)="goBack()"
         ></app-admin-university-detail>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="universityModal"
+  tabindex="-1"
+  aria-labelledby="universityModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title custom-modal-title" id="universityModalLabel">
+          Add New University
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <!-- University Logo Upload -->
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label custom-form-label">University Logo</label>
+            <div class="p-4 rounded text-center custom-dashed-border">
+              <i class="bi bi-upload fs-1"></i>
+              <p class="fw-bold custom-upload-text">Upload Image</p>
+              <p class="text-muted small">
+                Supported Formats: Svg, Png, Jpg
+              </p>
+              <input
+                type="file"
+                class="d-none form-control"
+                id="logoUpload"
+              />
+            </div>
+          </div>
+          <!-- University Image Upload -->
+          <div class="col-md-6">
+            <label class="form-label custom-form-label">University Image</label>
+            <div class="p-4 rounded text-center custom-dashed-border">
+              <i class="bi bi-upload fs-1"></i>
+              <p class="fw-bold custom-upload-text">Upload Image</p>
+              <p class="text-muted small">
+                Supported Formats: Png, Jpg
+              </p>
+              <input
+                type="file"
+                class="d-none form-control"
+                id="imageUpload"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- University Details -->
+        <div class="row mt-4 custom-form-label">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label">University Name</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="COMSATS University"
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Campus Name</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Islamabad, Punjab, Pakistan"
+            />
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="form-label custom-form-label">Location</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Islamabad, Punjab, Pakistan"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success w-100 custom-modal-footer-btn"
+        >
+          Add University
+        </button>
       </div>
     </div>
   </div>

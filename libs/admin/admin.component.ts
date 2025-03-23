@@ -8,7 +8,7 @@ import { Component, HostListener } from '@angular/core';
 })
 export class AdminComponent {
   
-  isSidebarOpen = true;
+  isSidebarOpen = false;
   isLargeScreen = window.innerWidth >= 992;
 
   currentSection: string = 'dashboard';

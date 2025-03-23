@@ -1,10 +1,122 @@
-/* Ensure the sidebar is hidden by default on small screens */
+
+.sidebar {
+  width: 265px;
+  background-color: var(--white);
+}
+
+.sidebar-link {
+  display: block;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sidebar-link-active {
+  color: var(--white);
+  background-color: var(--dark-green);
+}
+
+.sidebar-link-inactive {
+  color: var(--black);
+  background-color: transparent;
+}
+
+.sidebar-toggle-button {
+  display: block;
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  padding: 0.5rem;
+  background-color: var(--light);
+  border-radius: 0.5rem;
+}
+
+.logout-button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  color: var(--white);
+  background-color: var(--black);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main content styles */
+.main-content {
+  margin-left: 265px;
+}
+
+.main-content-nav {
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
+}
+
+.main-content-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.main-content-subtitle {
+  color: var(--subtitle);
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  margin-bottom: 0;
+}
+
+.main-content-icon {
+  cursor: pointer;
+}
+
+.user-image {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.main-content-area {
+  height: 100vh;
+  background-color: var(--dashBg);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Responsive Styles for Small Screens */
 @media (max-width: 991.98px) {
-    aside {
-      transform: translateX(-100%);
-    }
-  
-    aside.translate-x-0 {
-      transform: translateX(0);
-    }
+  aside {
+    transform: translateX(-100%);
   }
+
+  aside.translate-x-0 {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .main-content-nav {
+    padding: 0.5rem;
+  }
+
+  .main-content-title {
+    font-size: 1rem;
+  }
+
+  .main-content-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .user-image {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .main-content-area {
+    padding: 0.5rem;
+  }
+}

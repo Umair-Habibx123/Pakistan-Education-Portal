@@ -1,113 +1,171 @@
-<div
-style="background-color: var(--white);"
-class="border border-2 rounded-3 m-3 p-3 overflow-auto"
->
-<!-- Header Section -->
-<div
-  class="d-flex flex-column flex-sm-row justify-content-between align-items-center px-4 py-4 border-bottom"
->
+<div class="border border-2 rounded-3 m-3 p-3 overflow-auto custom-white-bg">
+  <!-- Header Section -->
+  <div
+    class="d-flex flex-column flex-sm-row justify-content-between align-items-center px-4 py-4 border-bottom"
+  >
+    <h2 class="h5 font-weight-bold mb-3 mb-sm-0">Recent Registrations</h2>
 
-  <h2 class="h5 font-weight-bold mb-3 mb-sm-0">Recent Registrations</h2>
- 
+    <button class="btn border rounded-1 px-5 py-2 custom-dark-green-btn">
+      Export All
+      <lucide-angular name="Send" class="s-2"></lucide-angular>
+    </button>
+  </div>
 
-  <button
-  class="btn border rounded-1 px-5 py-2"
-  style="background-color: var(--dark-green); color: var(--white);"
->
-Export All
-<lucide-angular name="Send" class="s-2"></lucide-angular>
-</button>
-
-</div>
-
-
-<!-- Table Section -->
-<table class="table w-100 text-left">
-  <thead>
-    <tr 
-    style="color: var(--subtitle);" class="border-bottom small">
-      <th class="p-3">Name</th>
-      <th class="p-3">Email</th>
-      <th class="p-3">Contact</th>
-      <th class="p-3">Cities</th>
-      <th class="p-3">Category</th>
-      <th class="p-3">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="let user of filteredUsers"
-      class="border-bottom small hover-light"
-    >
-      <td class="p-3 d-flex align-items-center">
-        <img
-          [src]="user.image"
-          class="rounded-circle"
-          style="width: 37px; height: 38px;"
-        />
-        <span class="ml-2">{{ user.name }}</span>
-      </td>
-      <td  style="color: var(--subtitle);" class="p-3">
-        {{ user.email }}
-      </td>
-      <td  style="color: var(--subtitle);" class="p-3">
-        {{ user.contact }}
-      </td>
-      <td  style="color: var(--subtitle);" class="p-3">
-        {{ user.cities }}
-      </td>
-      <td  style="color: var(--subtitle);" class="p-3">
-        {{ user.university }}
-      </td>
-      <td class="p-3">
-        <div class="d-flex align-items-center gap-2">
-         <i
-                class="cursor-pointer fa-eye fas"
-                style="color: var(--black); font-size: 1rem"
-              ></i>
-              <i
-              class="cursor-pointer fas fa-download"
-              style="color: var(--blue); font-size: 1rem"
+  <!-- Table Section -->
+  <table class="table w-100 text-left">
+    <thead>
+      <tr class="border-bottom small custom-subtitle-color">
+        <th class="p-3">Name</th>
+        <th class="p-3">Email</th>
+        <th class="p-3">Contact</th>
+        <th class="p-3">Cities</th>
+        <th class="p-3">University</th>
+        <th class="p-3">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let user of filteredUsers"
+        class="border-bottom small hover-light"
+      >
+        <td class="p-3 d-flex align-items-center">
+          <img
+            [src]="user.image"
+            class="rounded-circle custom-rounded-circle"
+          />
+          <span class="ml-2">{{ user.name }}</span>
+        </td>
+        <td class="p-3 custom-subtitle-color">
+          {{ user.email }}
+        </td>
+        <td class="p-3 custom-subtitle-color">
+          {{ user.contact }}
+        </td>
+        <td class="p-3 custom-subtitle-color">
+          {{ user.cities }}
+        </td>
+        <td class="p-3 custom-subtitle-color">
+          {{ user.university }}
+        </td>
+        <td class="p-3">
+          <div class="d-flex align-items-center gap-2">
+            <i
+              class="cursor-pointer fa-eye fas custom-black-icon"
+              data-bs-toggle="modal"
+              data-bs-target="#studentModal"
             ></i>
-          <i
-          class="cursor-pointer fa-trash-alt fas"
-          style="color: var(--red); font-size: 1rem"
-        ></i>
+            <i class="cursor-pointer fas fa-download custom-blue-icon"></i>
+            <i class="cursor-pointer fa-trash-alt fas custom-red-icon"></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Section -->
+  <div
+    class="d-flex flex-column flex-sm-row align-items-center border-top justify-content-end gap-2 mt-4 pt-4"
+  >
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-link p-0 fw-bold">1</button>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <button
+        class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 custom-pagination-btn"
+      >
+        <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
+        <span>Previous</span>
+      </button>
+      <button
+        class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 custom-pagination-btn"
+      >
+        <span>Next</span>
+        <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="studentModal"
+    tabindex="-1"
+    aria-labelledby="studentModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content p-4">
+        <!-- Modal Header -->
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold heading" id="studentModalLabel">
+            Student Information
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
-<!-- Pagination Section -->
-<div
-class="d-flex flex-column flex-sm-row align-items-center border-top justify-content-end gap-2 mt-4 pt-4"
->
-<div class="d-flex align-items-center gap-3">
-  <button
-    class="btn btn-link p-0 fw-bold"
-  >
-    1
-  </button>
-</div>
-<div class="d-flex align-items-center gap-2">
-  <button
-    class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2"
-    style="color: var(--subtitle)"
-  >
-    <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
-    <span>Previous</span>
-  </button>
-  <button
-    class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2"
-    style="color: var(--subtitle)"
-  >
-    <span>Next</span>
-    <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
-  </button>
-</div>
-</div>
-</div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="text-center">
+            <img
+              src="assets/studentprofile.png"
+              class="rounded-circle"
+              alt="Profile Image"
+              width="100"
+            />
+          </div>
 
+          <div class="row mt-4">
+            <!-- Personal Information -->
+            <div class="col-md-6">
+              <h6 class="fw-bold heading">Personal Information</h6>
+              <p><strong>First Name:</strong> Ahmed</p>
+              <p><strong>Last Name:</strong> Ali</p>
+              <p><strong>CNIC:</strong> 35203-4358564-6</p>
+              <p><strong>Phone Number:</strong> 03000000000</p>
+              <p><strong>Date of Birth:</strong> 03-10-1998</p>
+              <p><strong>Email:</strong> ahmed552@gmail.com</p>
+              <p><strong>Country:</strong> Africa</p>
+              <p><strong>City:</strong> Cape Town</p>
+              <p><strong>Language:</strong> English</p>
+              <p><strong>Religion:</strong> Non-Muslim</p>
+            </div>
 
-  
+            <!-- Educational Information -->
+            <div class="col-md-6">
+              <h6 class="fw-bold heading">Educational Information</h6>
+              <p>
+                <strong>University:</strong> Islamiyah University Bahawalpur
+              </p>
+              <p><strong>Campus:</strong> Bahawalpur</p>
+              <p><strong>City:</strong> Bahawalpur</p>
+              <p><strong>Program:</strong> MS</p>
+              <p><strong>Course:</strong> Computer Science</p>
+              <p><strong>Duration:</strong> 24 Months</p>
+            </div>
+          </div>
+
+          <!-- Documents Section -->
+          <h6 class="fw-bold mt-4 heading">Documents</h6>
+          <div class="d-flex gap-3">
+            <button class="btn btn-outline-danger">
+              <i class="bi bi-file-earmark-pdf"></i> Guide.pdf
+              <i class="bi bi-download"></i>
+            </button>
+            <button class="btn btn-outline-danger">
+              <i class="bi bi-file-earmark-pdf"></i> Guide.pdf
+              <i class="bi bi-download"></i>
+            </button>
+            <button class="btn btn-outline-primary">
+              <i class="bi bi-file-earmark"></i> SS.doc
+              <i class="bi bi-download bi-"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

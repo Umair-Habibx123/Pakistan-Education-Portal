@@ -1,3 +1,228 @@
+.custom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+}
+
+.detail-container
+{
+  padding-top: 72px;
+}
+
+.image-padding {
+  padding: 16px;
+}
+
+.custom-image {
+  max-width: 150px;
+  height: auto;
+}
+
+.content-wrapper {
+  padding: 40px 20px;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.badge-container {
+  background-color: var(--light-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 48px;
+  width: auto;
+  padding: 8px 16px;
+}
+
+.icon-style {
+  color: var(--dark-green);
+  font-size: 16px;
+  padding-right: 8px;
+}
+
+.badge-text {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0;
+}
+
+.main-heading {
+  font-size: 72px;
+  font-weight: bold;
+  color: var(--black);
+  margin: 20px 0;
+}
+
+.highlight-text {
+  color: var(--active-link-pink);
+}
+
+.description-text {
+  font-size: 18px;
+  color: var(--gray);
+  margin: 20px 0;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  border: 1px solid var(--gray);
+  border-radius: 48px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 48px;
+  border: 1px solid var(--gray);
+  flex: 1;
+  min-width: 150px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 48px;
+  background-color: var(--dark-green);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+
+/* Custom Padding */
+.custom-padding {
+  padding: 0px 96px;
+}
+
+/* Search Result Heading */
+.search-result-heading {
+  font-size: 24px;
+}
+
+.highlight-text2 {
+  font-weight: bold;
+  color: var(--black);
+}
+
+/* Search Result Subtitle */
+.search-result-subtitle {
+  font-size: 20px;
+  color: #4E5255;
+  margin-top: 10px;
+}
+
+/* No Results Heading */
+.no-results-heading {
+  font-size: 24px;
+  color: var(--black);
+}
+
+/* University Card */
+.university-card {
+  cursor: pointer;
+}
+
+.university-image-container {
+  width: 100%;
+  padding-bottom: 55%;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.university-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.university-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background-color: var(--white);
+  border-radius: 50%;
+  padding: 6px;
+}
+
+.university-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.university-details {
+  font-size: 14px;
+  color: var(--gray);
+  margin: 0;
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  border-top: 1px solid var(--gray);
+  padding-top: 16px;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-button {
+  font-weight: bold;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--subtitle);
+  cursor: pointer;
+}
+
+.pagination-button.active-page {
+  font-weight: bold;
+  color: var(--black);
+}
+
+.pagination-navigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 2px solid var(--gray);
+  background-color: var(--white);
+  color: var(--subtitle);
+  font-weight: 500;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .container-fluid {
     padding: 40px 20px !important;
@@ -9,6 +234,11 @@
     margin: 10px 0 !important;
   }
 
+  .logo-image {
+    height: 35px !important;
+    width: 35px !important;
+  }
+
   p {
     font-size: 16px !important;
     margin: 10px 0 !important;
@@ -17,6 +247,38 @@
   .search-form {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .search-form select,
+  .search-form button {
+    width: 100%;
+    min-width: auto !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .container-fluid {
+    padding: 30px 15px !important;
+  }
+
+  h1 {
+    font-size: 30px !important;
+    margin: 8px 0 !important;
+  }
+
+  .logo-image {
+    height: 25px !important;
+    width: 25px !important;
+  }
+
+  p {
+    font-size: 14px !important;
+    margin: 8px 0 !important;
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 8px;
   }
 
   .search-form select,

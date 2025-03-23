@@ -14,6 +14,8 @@ import { AdminResetPasswordComponent } from 'libs/admin/admin-auth/admin-reset-p
 import { LoginComponent } from 'libs/pages/auth/login/login.component';
 import { AdminUniversityDetailComponent } from 'libs/admin/universities/admin-university-detail/admin-university-detail.component';
 import { ApplyThroughUSComponent } from 'libs/pages/home-page/apply-through-us/apply-through-us.component';
+import { AdminForgotComponent } from 'libs/admin/admin-auth/admin-forgot/admin-forgot.component';
+import { AdminEnterCodeComponent } from 'libs/admin/admin-auth/admin-enter-code/admin-enter-code.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -33,7 +35,9 @@ const routes: Routes = [
   {
     path: 'adminAuth', component: AdminAuthComponent, children: [
       { path: 'adminLogin', component: AdminLoginComponent },
+      { path: 'adminForgotPassword', component: AdminForgotComponent },
       { path: 'adminResetPassword', component: AdminResetPasswordComponent },
+      { path: 'adminEnterCode', component: AdminEnterCodeComponent },
       { path: '', redirectTo: '/', pathMatch: 'full' },
     ]
   },

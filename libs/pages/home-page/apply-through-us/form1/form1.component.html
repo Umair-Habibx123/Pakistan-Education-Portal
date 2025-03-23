@@ -1,8 +1,7 @@
 <div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4">
   <h3 class="h5 font-weight-semibold">Personal Details</h3>
   <button
-    class="btn text-white px-4 py-2 font-weight-semibold"
-    style="background-color: var(--dark-green); border: 2px solid; border-radius: 48px"
+    class="btn custom-btn"
     (click)="goToNext()"
   >
     Save & Next
@@ -56,11 +55,8 @@
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Phone Number</label>
-      <div class="d-flex border-1 px-2 rounded w-100" style="border: 1px solid var(--gray)">
-        <select
-          class="form-select border-0 border-end rounded-0 bg-transparent"
-          style="width: 125px"
-        >
+      <div class="phone-input-container">
+        <select class="custom-select">
           <option>Pak +92</option>
         </select>
         <input
@@ -137,8 +133,7 @@
       <textarea
         [(ngModel)]="address"
         placeholder="Enter your address"
-        class="form-control border-2 py-2 px-3 rounded w-100"
-        style="resize: none; height: 128px"
+        class="form-control border-2 py-2 px-3 rounded custom-textarea"
       ></textarea>
     </div>
   </div>
@@ -147,18 +142,13 @@
   <div class="col-12 col-md-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Profile Picture</label>
-      <div
-        class="py-2 px-3 rounded d-flex flex-column align-items-center justify-content-center"
-        style="height: 128px; border: 2px dashed var(--gray)"
-      >
-        <div class="text-center">
-          <span class="d-block">
+      <div class="profile-pic-upload">
+        <div class="upload-text">
+          <span>
             Drag & drop files or
-            <span class="font-weight-bold cursor-pointer text-decoration-underline">
-              Browse
-            </span>
+            <span class="browse-link">Browse</span>
           </span>
-          <span class="d-block text-muted">Supported formats: JPEG, PNG</span>
+          <span class="supported-formats">Supported formats: JPEG, PNG</span>
         </div>
       </div>
     </div>

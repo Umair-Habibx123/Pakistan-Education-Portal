@@ -5,6 +5,7 @@
   right: 0;
   z-index: 1000; 
   transition: transform 0.3s ease-in-out;
+  background-color: var(--main-pink);
 }
 
 .navbar-hidden {
@@ -13,4 +14,77 @@
 
 .active-link {
   color:  var(--active-link-pink) !important;
+}
+
+/* Logo Image */
+.logo-img {
+  height: 50px;
+  width: 200px;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+  border: none;
+  background: none;
+}
+
+.mobile-menu-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--black);
+}
+
+/* Navbar Links (Desktop) */
+.navbar-links {
+  font-size: 18px;
+}
+
+.router-link {
+  color: var(--black);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+}
+
+/* Auth Buttons (Desktop) */
+.auth-buttons-container {
+  border: 3px solid var(--dark-green);
+  border-radius: 48px;
+}
+
+.auth-link {
+  color: var(--black);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  padding: 2px 4px;
+}
+
+.auth-icon-container {
+  width: 30px;
+  height: 30px;
+  background-color: var(--dark-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Mobile Menu (Small Screens) */
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-menu-link {
+  color: var(--black);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  text-decoration: none;
 }
