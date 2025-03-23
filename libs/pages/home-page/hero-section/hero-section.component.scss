@@ -50,10 +50,14 @@
 
 .main-heading {
   font-size: 72px;
-  font-weight: bold;
+  font-weight: 500;
+  line-height:   86.4px;
+  letter-spacing: 0%;
+  vertical-align: middle;
   color: var(--black);
   margin: 20px 0;
 }
+
 
 .highlight-text {
   color: var(--active-link-pink);
