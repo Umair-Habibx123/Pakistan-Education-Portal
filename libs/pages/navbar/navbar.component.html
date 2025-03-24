@@ -1,22 +1,17 @@
-<div class="navbar-container" [ngClass]="{'navbar-hidden': isNavbarHidden}">
+<div class="navbar-container" [ngClass]="{ 'navbar-hidden': isNavbarHidden }">
   <div class="px-4 px-sm-8 px-md-14 py-2">
-    <nav class="d-flex justify-content-between align-items-center py-2 px-4 px-md-8">
+    <nav
+      class="d-flex justify-content-between align-items-center py-2 px-4 px-md-8"
+    >
       <!-- Logo -->
       <div class="d-flex align-items-center">
         <a [routerLink]="'/'">
-          <img
-            src="assets/logo.png"
-            alt="logo"
-            class="img-fluid logo-img"
-          />
+          <img src="assets/logo.png" alt="logo" class="img-fluid logo-img" />
         </a>
       </div>
 
       <!-- Mobile Menu Button (Visible only on small screens) -->
-      <button
-        class="d-md-none mobile-menu-button"
-        (click)="toggleMenu()"
-      >
+      <button class="d-md-none mobile-menu-button" (click)="toggleMenu()">
         <svg
           class="mobile-menu-icon"
           fill="none"
@@ -47,13 +42,11 @@
       </div>
 
       <!-- Auth Buttons (Visible only on medium and larger screens) -->
-      <div class="d-none d-md-flex align-items-center px-2 py-2 auth-buttons-container">
-        <a
-          routerLink="/auth/login"
-          class="auth-link"
-        >
-          Log-in / Sign Up
-        </a>
+      <div
+        routerLink="/auth/login"
+        class="d-none d-md-flex align-items-center px-2 py-2 auth-buttons-container"
+      >
+        <a class="auth-link"> Log-in / Sign Up </a>
 
         <div class="auth-icon-container">
           <svg
