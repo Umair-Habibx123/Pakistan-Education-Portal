@@ -18,7 +18,7 @@ export class AdminComponent {
     { id: 'registrations', label: 'Registrations', icon: 'NotebookTabs' },
     { id: 'sliders', label: 'Sliders', icon: 'Images' },
     { id: 'universities', label: 'Universities', icon: 'University' },
-    { id: 'aboutUs', label: 'About Us', icon: 'FileText' },
+    // { id: 'aboutUs', label: 'About Us', icon: 'FileText' },
     { id: 'privacy', label: 'Privacy Policy', icon: 'CircleAlert' },
     { id: 'settings', label: 'Settings', icon: 'Settings' },
   ];

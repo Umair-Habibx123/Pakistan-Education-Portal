@@ -84,29 +84,35 @@
       <div class="modal-body">
         <label class="form-label custom-form-label">Slider Image</label>
 
-        <!-- <div class="custom-dashed-border ">
-          <i class="bi bi-upload fs-1"></i>
-          <p class="fw-bold custom-upload-text">Upload Image</p>
-          <p class="text-muted small">
-            Supported Formats: Svg, Png, Jpg
-          </p>
-          <input
-            type="file"
-            class="d-none form-control"
-            id="fileUpload"
-          />
-        </div> -->
-        <div class="custom-dashed-border" (click)="triggerFileUpload()">
-          <i class="bi bi-upload fs-1"></i>
-          <p class="fw-bold custom-upload-text">Upload Image</p>
-          <p class="text-muted small">Supported Formats: Svg, Png, Jpg</p>
+
+        <div class="custom-dashed-border position-relative" (click)="triggerFileUpload()">
+          <!-- Upload icon/text (shown when no image) -->
+          <div *ngIf="!previewImageUrl" class="upload-placeholder">
+            <i class="bi bi-upload fs-1"></i>
+            <p class="fw-bold custom-upload-text">Upload Image</p>
+            <p class="text-muted small">Supported Formats: Svg, Png, Jpg</p>
+          </div>
+        
+          <!-- Image preview (shown when image is selected) -->
+          <div *ngIf="previewImageUrl" class="image-preview-container">
+            <img [src]="previewImageUrl" alt="Preview" class="preview-image">
+            <div class="image-overlay">
+              <i class="bi bi-arrow-repeat fs-4"></i>
+              <span class="small">Change Image</span>
+            </div>
+          </div>
+        
+          <!-- Hidden file input -->
           <input
             type="file"
             #fileInput
             class="d-none form-control"
             (change)="onFileSelected($event)"
+            accept=".svg, .png, .jpg"
           />
         </div>
+       
+        
       </div>
       <div class="modal-footer custom-modal-footer-btn">
         <button type="button" class="btn btn-success w-100">Add Slider</button>

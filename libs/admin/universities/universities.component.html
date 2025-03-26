@@ -4,11 +4,14 @@
     <div class="bg-white border border-2 m-2 p-3 rounded-3">
       <!-- Grid View -->
       <div *ngIf="!showDetailView">
-
-        <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4">
+        <div
+          class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
+        >
           <h2 class="font-weight-bold h5 mb-0">University Details</h2>
-  
-          <div class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65">
+
+          <div
+            class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65"
+          >
             <!-- Search Input -->
             <div class="input-group w-75 w-sm-75 custom-input-height">
               <span class="input-group-text bg-light border-0">
@@ -39,7 +42,9 @@
               *ngFor="let university of filteredUniversities"
               (click)="showUniversityDetail(university)"
             >
-              <div class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card">
+              <div
+                class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card"
+              >
                 <div>
                   <img
                     [src]="university.logo"
@@ -66,7 +71,9 @@
                     {{ university.programsCount }} Programs
                   </div>
                 </div>
-                <div class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons">
+                <div
+                  class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
+                >
                   <i class="text-danger cursor-pointer fa-trash-alt fas"></i>
                   <i class="text-primary cursor-pointer fa-edit fas"></i>
                 </div>
@@ -124,7 +131,7 @@
 </div>
 
 <!-- Modal -->
- 
+
 <!-- Modal -->
 <div
   class="modal fade"
@@ -151,30 +158,30 @@
       <div class="px-4 pt-2">
         <div class="d-flex flex-column flex-sm-row gap-3">
           <div class="form-check p-3 flex-grow-1">
-            <input 
-              class="form-check-input" 
-              type="radio" 
-              name="AddOption" 
-              id="AddNew" 
-              [(ngModel)]="universityOption" 
+            <input
+              class="form-check-input"
+              type="radio"
+              name="AddOption"
+              id="AddNew"
+              [(ngModel)]="universityOption"
               value="new"
               (change)="onUniversityOptionChange()"
               checked
-            >
+            />
             <label class="form-check-label fw-medium" for="AddNew">
               Add New University
             </label>
           </div>
           <div class="form-check p-3 flex-grow-1">
-            <input 
-              class="form-check-input" 
-              type="radio" 
-              name="AddOption" 
-              id="ExistingUni" 
-              [(ngModel)]="universityOption" 
+            <input
+              class="form-check-input"
+              type="radio"
+              name="AddOption"
+              id="ExistingUni"
+              [(ngModel)]="universityOption"
               value="existing"
               (change)="onUniversityOptionChange()"
-            >
+            />
             <label class="form-check-label fw-medium" for="ExistingUni">
               Existing University
             </label>
@@ -187,32 +194,63 @@
           <!-- University Logo Upload -->
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label custom-form-label">University Logo</label>
-            <div class="p-4 rounded text-center custom-dashed-border">
-              <i class="bi bi-upload fs-1"></i>
-              <p class="fw-bold custom-upload-text">Upload Image</p>
-              <p class="text-muted small">
-                Supported Formats: Svg, Png, Jpg
-              </p>
+            <div
+              class="p-4 rounded text-center custom-dashed-border"
+              (click)="triggerLogoUpload()"
+            >
+              <div *ngIf="!logoPreviewUrl" class="upload-placeholder">
+                <i class="bi bi-upload fs-1"></i>
+                <p class="fw-bold custom-upload-text">Upload Logo</p>
+                <p class="text-muted small">Supported Formats: Svg, Png, Jpg</p>
+              </div>
+        
+              <!-- Logo preview -->
+              <div *ngIf="logoPreviewUrl" class="image-preview-container">
+                <img [src]="logoPreviewUrl" alt="Logo Preview" class="preview-image" />
+                <div class="image-overlay">
+                  <i class="bi bi-arrow-repeat fs-4"></i>
+                  <span class="small">Change Logo</span>
+                </div>
+              </div>
+        
               <input
                 type="file"
+                #logoInput
                 class="d-none form-control"
-                id="logoUpload"
+                (change)="onLogoSelected($event)"
+                accept=".svg, .png, .jpg, .jpeg"
               />
             </div>
           </div>
+        
           <!-- University Image Upload -->
           <div class="col-md-6">
             <label class="form-label custom-form-label">University Image</label>
-            <div class="p-4 rounded text-center custom-dashed-border">
-              <i class="bi bi-upload fs-1"></i>
-              <p class="fw-bold custom-upload-text">Upload Image</p>
-              <p class="text-muted small">
-                Supported Formats: Png, Jpg
-              </p>
+            <div
+              class="p-4 rounded text-center custom-dashed-border"
+              (click)="triggerImageUpload()"
+            >
+              <div *ngIf="!imagePreviewUrl" class="upload-placeholder">
+                <i class="bi bi-upload fs-1"></i>
+                <p class="fw-bold custom-upload-text">Upload Image</p>
+                <p class="text-muted small">Supported Formats: Svg, Png, Jpg</p>
+              </div>
+        
+              <!-- Image preview -->
+              <div *ngIf="imagePreviewUrl" class="image-preview-container">
+                <img [src]="imagePreviewUrl" alt="Image Preview" class="preview-image" />
+                <div class="image-overlay">
+                  <i class="bi bi-arrow-repeat fs-4"></i>
+                  <span class="small">Change Image</span>
+                </div>
+              </div>
+        
               <input
                 type="file"
+                #imageInput
                 class="d-none form-control"
-                id="imageUpload"
+                (change)="onImageSelected($event)"
+                accept=".svg, .png, .jpg, .jpeg"
               />
             </div>
           </div>
@@ -253,7 +291,9 @@
         </div>
 
         <div class="mt-3">
-          <label class="form-label custom-form-label">Campus Location/City</label>
+          <label class="form-label custom-form-label"
+            >Campus Location/City</label
+          >
           <select class="form-select" [(ngModel)]="newUniversity.location">
             <option [ngValue]="null" disabled>Select City</option>
             <option>Islamabad</option>
