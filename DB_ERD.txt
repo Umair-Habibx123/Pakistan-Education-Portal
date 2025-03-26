@@ -1,0 +1,125 @@
+table tbl_user as user{
+  userID bigint [pk]  
+  email varcahr(50)
+  password varcahr(50)
+  profile_pic_eDoc varchar(50)  
+  userRoleID int [ref: > ur.userRoleID]  
+}
+
+table tbl_user_role as ur{
+  userRoleID int [pk]
+  userID int [ref :> user.userID]
+  roleID int [ref :> role.roleID]
+}
+
+table tbl_role as role{
+  roleID int [pk]
+  roleTitle varchar(50)
+}
+
+table tbl_user_personal_info as upi{
+  userPersonalInfoID bigint [pk]
+  userID bigint [ref :> user.userID]
+  fullname varchar(50)
+  fatherName varchar(50)
+  cnic varchar(15)
+  phoneNumber varchar(15)  
+  dateOfBirth date  
+  address varchar(50)
+  country varchar(15)  
+  city varchar(15)  
+  language varchar(15) 
+  religion varchar(15)  
+  eDoc varchar(50)
+}
+
+table tbl_user_education as ue {
+  userEducationID bigint [pk]
+  userID bigint [ref :> user.userID]
+  institutationName varchar(50)
+  degree varchar(50)  
+  courseName varchar(50)
+  eDoc varchar(50) //marksheet, degree
+  educationTypeID int [ref: > et.educationTypeID]
+}
+
+table tbl_education_type as et{
+  educationTypeID int [pk]
+  educationTypeTitle varchar(50)
+}
+
+
+table tbl_university as uni{
+  uniID bigint [pk]
+  enteredBy bigint [ref :> user.userID]
+  universityName varchar
+  eDoc varchar(50) //image, logo
+  tuitionFee varchar(50)
+  studyLevel varchar(50)
+  enteredDate date
+}
+
+table tbl_application as apply{
+  applicationID bigint [pk]
+  userID bigint [ref :> user.userID]
+  // uniId int [ref: > uni.uniID]
+  // campusId bigint [ref :> cam.campusID]
+  // programId bigint [ref :> prog.programID]
+  programId bigint [ref: > prog.programID] // Links to program, which ties to campus and university
+  applicationDate date
+  status varchar(50) // status to track application progress
+}
+
+
+
+table tbl_campus as cam {
+  campusID bigint [pk]
+  uniId int [ref: > uni.uniID]
+  cityID bigint [ref: > cty.cityID, unique] // Campus -> City (1:1)
+  campusName varchar(50)
+}
+
+table tbl_program as prog{
+  programID bigint [pk]
+  uniID bigint [ref :> uni.uniID]
+  campusId bigint [ref : > cam.campusID]
+  programName varchar(50)
+  degreeLevel varchar(50)
+  applicationFee varchar(50)
+  duration varchar(50)
+}
+
+table tbl_city as cty {
+  cityID bigint [pk]
+  cityName varchar(50)
+}
+
+
+
+table tbl_campus_program {
+  campusID bigint [ref: > cam.campusID]
+  programID bigint [ref: > prog.programID]
+  tuitionFee decimal(10, 2)
+  indexes {
+    (campusID, programID) [unique] // Ensures each campus-program pair is unique 
+  }
+}
+
+table tbl_contactInfo as cont
+{
+  contactID bigint [pk]
+  uniID bigint [ref :> uni.uniID]
+  employeeName varchar(255)
+  designation varchar(255)
+  email varchar(255)
+  contact varchar(50)
+  whatsApp varchar(50)
+}
+
+table tbl_AboutUs as about
+{
+  aboutID bigint [pk]
+  heading varchar(50)
+  description varchar (255)
+  eDoc varchar(50)
+}

@@ -10,31 +10,56 @@
 
 <div class="row g-3">
   <!-- University -->
+
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">University</label>
+      <label class="font-weight-medium pb-2">Education Type</label>
       <select
-        class="form-select border-2 py-2 px-3 rounded"
-        [(ngModel)]="University"
-      >
-        <option value="null" disabled>Select University</option>
-        <option *ngFor="let uni of Universities" [value]="uni">
-          {{ uni }}
-        </option>
-      </select>
+      class="form-select border-2 py-2 px-3 rounded"
+      [(ngModel)]="EducationType"
+    >
+      <option value="null" disabled>Select Education Type</option>
+      <option *ngFor="let eduType of eduType" [value]="eduType">{{ eduType }}</option>
+    </select>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">Institute Name</label>
+      <input
+      type="text"
+      [(ngModel)]="InstituteName"
+      required
+      placeholder="Enter Institute Name"
+      class="form-control border-2 py-2 px-3 rounded"
+    />
     </div>
   </div>
 
   <!-- Degree -->
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">Degree</label>
+      <label class="font-weight-medium pb-2">Campus</label>
+      <input
+      type="text"
+      [(ngModel)]="campusName"
+      required
+      placeholder="Enter Campus Name"
+      class="form-control border-2 py-2 px-3 rounded"
+    />
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-6">
+    <div class="d-flex flex-column">
+      <label class="font-weight-medium pb-2">City</label>
       <select
         class="form-select border-2 py-2 px-3 rounded"
-        [(ngModel)]="Degree"
+        [(ngModel)]="language"
       >
-        <option value="null" disabled>Select Degree</option>
-        <option *ngFor="let deg of degree" [value]="deg">{{ deg }}</option>
+        <option value="null" disabled>Select City Name</option>
+        <option *ngFor="let city of City" [value]="city">{{ city }}</option>
       </select>
     </div>
   </div>
@@ -56,10 +81,10 @@
   <!-- Institute Name -->
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">Institute Name</label>
+      <label class="font-weight-medium pb-2">Duration</label>
       <input
         type="text"
-        [(ngModel)]="InsttuteName"
+        [(ngModel)]="Duration"
         required
         placeholder="Enter Institute Name"
         class="form-control border-2 py-2 px-3 rounded"

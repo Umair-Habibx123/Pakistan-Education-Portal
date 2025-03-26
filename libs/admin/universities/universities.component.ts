@@ -9,13 +9,27 @@ import { UniversityDataService } from '../../service/UniversityData/university-d
 })
 export class UniversitiesComponent implements OnInit {
 
-  
-
+  universityOption: 'new' | 'existing' = 'new';
+  newUniversity = {
+    name: '',
+    campus: '',
+    location: null
+  };
+  selectedExistingUniversity: any = null;
   universities: any[] = [];
   filteredUniversities: any[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 9;
   totalPages: number = 0;
+
+  
+  existingUniversities = [
+    { id: 1, name: 'COMSATS University' },
+    { id: 2, name: 'Quaid-i-Azam University' },
+    { id: 3, name: 'Lahore University of Management Sciences' },
+    { id: 4, name: 'University of the Punjab' },
+    { id: 5, name: 'National University of Sciences and Technology' }
+  ];
  
   selectedUniversity: any = null;
   showDetailView = false;
@@ -24,6 +38,27 @@ export class UniversitiesComponent implements OnInit {
   ngOnInit(): void {
     this.universities = this.universityService.getUniversities();
     this.updateFilteredUniversities();
+  }
+
+
+  onUniversityOptionChange() {
+    // Reset selections when changing options
+    this.newUniversity = {
+      name: '',
+      campus: '',
+      location: null
+    };
+    this.selectedExistingUniversity = null;
+  }
+
+
+  
+  addUniversity() {
+    if (this.universityOption === 'new') {
+      console.log('Adding new university:', this.newUniversity);
+    } else {
+      console.log('Adding campus to existing university:', this.selectedExistingUniversity, this.newUniversity);
+    }
   }
 
   showUniversityDetail(university: any) {

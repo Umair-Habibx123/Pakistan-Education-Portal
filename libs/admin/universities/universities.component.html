@@ -124,6 +124,8 @@
 </div>
 
 <!-- Modal -->
+ 
+<!-- Modal -->
 <div
   class="modal fade"
   id="universityModal"
@@ -144,6 +146,42 @@
           aria-label="Close"
         ></button>
       </div>
+
+      <!-- Radio buttons for selection -->
+      <div class="px-4 pt-2">
+        <div class="d-flex flex-column flex-sm-row gap-3">
+          <div class="form-check p-3 flex-grow-1">
+            <input 
+              class="form-check-input" 
+              type="radio" 
+              name="AddOption" 
+              id="AddNew" 
+              [(ngModel)]="universityOption" 
+              value="new"
+              (change)="onUniversityOptionChange()"
+              checked
+            >
+            <label class="form-check-label fw-medium" for="AddNew">
+              Add New University
+            </label>
+          </div>
+          <div class="form-check p-3 flex-grow-1">
+            <input 
+              class="form-check-input" 
+              type="radio" 
+              name="AddOption" 
+              id="ExistingUni" 
+              [(ngModel)]="universityOption" 
+              value="existing"
+              (change)="onUniversityOptionChange()"
+            >
+            <label class="form-check-label fw-medium" for="ExistingUni">
+              Existing University
+            </label>
+          </div>
+        </div>
+      </div>
+
       <div class="modal-body">
         <div class="row">
           <!-- University Logo Upload -->
@@ -182,37 +220,60 @@
 
         <!-- University Details -->
         <div class="row mt-4 custom-form-label">
+          <!-- Dynamic University Name Field -->
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">University Name</label>
             <input
+              *ngIf="universityOption === 'new'"
               type="text"
               class="form-control"
               placeholder="COMSATS University"
+              [(ngModel)]="newUniversity.name"
             />
+            <select
+              *ngIf="universityOption === 'existing'"
+              class="form-select"
+              [(ngModel)]="selectedExistingUniversity"
+            >
+              <option [ngValue]="null" disabled>Select University</option>
+              <option *ngFor="let uni of existingUniversities" [ngValue]="uni">
+                {{ uni.name }}
+              </option>
+            </select>
           </div>
           <div class="col-md-6">
             <label class="form-label">Campus Name</label>
             <input
               type="text"
               class="form-control"
-              placeholder="Islamabad, Punjab, Pakistan"
+              placeholder="Islamabad Campus"
+              [(ngModel)]="newUniversity.campus"
             />
           </div>
         </div>
 
         <div class="mt-3">
-          <label class="form-label custom-form-label">Location</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Islamabad, Punjab, Pakistan"
-          />
+          <label class="form-label custom-form-label">Campus Location/City</label>
+          <select class="form-select" [(ngModel)]="newUniversity.location">
+            <option [ngValue]="null" disabled>Select City</option>
+            <option>Islamabad</option>
+            <option>Lahore</option>
+            <option>Karachi</option>
+            <option>Peshawar</option>
+            <option>Quetta</option>
+            <option>Faisalabad</option>
+            <option>Multan</option>
+            <option>Rawalpindi</option>
+            <option>Hyderabad</option>
+            <option>Gujranwala</option>
+          </select>
         </div>
       </div>
       <div class="modal-footer">
         <button
           type="button"
           class="btn btn-success w-100 custom-modal-footer-btn"
+          (click)="addUniversity()"
         >
           Add University
         </button>

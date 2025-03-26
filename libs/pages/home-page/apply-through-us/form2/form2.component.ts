@@ -12,13 +12,17 @@ export class Form2Component {
   // Declaration of Form fields
   University: string = '';
   Degree: string = '';
-  language: string = ''; // This should be 'course' to match the HTML, but since the HTML uses 'language', we'll keep it as is.
-  InsttuteName: string = '';
+  language: string = '';
+  InstituteName: string = '';
+  campusName: String = '';
+  EducationType: String = '';
+  Duration: String = '';
 
   // Dropdown options
   Universities = ['NUML', 'NUST', 'COMSATS'];
-  degree = ['Bachelor of Science', 'Master of Science', 'PhD'];
+  City = ['Islamabad', 'Lahore', 'Karachi'];
   course = ['Computer Science', 'Business Administration', 'Economics'];
+  eduType = ["matric" , "Inter"];
 
   validateForm(): boolean {
     // Validate University
@@ -40,7 +44,7 @@ export class Form2Component {
     }
 
     // Validate Institute Name
-    if (this.InsttuteName.length < 3) {
+    if (this.InstituteName.length < 3) {
       alert('Please enter a valid institute name');
       return false;
     }
