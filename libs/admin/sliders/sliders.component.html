@@ -2,12 +2,14 @@
   <!-- Scrollable Content -->
   <div class="flex-grow-1 p-4 p-sm-6 overflow-auto">
     <div class="border border-2 m-2 p-3 rounded-3 custom-white-bg">
-
-
-      <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4">
+      <div
+        class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
+      >
         <h2 class="font-weight-bold h5 mb-0">Slider Details</h2>
 
-        <div class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65">
+        <div
+          class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65"
+        >
           <!-- Search Input -->
           <div class="input-group w-75 w-sm-75 custom-input-height">
             <span class="input-group-text bg-light border-0">
@@ -33,7 +35,9 @@
       <!-- Grid Section -->
       <div class="g-4 row row-cols-1 row-cols-lg-2 row-cols-sm-2 px-4 py-4">
         <div *ngFor="let slide of slides" class="col">
-          <div class="d-flex flex-column border shadow-sm cursor-pointer gap-2 group">
+          <div
+            class="d-flex flex-column border shadow-sm cursor-pointer gap-2 group"
+          >
             <div class="position-relative z-100">
               <!-- Image -->
               <img
@@ -42,7 +46,9 @@
                 class="custom-slider-image"
               />
               <!-- Edit and Delete Icons (Always Visible) -->
-              <div class="d-flex m-3 p-2 position-absolute rounded end-0 gap-2 top-0 custom-action-buttons">
+              <div
+                class="d-flex m-3 p-2 position-absolute rounded end-0 gap-2 top-0 custom-action-buttons"
+              >
                 <i class="cursor-pointer fa-edit fas custom-blue-icon"></i>
                 <i class="cursor-pointer fa-trash-alt fas custom-red-icon"></i>
               </div>
@@ -78,7 +84,7 @@
       <div class="modal-body">
         <label class="form-label custom-form-label">Slider Image</label>
 
-        <div class="custom-dashed-border">
+        <!-- <div class="custom-dashed-border ">
           <i class="bi bi-upload fs-1"></i>
           <p class="fw-bold custom-upload-text">Upload Image</p>
           <p class="text-muted small">
@@ -89,12 +95,21 @@
             class="d-none form-control"
             id="fileUpload"
           />
+        </div> -->
+        <div class="custom-dashed-border" (click)="triggerFileUpload()">
+          <i class="bi bi-upload fs-1"></i>
+          <p class="fw-bold custom-upload-text">Upload Image</p>
+          <p class="text-muted small">Supported Formats: Svg, Png, Jpg</p>
+          <input
+            type="file"
+            #fileInput
+            class="d-none form-control"
+            (change)="onFileSelected($event)"
+          />
         </div>
       </div>
       <div class="modal-footer custom-modal-footer-btn">
-        <button type="button" class="btn btn-success w-100">
-          Add Slider
-        </button>
+        <button type="button" class="btn btn-success w-100">Add Slider</button>
       </div>
     </div>
   </div>
