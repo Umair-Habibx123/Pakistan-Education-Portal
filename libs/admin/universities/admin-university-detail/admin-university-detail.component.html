@@ -121,6 +121,7 @@
           Add New Program
         </h5>
         <button
+        (click)="resetForm()"
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
@@ -132,7 +133,7 @@
           <!-- Degree Level -->
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Degree Level</label>
-            <select class="form-select">
+            <select class="form-select"  [(ngModel)]="newProgram.degreeLevel">
               <option selected>MS</option>
               <option>BS</option>
               <option>PhD</option>
@@ -141,7 +142,7 @@
           <!-- Subjects -->
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Subjects</label>
-            <select class="form-select">
+            <select class="form-select"  [(ngModel)]="newProgram.subjects">
               <option selected>Data Science</option>
               <option>Computer Science</option>
               <option>Artificial Intelligence</option>
@@ -153,19 +154,14 @@
           <!-- Application Fee -->
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Application Fee</label>
-            <input type="text" class="form-control" placeholder="$125" />
+            <input type="text" class="form-control" placeholder=""  [(ngModel)]="newProgram.fee"/>
           </div>
           <!-- Duration -->
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Duration</label><br />
-            <!-- <input
-              type="text"
-              class="form-control"
-              placeholder="24 Month"
-            /> -->
             <label
-              class="form-label"
-            >label...</label>
+              class="form-label"  [(ngModel)]="newProgram.duration"
+            ></label>
           </div>
         </div>
       </div>

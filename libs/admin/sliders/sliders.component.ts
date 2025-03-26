@@ -48,4 +48,9 @@ export class SlidersComponent {
       console.log('Selected file:', file);
     }
   }
+  resetForm()
+  {
+    this.previewImageUrl = null;
+
+  }
 }

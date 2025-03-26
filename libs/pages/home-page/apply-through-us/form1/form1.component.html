@@ -1,11 +1,8 @@
-<div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4">
+<div
+  class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4"
+>
   <h3 class="h5 font-weight-semibold">Personal Details</h3>
-  <button
-    class="btn custom-btn"
-    (click)="goToNext()"
-  >
-    Save & Next
-  </button>
+  <button class="btn custom-btn" (click)="goToNext()">Save & Next</button>
 </div>
 
 <div class="row g-3">
@@ -140,17 +137,41 @@
 
   <!-- Profile Picture -->
   <div class="col-12 col-md-6">
-    <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">Profile Picture</label>
-      <div class="profile-pic-upload">
-        <div class="upload-text">
-          <span>
-            Drag & drop files or
-            <span class="browse-link">Browse</span>
-          </span>
-          <span class="supported-formats">Supported formats: JPEG, PNG</span>
+    <label class="font-weight-medium pb-2">Profile Picture</label>
+
+    <div
+      class="d-flex flex-column custom-dashed-border position-relative"
+      (click)="triggerFileUpload()"
+    >
+      <div *ngIf="!previewImageUrl" class="upload-placeholder">
+        <div class="profile-pic-upload">
+          <div class="upload-text">
+            <span>
+              Drag & drop files or
+              <span class="browse-link">Browse</span>
+            </span>
+            <span class="supported-formats">Supported formats: JPEG, PNG</span>
+          </div>
         </div>
       </div>
+
+      <!-- Image preview (shown when image is selected) -->
+      <div *ngIf="previewImageUrl" class="image-preview-container">
+        <img [src]="previewImageUrl" alt="Preview" class="preview-image" />
+        <div class="image-overlay">
+          <i class="bi bi-arrow-repeat fs-4"></i>
+          <span class="small">Change Image</span>
+        </div>
+      </div>
+
+      <!-- Hidden file input -->
+      <input
+        type="file"
+        #fileInput
+        class="d-none form-control"
+        (change)="onFileSelected($event)"
+        accept=".svg, .png, .jpg"
+      />
     </div>
   </div>
 </div>
@@ -198,7 +219,9 @@
         [(ngModel)]="language"
       >
         <option value="null" disabled>Select Language</option>
-        <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
+        <option *ngFor="let lang of languages" [value]="lang">
+          {{ lang }}
+        </option>
       </select>
     </div>
   </div>
@@ -212,7 +235,9 @@
         [(ngModel)]="religion"
       >
         <option value="null" disabled>Select Religion</option>
-        <option *ngFor="let religion of religions" [value]="religion">{{ religion }}</option>
+        <option *ngFor="let religion of religions" [value]="religion">
+          {{ religion }}
+        </option>
       </select>
     </div>
   </div>

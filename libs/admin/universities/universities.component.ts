@@ -19,7 +19,6 @@ export class UniversitiesComponent implements OnInit {
   selectedImageFile: File | null = null;
 
 
-
   universityOption: 'new' | 'existing' = 'new';
   newUniversity = {
     name: '',
@@ -169,5 +168,15 @@ export class UniversitiesComponent implements OnInit {
       logo: this.selectedLogoFile || undefined,
       image: this.selectedImageFile || undefined
     };
+  }
+
+  resetForm() {
+    this.logoPreviewUrl = null;
+    this.imagePreviewUrl = null;
+    this.newUniversity.name = '';
+    this.newUniversity.campus = '';
+    this.newUniversity.location = null;
+    this.selectedExistingUniversity = null;
+    this.universityOption = "new"
   }
 }

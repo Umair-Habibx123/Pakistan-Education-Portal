@@ -8,7 +8,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./admin-university-detail.component.scss']
 })
 export class AdminUniversityDetailComponent {
-  
+
 
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();
@@ -19,6 +19,13 @@ export class AdminUniversityDetailComponent {
   itemsPerPage: number = 9;
   totalPages: number = 0;
 
+  newProgram = {
+    degreeLevel: '',
+    subjects: '',
+    fee: null,
+    duration: "123..."
+  };
+
   constructor(private location: Location) { }
 
   ngOnInit() {
@@ -26,7 +33,7 @@ export class AdminUniversityDetailComponent {
   }
 
   filterPrograms() {
-  
+
     this.filteredPrograms = this.university.programs.filter((program: any) =>
       program.name.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
@@ -59,4 +66,10 @@ export class AdminUniversityDetailComponent {
       this.currentPage++;
     }
   }
+
+  resetForm() {
+    this.newProgram.degreeLevel = '';
+      this.newProgram.subjects = '';
+      this.newProgram.fee = null;
+    }
 }
