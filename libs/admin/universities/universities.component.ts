@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UniversityDataService } from '../../service/UniversityData/university-data.service';
+import { UniversityService } from 'libs/service/addUniversity/university.service';
 
 
 @Component({
@@ -8,7 +9,10 @@ import { UniversityDataService } from '../../service/UniversityData/university-d
   styleUrls: ['./universities.component.scss']
 })
 export class UniversitiesComponent implements OnInit {
+  apiUrl: any;
 
+
+  constructor(private universityService: UniversityDataService, private adduniversityService: UniversityService) { }
 
   @ViewChild('logoInput') logoInput!: ElementRef;
   @ViewChild('imageInput') imageInput!: ElementRef;
@@ -43,7 +47,6 @@ export class UniversitiesComponent implements OnInit {
 
   selectedUniversity: any = null;
   showDetailView = false;
-  constructor(private universityService: UniversityDataService) { }
 
   ngOnInit(): void {
     this.universities = this.universityService.getUniversities();
@@ -52,7 +55,6 @@ export class UniversitiesComponent implements OnInit {
 
 
   onUniversityOptionChange() {
-    // Reset selections when changing options
     this.newUniversity = {
       name: '',
       campus: '',
@@ -61,15 +63,78 @@ export class UniversitiesComponent implements OnInit {
     this.selectedExistingUniversity = null;
   }
 
+  
 
-
-  addUniversity() {
+  addUniversity(): void {
     if (this.universityOption === 'new') {
-      console.log('Adding new university:', this.newUniversity);
+
+      const logoPromise = this.selectedLogoFile ? this.fileToBase64(this.selectedLogoFile) : Promise.resolve(null);
+      const imagePromise = this.selectedImageFile ? this.fileToBase64(this.selectedImageFile) : Promise.resolve(null);
+  
+      Promise.all([logoPromise, imagePromise]).then(([logoBase64, imageBase64]) => {
+        const universityData = {
+          spType: "insert",
+          universityName: this.newUniversity.name,
+          campusName: this.newUniversity.campus,
+          location: this.newUniversity.location,
+          logoEDoc: logoBase64,
+          imageEDoc: imageBase64,
+          logoEDocPath: this.selectedLogoFile ? 'university/logos' : null,
+          logoEDocExt: this.selectedLogoFile ? this.getFileExtension(this.selectedLogoFile.name) : null,
+          imageEDocPath: this.selectedImageFile ? 'university/logos' : null,
+          imageEDocExt: this.selectedImageFile ? this.getFileExtension(this.selectedImageFile.name) : null,
+        };
+  
+        console.log('Adding new university:', universityData);
+        this.adduniversityService.saveUniversity(universityData).subscribe(
+          (response) => {
+            console.log('University saved successfully:', response);
+          },
+          (error) => {
+            console.error('Error saving university:', error);
+          }
+        );
+      }).catch(error => {
+        console.error('Error converting files to Base64:', error);
+      });
     } else {
       console.log('Adding campus to existing university:', this.selectedExistingUniversity, this.newUniversity);
     }
   }
+  
+  // Helper function to convert file to Base64 with proper typing
+  fileToBase64(file: File): Promise<string | null> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (!reader.result) {
+          resolve(null);
+          return;
+        }
+        // Remove the data URL prefix (e.g., "data:image/png;base64,")
+        const base64String = reader.result.toString().split(',')[1];
+        resolve(base64String);
+      };
+      reader.onerror = error => reject(error);
+    });
+  }
+  
+
+
+  private getFileExtension(filename: string): string {
+    return filename.split('.').pop() || '';
+  }
+
+  private uploadLogoFile(universityID: string) {
+    if (!this.selectedLogoFile) return;
+
+    const formData = new FormData();
+    formData.append('file', this.selectedLogoFile);
+    formData.append('universityID', universityID);
+    formData.append('path', 'university/logos');
+  }
+
 
   showUniversityDetail(university: any) {
     this.selectedUniversity = university;
@@ -133,21 +198,21 @@ export class UniversitiesComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
 
-      // Validate file type
+
       const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg'];
       if (!validTypes.includes(file.type)) {
         alert('Please select a valid image file (SVG, PNG, JPG)');
         return;
       }
 
-      // Validate file size (example: 2MB max)
-      const maxSize = 2 * 1024 * 1024; // 2MB
+
+      const maxSize = 2 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size should not exceed 2MB');
         return;
       }
 
-      // Create preview
+
       const reader = new FileReader();
       reader.onload = (e) => {
         if (type === 'logo') {
@@ -162,7 +227,7 @@ export class UniversitiesComponent implements OnInit {
     }
   }
 
-  // Function to get the uploaded files
+
   getUploadedFiles(): { logo?: File, image?: File } {
     return {
       logo: this.selectedLogoFile || undefined,

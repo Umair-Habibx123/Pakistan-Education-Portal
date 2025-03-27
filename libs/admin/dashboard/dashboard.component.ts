@@ -63,8 +63,8 @@ export class DashboardComponent {
   ];
 
   users: Users[] = [
-    { name: 'Senior UI/UX Designer', email: 'adn32@gmail.com', contact: '03000565431', cities: "Islamabad", university: "NUML", image: '../../../../assets/images/abd.jpeg' },
-    { name: 'Senior UI/UX Designer', email: 'adn32@gmail.com', contact: '03000565431', cities: "Islamabad", university: "NUML", image: '../../../../assets/images/abd.jpeg' }
+    { name: 'Senior UI/UX Designer', email: 'adn32@gmail.com', contact: '03000565431', cities: "Islamabad", university: "NUML", image: '../../../../assets/user.png' },
+    { name: 'Senior UI/UX Designer', email: 'adn32@gmail.com', contact: '03000565431', cities: "Islamabad", university: "NUML", image: '../../../../assets/user.png' }
   ];
 
   
