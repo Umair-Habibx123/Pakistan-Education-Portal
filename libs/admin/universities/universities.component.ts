@@ -76,14 +76,30 @@ export class UniversitiesComponent implements OnInit {
           spType: "insert",
           universityName: this.newUniversity.name,
           campusName: this.newUniversity.campus,
-          location: this.newUniversity.location,
+          cityID: 1,
           logoEDoc: logoBase64,
           imageEDoc: imageBase64,
-          logoEDocPath: this.selectedLogoFile ? 'university/logos' : null,
+          logoEDocPath: this.selectedLogoFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos" : null,
           logoEDocExt: this.selectedLogoFile ? this.getFileExtension(this.selectedLogoFile.name) : null,
-          imageEDocPath: this.selectedImageFile ? 'university/logos' : null,
+          imageEDocPath: this.selectedImageFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos": null,
           imageEDocExt: this.selectedImageFile ? this.getFileExtension(this.selectedImageFile.name) : null,
         };
+
+
+        const Data = {
+          spType: "insert",
+          universityName: this.newUniversity.name,
+          campusName: this.newUniversity.campus,
+          cityID: 1,
+          logoEDoc: logoBase64,
+          imageEDoc: imageBase64,
+          logoEDocPath: this.selectedLogoFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos" : null,
+          logoEDocExt: this.selectedLogoFile ? this.getFileExtension(this.selectedLogoFile.name) : null,
+          imageEDocPath: this.selectedImageFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos" : null,
+          imageEDocExt: this.selectedImageFile ? this.getFileExtension(this.selectedImageFile.name) : null,
+        };
+
+
   
         console.log('Adding new university:', universityData);
         this.adduniversityService.saveUniversity(universityData).subscribe(
@@ -101,6 +117,8 @@ export class UniversitiesComponent implements OnInit {
       console.log('Adding campus to existing university:', this.selectedExistingUniversity, this.newUniversity);
     }
   }
+
+
   
   // Helper function to convert file to Base64 with proper typing
   fileToBase64(file: File): Promise<string | null> {
