@@ -12,8 +12,20 @@ export class UniversityService {
 
   constructor(private http: HttpClient) { }
 
+  getUniversity(uniID: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}University/getUniversity?uniID=${uniID}`);
+  }
+
+  getDistinctUniversities(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}University/getDistinctUniversities`);
+  }
+
   saveUniversity(universityData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}University/saveUniversity`, universityData);
+  }
+
+  getCities(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}University/getCity`);
   }
   
 }

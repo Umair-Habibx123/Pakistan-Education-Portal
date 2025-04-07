@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UniversityDataService } from '../../service/UniversityData/university-data.service';
 import { UniversityService } from 'libs/service/addUniversity/university.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 
 @Component({
@@ -9,25 +11,25 @@ import { UniversityService } from 'libs/service/addUniversity/university.service
   styleUrls: ['./universities.component.scss']
 })
 export class UniversitiesComponent implements OnInit {
-  apiUrl: any;
-
-
-  constructor(private universityService: UniversityDataService, private adduniversityService: UniversityService) { }
-
   @ViewChild('logoInput') logoInput!: ElementRef;
   @ViewChild('imageInput') imageInput!: ElementRef;
+
+  constructor(private snackBar: MatSnackBar, private universityService: UniversityDataService, private adduniversityService: UniversityService,
+  ) { }
+
 
   logoPreviewUrl: string | ArrayBuffer | null = null;
   imagePreviewUrl: string | ArrayBuffer | null = null;
   selectedLogoFile: File | null = null;
   selectedImageFile: File | null = null;
+  errorMessage: string = '';
 
 
   universityOption: 'new' | 'existing' = 'new';
   newUniversity = {
     name: '',
     campus: '',
-    location: null
+    city: null as number | null // Update this line
   };
   selectedExistingUniversity: any = null;
   universities: any[] = [];
@@ -35,6 +37,7 @@ export class UniversitiesComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 9;
   totalPages: number = 0;
+  cities: any[] = [];
 
 
   existingUniversities = [
@@ -51,6 +54,21 @@ export class UniversitiesComponent implements OnInit {
   ngOnInit(): void {
     this.universities = this.universityService.getUniversities();
     this.updateFilteredUniversities();
+    this.loadCities(); // Call the method to load cities
+  }
+
+
+
+  // Add this method to load cities from API
+  loadCities(): void {
+    this.adduniversityService.getCities().subscribe(
+      (response) => {
+        this.cities = response;
+      },
+      (error) => {
+        console.error('Error fetching cities:', error);
+      }
+    );
   }
 
 
@@ -58,69 +76,104 @@ export class UniversitiesComponent implements OnInit {
     this.newUniversity = {
       name: '',
       campus: '',
-      location: null
+      city: null
     };
     this.selectedExistingUniversity = null;
   }
 
-  
+
 
   addUniversity(): void {
+
+    this.errorMessage = '';
+
     if (this.universityOption === 'new') {
+
+      if (!this.newUniversity.name || !this.newUniversity.campus || !this.newUniversity.city) {
+        this.errorMessage = 'Please fill all required fields';
+        return;
+      }
+
+      if (!this.selectedLogoFile || !this.selectedImageFile) {
+        this.errorMessage = 'Please select image and logo....';
+        return;
+      }
+
 
       const logoPromise = this.selectedLogoFile ? this.fileToBase64(this.selectedLogoFile) : Promise.resolve(null);
       const imagePromise = this.selectedImageFile ? this.fileToBase64(this.selectedImageFile) : Promise.resolve(null);
-  
+
+
+
       Promise.all([logoPromise, imagePromise]).then(([logoBase64, imageBase64]) => {
         const universityData = {
           spType: "insert",
+          userID: 1,
           universityName: this.newUniversity.name,
           campusName: this.newUniversity.campus,
-          cityID: 1,
+          cityID: this.newUniversity.city,
           logoEDoc: logoBase64,
           imageEDoc: imageBase64,
-          logoEDocPath: this.selectedLogoFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos" : null,
+          logoEDocPath: this.selectedLogoFile ? "C:/university/logos" : null,
           logoEDocExt: this.selectedLogoFile ? this.getFileExtension(this.selectedLogoFile.name) : null,
-          imageEDocPath: this.selectedImageFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos": null,
+          imageEDocPath: this.selectedImageFile ? "C:/university/images" : null,
           imageEDocExt: this.selectedImageFile ? this.getFileExtension(this.selectedImageFile.name) : null,
         };
 
-
-        const Data = {
-          spType: "insert",
-          universityName: this.newUniversity.name,
-          campusName: this.newUniversity.campus,
-          cityID: 1,
-          logoEDoc: logoBase64,
-          imageEDoc: imageBase64,
-          logoEDocPath: this.selectedLogoFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos" : null,
-          logoEDocExt: this.selectedLogoFile ? this.getFileExtension(this.selectedLogoFile.name) : null,
-          imageEDocPath: this.selectedImageFile ? "D:/aims projects/pakistan eduction/PEP-Front-End/university/logos" : null,
-          imageEDocExt: this.selectedImageFile ? this.getFileExtension(this.selectedImageFile.name) : null,
-        };
-
-
-  
         console.log('Adding new university:', universityData);
         this.adduniversityService.saveUniversity(universityData).subscribe(
           (response) => {
             console.log('University saved successfully:', response);
+            this.snackBar.open('University saved successfully!', 'Close', {
+              duration: 5000,
+              panelClass: ['custom-snackbar', 'success-snackbar'],
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
+            });
+            this.resetForm();
+            document.getElementById('universityModal')?.click();
           },
           (error) => {
             console.error('Error saving university:', error);
+            this.errorMessage = 'Error saving university. Please try again.';
+
+            // Error snackbar
+            this.snackBar.open('Error saving university!', 'Close', {
+              duration: 5000,
+              panelClass: ['custom-snackbar', 'error-snackbar'],
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
+            });
           }
         );
       }).catch(error => {
         console.error('Error converting files to Base64:', error);
+        this.errorMessage = 'Error processing files. Please try again.';
+        this.snackBar.open('Error processing files!', 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
       });
     } else {
+      // Validate for existing university case
+      if (!this.selectedExistingUniversity || !this.newUniversity.campus || !this.newUniversity.city) {
+        this.errorMessage = 'Please fill all required fields';
+        return;
+      }
+
       console.log('Adding campus to existing university:', this.selectedExistingUniversity, this.newUniversity);
+      this.snackBar.open('Campus added successfully!', 'Close', {
+        duration: 5000,
+        panelClass: ['success-snackbar']
+      });
+      // Reset form and close modal
+      this.resetForm();
+      document.getElementById('universityModal')?.click();
     }
   }
 
 
-  
-  // Helper function to convert file to Base64 with proper typing
+
   fileToBase64(file: File): Promise<string | null> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -130,28 +183,19 @@ export class UniversitiesComponent implements OnInit {
           resolve(null);
           return;
         }
-        // Remove the data URL prefix (e.g., "data:image/png;base64,")
         const base64String = reader.result.toString().split(',')[1];
         resolve(base64String);
       };
       reader.onerror = error => reject(error);
     });
   }
-  
+
 
 
   private getFileExtension(filename: string): string {
     return filename.split('.').pop() || '';
   }
 
-  private uploadLogoFile(universityID: string) {
-    if (!this.selectedLogoFile) return;
-
-    const formData = new FormData();
-    formData.append('file', this.selectedLogoFile);
-    formData.append('universityID', universityID);
-    formData.append('path', 'university/logos');
-  }
 
 
   showUniversityDetail(university: any) {
@@ -258,7 +302,7 @@ export class UniversitiesComponent implements OnInit {
     this.imagePreviewUrl = null;
     this.newUniversity.name = '';
     this.newUniversity.campus = '';
-    this.newUniversity.location = null;
+    this.newUniversity.city = null;
     this.selectedExistingUniversity = null;
     this.universityOption = "new"
   }

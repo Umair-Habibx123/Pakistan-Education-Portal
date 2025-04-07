@@ -12,7 +12,7 @@ export class addcampusService {
   constructor(private http: HttpClient) { }
 
       addcampus(addcampusData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}University/saveUniversity`, addcampusData);
+    return this.http.post(`${this.apiUrl}Campus/saveCampusPrograms`, addcampusData);
   }
   
 }

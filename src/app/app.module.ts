@@ -4,6 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms'; 
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LucideAngularModule, Bell, LayoutDashboard,Send, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight, CalendarDays, NotebookTabs } from 'lucide-angular';
 
 
@@ -85,10 +86,11 @@ import { AdminEnterCodeComponent } from '../../libs/admin/admin-auth/admin-enter
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule, 
+    MatSnackBarModule,
     NgbModule,
     FormsModule,
     HttpClientModule, // Add this line
-    BrowserAnimationsModule, // angular Animation Module... 
     LucideAngularModule.pick({ArrowLeft,ArrowRight, Bell, Send, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings , CalendarDays , NotebookTabs})
   ],
   providers: [],

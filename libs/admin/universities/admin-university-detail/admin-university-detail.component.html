@@ -1,17 +1,25 @@
 <div class="d-flex flex-column">
   <!-- Back Button -->
   <div class="d-flex align-items-center gap-2 mb-4">
-    <button class="btn btn-light border border-2 rounded-pill" (click)="goBack.emit()">
+    <button
+      class="btn btn-light border border-2 rounded-pill"
+      (click)="goBack.emit()"
+    >
       <lucide-angular name="ArrowLeft"></lucide-angular>
       Back
     </button>
   </div>
 
-  <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4">
+  <div
+    class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
+  >
     <h2 class="fw-bold h5 mb-0">
-      <span class="custom-dark-green-text">{{ university.name }}</span> / Programs
+      <span class="custom-dark-green-text">{{ university.name }}</span> /
+      Programs
     </h2>
-    <div class="d-flex flex-column flex-sm-row align-items-center gap-3 w-100 w-sm-65">
+    <div
+      class="d-flex flex-column flex-sm-row align-items-center gap-3 w-100 w-sm-65"
+    >
       <!-- Search Input -->
       <div class="input-group w-75 w-sm-75 custom-input-height">
         <span class="input-group-text bg-light border-0">
@@ -121,7 +129,7 @@
           Add New Program
         </h5>
         <button
-        (click)="resetForm()"
+          (click)="resetForm()"
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
@@ -133,19 +141,36 @@
           <!-- Degree Level -->
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Degree Level</label>
-            <select class="form-select"  [(ngModel)]="newProgram.degreeLevel">
-              <option selected>MS</option>
-              <option>BS</option>
-              <option>PhD</option>
+            <select
+              class="form-select"
+              [(ngModel)]="newProgram.degreeLevel"
+              (change)="onEducationTypeChange()"
+              name="degreeLevel"
+            >
+              <option [value]="null" disabled>Select Degree Level</option>
+              <option
+                *ngFor="let type of educationType"
+                [value]="type.educationTypeID"
+              >
+                {{ type.educationTypeTitle }}
+                <!-- Make sure this matches your data structure -->
+              </option>
             </select>
           </div>
+
           <!-- Subjects -->
           <div class="col-md-6 mb-3">
-            <label class="form-label custom-form-label">Subjects</label>
-            <select class="form-select"  [(ngModel)]="newProgram.subjects">
-              <option selected>Data Science</option>
-              <option>Computer Science</option>
-              <option>Artificial Intelligence</option>
+            <label class="form-label custom-form-label">Program</label>
+            <select
+              class="form-select"
+              [(ngModel)]="newProgram.programID"  
+              [disabled]="!newProgram.degreeLevel || availablePrograms.length === 0"
+              name="program"
+            >
+              <option [value]="null" disabled>Select Program</option>
+              <option *ngFor="let program of availablePrograms" [value]="program.programID">
+                {{ program.programName }}
+              </option>
             </select>
           </div>
         </div>
@@ -154,23 +179,37 @@
           <!-- Application Fee -->
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Application Fee</label>
-            <input type="text" class="form-control" placeholder=""  [(ngModel)]="newProgram.fee"/>
+            <input
+              type="text"
+              class="form-control"
+              placeholder=""
+              [(ngModel)]="newProgram.fee"
+            />
           </div>
           <!-- Duration -->
           <div class="col-md-6 mb-3">
-            <label class="form-label custom-form-label">Duration</label><br />
-            <label
-              class="form-label"  [(ngModel)]="newProgram.duration"
-            ></label>
+            <label class="form-label custom-form-label"
+              >Duration (months)</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Enter duration in months"
+              [(ngModel)]="newProgram.duration"
+              name="duration"
+            />
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success w-100">
+        <button
+          type="button"
+          class="btn btn-success w-100"
+          (click)="addProgram()"
+        >
           Add Program
         </button>
       </div>
     </div>
   </div>
 </div>
-

@@ -12,7 +12,16 @@ export class addprogramService {
   constructor(private http: HttpClient) { }
 
   addprogram(programData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}University/saveCampusPrograms`, programData);
+    return this.http.post(`${this.apiUrl}Campus/saveCampusPrograms`, programData);
   }
   
+  
+  getPrograms(educationTypeID: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}Program/getPrograms?educationTypeID=${educationTypeID}`);
+  }
+
+ 
+  getEducationType(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}Program/getEducationType`);
+  }
 }
