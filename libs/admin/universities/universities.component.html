@@ -47,6 +47,57 @@
               >
                 <div>
                   <img
+                    [src]="university.logoEDoc"
+                    alt="{{ university.universityName }} Logo"
+                    class="rounded-circle custom-university-logo"
+                  />
+                </div>
+                <div class="flex-grow-1">
+                  <h5 class="fw-bold mb-1 custom-university-name">
+                    {{ university.universityname }}
+                  </h5>
+                  <div class="text-muted small">
+                    <i class="fa-map-marker-alt fas"></i>
+                    {{ university.city }}
+                  </div>
+                  <div class="d-flex gap-1 mt-1">
+                    <span
+                      *ngFor="let campus of university.campuses"
+                      class="badge custom-badge"
+                      >{{ campus }}</span
+                    >
+                  </div>
+                  <div class="d-flex gap-1 mt-1">
+                    <span class="badge custom-badge">{{
+                      university.campusName
+                    }}</span>
+                  </div>
+                  <div class="text-success fw-semibold mt-1">
+                    {{ university.noOfPrograms }} Programs
+                  </div>
+                </div>
+                <div
+                  class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
+                >
+                  <i class="text-danger cursor-pointer fa-trash-alt fas"></i>
+                  <i class="text-primary cursor-pointer fa-edit fas"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="container-fluid my-4">
+          <div class="g-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
+            <div
+              class="col"
+              *ngFor="let university of filteredUniversities"
+              (click)="showUniversityDetail(university)"
+            >
+              <div
+                class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card"
+              >
+                <div>
+                  <img
                     [src]="university.logo"
                     alt="{{ university.name }} Logo"
                     class="rounded-circle custom-university-logo"
@@ -85,7 +136,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- Pagination Section -->
         <div

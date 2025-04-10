@@ -2,21 +2,22 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UniversityDataService } from '../../service/UniversityData/university-data.service';
 import { UniversityService } from 'libs/service/addUniversity/university.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-universities',
   templateUrl: './universities.component.html',
-  styleUrls: ['./universities.component.scss']
+  styleUrls: ['./universities.component.scss'],
 })
 export class UniversitiesComponent implements OnInit {
   @ViewChild('logoInput') logoInput!: ElementRef;
   @ViewChild('imageInput') imageInput!: ElementRef;
 
-  constructor(private snackBar: MatSnackBar, private universityService: UniversityDataService, private adduniversityService: UniversityService,
-  ) { }
-
+  constructor(
+    private snackBar: MatSnackBar,
+    private universityService: UniversityDataService,
+    private adduniversityService: UniversityService
+  ) {}
 
   logoPreviewUrl: string | ArrayBuffer | null = null;
   imagePreviewUrl: string | ArrayBuffer | null = null;
@@ -24,12 +25,11 @@ export class UniversitiesComponent implements OnInit {
   selectedImageFile: File | null = null;
   errorMessage: string = '';
 
-
   universityOption: 'new' | 'existing' = 'new';
   newUniversity = {
     name: '',
     campus: '',
-    city: null as number | null // Update this line
+    city: null as number | null, // Update this line
   };
   selectedExistingUniversity: any = null;
   universities: any[] = [];
@@ -39,31 +39,44 @@ export class UniversitiesComponent implements OnInit {
   totalPages: number = 0;
   cities: any[] = [];
 
-
   existingUniversities = [
     { id: 1, name: 'COMSATS University' },
     { id: 2, name: 'Quaid-i-Azam University' },
     { id: 3, name: 'Lahore University of Management Sciences' },
     { id: 4, name: 'University of the Punjab' },
-    { id: 5, name: 'National University of Sciences and Technology' }
+    { id: 5, name: 'National University of Sciences and Technology' },
   ];
 
   selectedUniversity: any = null;
   showDetailView = false;
 
   ngOnInit(): void {
-    this.universities = this.universityService.getUniversities();
+    // this.universities = this.universityService.getUniversities();
+    this.loadUniversities(); // get distinct universities
     this.updateFilteredUniversities();
     this.loadCities(); // Call the method to load cities
   }
 
-
+  // display saved universities
+  loadUniversities(): void {
+    this.adduniversityService.getUniversity(0).subscribe(
+      (response) => {
+        this.universities = response;
+        console.log(response);
+        this.updateFilteredUniversities();
+      },
+      (error) => {
+        console.error('Error fetching universities:', error);
+      }
+    );
+  }
 
   // Add this method to load cities from API
   loadCities(): void {
     this.adduniversityService.getCities().subscribe(
       (response) => {
         this.cities = response;
+        console.log(response);
       },
       (error) => {
         console.error('Error fetching cities:', error);
@@ -71,25 +84,24 @@ export class UniversitiesComponent implements OnInit {
     );
   }
 
-
   onUniversityOptionChange() {
     this.newUniversity = {
       name: '',
       campus: '',
-      city: null
+      city: null,
     };
     this.selectedExistingUniversity = null;
   }
 
-
-
   addUniversity(): void {
-
     this.errorMessage = '';
 
     if (this.universityOption === 'new') {
-
-      if (!this.newUniversity.name || !this.newUniversity.campus || !this.newUniversity.city) {
+      if (
+        !this.newUniversity.name ||
+        !this.newUniversity.campus ||
+        !this.newUniversity.city
+      ) {
         this.errorMessage = 'Please fill all required fields';
         return;
       }
@@ -99,80 +111,95 @@ export class UniversitiesComponent implements OnInit {
         return;
       }
 
+      const logoPromise = this.selectedLogoFile
+        ? this.fileToBase64(this.selectedLogoFile)
+        : Promise.resolve(null);
+      const imagePromise = this.selectedImageFile
+        ? this.fileToBase64(this.selectedImageFile)
+        : Promise.resolve(null);
 
-      const logoPromise = this.selectedLogoFile ? this.fileToBase64(this.selectedLogoFile) : Promise.resolve(null);
-      const imagePromise = this.selectedImageFile ? this.fileToBase64(this.selectedImageFile) : Promise.resolve(null);
+      Promise.all([logoPromise, imagePromise])
+        .then(([logoBase64, imageBase64]) => {
+          const universityData = {
+            spType: 'insert',
+            userID: 1,
+            universityName: this.newUniversity.name,
+            campusName: this.newUniversity.campus,
+            cityID: this.newUniversity.city,
+            logoEDoc: logoBase64,
+            imageEDoc: imageBase64,
+            logoEDocPath: this.selectedLogoFile ? 'C:/university/logos' : null,
+            logoEDocExt: this.selectedLogoFile
+              ? this.getFileExtension(this.selectedLogoFile.name)
+              : null,
+            imageEDocPath: this.selectedImageFile
+              ? 'C:/university/images'
+              : null,
+            imageEDocExt: this.selectedImageFile
+              ? this.getFileExtension(this.selectedImageFile.name)
+              : null,
+          };
 
+          console.log('Adding new university:', universityData);
+          this.adduniversityService.saveUniversity(universityData).subscribe(
+            (response) => {
+              console.log('University saved successfully:', response);
+              this.snackBar.open('University saved successfully!', 'Close', {
+                duration: 5000,
+                panelClass: ['custom-snackbar', 'success-snackbar'],
+                verticalPosition: 'top',
+                horizontalPosition: 'right',
+              });
+              this.resetForm();
+              document.getElementById('universityModal')?.click();
+            },
+            (error) => {
+              console.error('Error saving university:', error);
+              this.errorMessage = 'Error saving university. Please try again.';
 
-
-      Promise.all([logoPromise, imagePromise]).then(([logoBase64, imageBase64]) => {
-        const universityData = {
-          spType: "insert",
-          userID: 1,
-          universityName: this.newUniversity.name,
-          campusName: this.newUniversity.campus,
-          cityID: this.newUniversity.city,
-          logoEDoc: logoBase64,
-          imageEDoc: imageBase64,
-          logoEDocPath: this.selectedLogoFile ? "C:/university/logos" : null,
-          logoEDocExt: this.selectedLogoFile ? this.getFileExtension(this.selectedLogoFile.name) : null,
-          imageEDocPath: this.selectedImageFile ? "C:/university/images" : null,
-          imageEDocExt: this.selectedImageFile ? this.getFileExtension(this.selectedImageFile.name) : null,
-        };
-
-        console.log('Adding new university:', universityData);
-        this.adduniversityService.saveUniversity(universityData).subscribe(
-          (response) => {
-            console.log('University saved successfully:', response);
-            this.snackBar.open('University saved successfully!', 'Close', {
-              duration: 5000,
-              panelClass: ['custom-snackbar', 'success-snackbar'],
-              verticalPosition: 'top',
-              horizontalPosition: 'right'
-            });
-            this.resetForm();
-            document.getElementById('universityModal')?.click();
-          },
-          (error) => {
-            console.error('Error saving university:', error);
-            this.errorMessage = 'Error saving university. Please try again.';
-
-            // Error snackbar
-            this.snackBar.open('Error saving university!', 'Close', {
-              duration: 5000,
-              panelClass: ['custom-snackbar', 'error-snackbar'],
-              verticalPosition: 'top',
-              horizontalPosition: 'right'
-            });
-          }
-        );
-      }).catch(error => {
-        console.error('Error converting files to Base64:', error);
-        this.errorMessage = 'Error processing files. Please try again.';
-        this.snackBar.open('Error processing files!', 'Close', {
-          duration: 5000,
-          panelClass: ['error-snackbar']
+              // Error snackbar
+              this.snackBar.open('Error saving university!', 'Close', {
+                duration: 5000,
+                panelClass: ['custom-snackbar', 'error-snackbar'],
+                verticalPosition: 'top',
+                horizontalPosition: 'right',
+              });
+            }
+          );
+        })
+        .catch((error) => {
+          console.error('Error converting files to Base64:', error);
+          this.errorMessage = 'Error processing files. Please try again.';
+          this.snackBar.open('Error processing files!', 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar'],
+          });
         });
-      });
     } else {
       // Validate for existing university case
-      if (!this.selectedExistingUniversity || !this.newUniversity.campus || !this.newUniversity.city) {
+      if (
+        !this.selectedExistingUniversity ||
+        !this.newUniversity.campus ||
+        !this.newUniversity.city
+      ) {
         this.errorMessage = 'Please fill all required fields';
         return;
       }
 
-      console.log('Adding campus to existing university:', this.selectedExistingUniversity, this.newUniversity);
+      console.log(
+        'Adding campus to existing university:',
+        this.selectedExistingUniversity,
+        this.newUniversity
+      );
       this.snackBar.open('Campus added successfully!', 'Close', {
         duration: 5000,
-        panelClass: ['success-snackbar']
+        panelClass: ['success-snackbar'],
       });
       // Reset form and close modal
       this.resetForm();
       document.getElementById('universityModal')?.click();
     }
   }
-
-
 
   fileToBase64(file: File): Promise<string | null> {
     return new Promise((resolve, reject) => {
@@ -186,17 +213,13 @@ export class UniversitiesComponent implements OnInit {
         const base64String = reader.result.toString().split(',')[1];
         resolve(base64String);
       };
-      reader.onerror = error => reject(error);
+      reader.onerror = (error) => reject(error);
     });
   }
-
-
 
   private getFileExtension(filename: string): string {
     return filename.split('.').pop() || '';
   }
-
-
 
   showUniversityDetail(university: any) {
     this.selectedUniversity = university;
@@ -209,10 +232,12 @@ export class UniversitiesComponent implements OnInit {
   }
 
   updateFilteredUniversities(): void {
+    console.log('data:' + this.universities);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.filteredUniversities = this.universities.slice(startIndex, endIndex);
     this.totalPages = Math.ceil(this.universities.length / this.itemsPerPage);
+    console.log('uni:' + this.filteredUniversities);
   }
 
   goToPage(page: number): void {
@@ -236,8 +261,6 @@ export class UniversitiesComponent implements OnInit {
     }
   }
 
-
-
   triggerLogoUpload() {
     this.logoInput.nativeElement.click();
   }
@@ -260,20 +283,17 @@ export class UniversitiesComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
 
-
       const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg'];
       if (!validTypes.includes(file.type)) {
         alert('Please select a valid image file (SVG, PNG, JPG)');
         return;
       }
 
-
       const maxSize = 2 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size should not exceed 2MB');
         return;
       }
-
 
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -289,11 +309,10 @@ export class UniversitiesComponent implements OnInit {
     }
   }
 
-
-  getUploadedFiles(): { logo?: File, image?: File } {
+  getUploadedFiles(): { logo?: File; image?: File } {
     return {
       logo: this.selectedLogoFile || undefined,
-      image: this.selectedImageFile || undefined
+      image: this.selectedImageFile || undefined,
     };
   }
 
@@ -304,6 +323,6 @@ export class UniversitiesComponent implements OnInit {
     this.newUniversity.campus = '';
     this.newUniversity.city = null;
     this.selectedExistingUniversity = null;
-    this.universityOption = "new"
+    this.universityOption = 'new';
   }
 }
