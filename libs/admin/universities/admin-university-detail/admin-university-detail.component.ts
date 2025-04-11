@@ -2,15 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { addprogramService } from 'libs/service/addprogram/addProgram.service';
 
-
 @Component({
   selector: 'app-admin-university-detail',
   templateUrl: './admin-university-detail.component.html',
-  styleUrls: ['./admin-university-detail.component.scss']
+  styleUrls: ['./admin-university-detail.component.scss'],
 })
 export class AdminUniversityDetailComponent implements OnInit {
-
-
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();
 
@@ -22,16 +19,15 @@ export class AdminUniversityDetailComponent implements OnInit {
   educationType: any[] = [];
   availablePrograms: any[] = [];
 
-
   newProgram = {
     degreeLevel: 0,
     programID: null,
     fee: null,
-    duration: "123..."
+    duration: '123...',
+    campusProgramID: 0,
   };
 
-  constructor(private addprogramService: addprogramService) { }
-
+  constructor(private addprogramService: addprogramService) {}
 
   ngOnInit() {
     this.filterPrograms();
@@ -41,7 +37,7 @@ export class AdminUniversityDetailComponent implements OnInit {
   loadEducationType(): void {
     this.addprogramService.getEducationType().subscribe(
       (response) => {
-        console.log('Education Types:', response); 
+        console.log('Education Types:', response);
         this.educationType = response;
       },
       (error) => {
@@ -50,8 +46,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     );
   }
 
-
-  onEducationTypeChange(): void {
+  onEducationTypeChange(id: any): void {
     if (!this.newProgram.degreeLevel) {
       this.availablePrograms = [];
       return;
@@ -63,23 +58,38 @@ export class AdminUniversityDetailComponent implements OnInit {
           console.warn('No programs available for this degree level');
         }
         this.availablePrograms = response;
-        this.newProgram.programID = null;
+        if (id !== 0) {
+          this.newProgram.programID = id;
+        } else {
+          this.newProgram.programID = null;
+        }
       },
       error: (err) => {
         console.error('Error fetching programs:', err);
         this.availablePrograms = [];
         alert('Failed to load programs for this degree level');
-      }
+      },
     });
   }
 
   filterPrograms() {
+    // this.filteredPrograms = this.university.programs.filter((program: any) =>
+    //   program.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    // );
 
-    this.filteredPrograms = this.university.programs.filter((program: any) =>
-      program.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    this.addprogramService.getCampusProgram(this.university.campusID).subscribe(
+      (response) => {
+        console.log('campus program:', response);
+        this.filteredPrograms = response;
+      },
+      (error) => {
+        console.error('Error fetching education types:', error);
+      }
     );
 
-    this.totalPages = Math.ceil(this.filteredPrograms.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(
+      this.filteredPrograms.length / this.itemsPerPage
+    );
 
     this.currentPage = 1;
   }
@@ -108,35 +118,54 @@ export class AdminUniversityDetailComponent implements OnInit {
     }
   }
 
-
   addProgram(): void {
     if (!this.newProgram.programID) {
       alert('Please select a program');
       return;
     }
+    // const selectedProgram = this.availablePrograms.find(
+    //   (p) => p.programID === this.newProgram.programID
+    // );
 
-    
-    const selectedProgram = this.availablePrograms.find(
-      p => p.programID === this.newProgram.programID
+    const selectedProgram = this.availablePrograms.filter(
+      (x) => (x.programID = this.newProgram.programID)
     );
+
+    console.log(selectedProgram);
 
     if (!selectedProgram) {
       alert('Invalid program selection');
       return;
     }
-
-    const programData = {
-      spType: "insert",
-      uniID: this.university.id, 
-      eduationType: this.newProgram.degreeLevel,
-      program: selectedProgram.programID, 
-      programName: selectedProgram.programName, 
-      applicationFee: this.newProgram.fee,
-      duration: this.newProgram.duration,
-      campusID: 1, 
-      userID: 1, 
-      tuitionFee: this.newProgram.fee,
-    };
+    let programData: any;
+    if (this.newProgram.campusProgramID !== 0) {
+      programData = {
+        spType: 'update',
+        uniID: this.university.uniID,
+        eduationType: this.newProgram.degreeLevel,
+        programID: selectedProgram[0].programID,
+        programName: selectedProgram[0].programName,
+        applicationFee: this.newProgram.fee,
+        duration: this.newProgram.duration,
+        campusID: this.university.campusID,
+        userID: 1,
+        tuitionFee: this.newProgram.fee,
+        campusProgramID: this.newProgram.campusProgramID,
+      };
+    } else {
+      programData = {
+        spType: 'insert',
+        uniID: this.university.uniID,
+        eduationType: this.newProgram.degreeLevel,
+        programID: selectedProgram[0].programID,
+        programName: selectedProgram[0].programName,
+        applicationFee: this.newProgram.fee,
+        duration: this.newProgram.duration,
+        campusID: this.university.campusID,
+        userID: 1,
+        tuitionFee: this.newProgram.fee,
+      };
+    }
 
     console.log('Adding new program:', programData);
 
@@ -145,7 +174,6 @@ export class AdminUniversityDetailComponent implements OnInit {
         console.log('Program saved successfully:', response);
         alert('Program added successfully!');
         this.resetForm();
-        
       },
       (error) => {
         console.error('Error saving program:', error);
@@ -154,9 +182,21 @@ export class AdminUniversityDetailComponent implements OnInit {
     );
   }
 
+  // edit on click of campus program card edit icon
+  editProgram(item: any) {
+    this.newProgram.campusProgramID = item.campusProgramID;
+    this.newProgram.degreeLevel = item.educationTypeID;
+    this.onEducationTypeChange(item.educationTypeID);
+    // this.newProgram.programID = item.programID;
+    this.newProgram.fee = item.tuitionFee;
+    this.newProgram.duration = item.duration;
+    console.log(this.newProgram);
+  }
   resetForm() {
     this.newProgram.degreeLevel = 0;
     this.newProgram.programID = null;
     this.newProgram.fee = null;
+    this.newProgram.duration = '';
+    this.newProgram.campusProgramID = 0;
   }
 }

@@ -47,7 +47,7 @@
               >
                 <div>
                   <img
-                    [src]="university.logoEDoc"
+                    [src]="productUrl + university.logoEDocPath"
                     alt="{{ university.universityName }} Logo"
                     class="rounded-circle custom-university-logo"
                   />
@@ -58,14 +58,7 @@
                   </h5>
                   <div class="text-muted small">
                     <i class="fa-map-marker-alt fas"></i>
-                    {{ university.city }}
-                  </div>
-                  <div class="d-flex gap-1 mt-1">
-                    <span
-                      *ngFor="let campus of university.campuses"
-                      class="badge custom-badge"
-                      >{{ campus }}</span
-                    >
+                    {{ university.cityName }}
                   </div>
                   <div class="d-flex gap-1 mt-1">
                     <span class="badge custom-badge">{{

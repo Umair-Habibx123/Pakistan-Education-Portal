@@ -14,8 +14,10 @@
     class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
   >
     <h2 class="fw-bold h5 mb-0">
-      <span class="custom-dark-green-text">{{ university.name }}</span> /
-      Programs
+      <span class="custom-dark-green-text">{{
+        university.universityName
+      }}</span>
+      / Programs
     </h2>
     <div
       class="d-flex flex-column flex-sm-row align-items-center gap-3 w-100 w-sm-65"
@@ -49,14 +51,14 @@
         <!-- Program Card Content -->
         <div class="d-flex flex-column p-4 rounded-3 gap-3 custom-program-card">
           <div class="border-2 border-bottom pb-3">
-            <h5 class="fw-bold">{{ program.name }}</h5>
-            <p class="m-0 text-muted">{{ program.degreeLevel }}</p>
+            <h5 class="fw-bold">{{ program.programName }}</h5>
+            <p class="m-0 text-muted">{{ program.educationTypeTitle }}</p>
           </div>
           <!-- Lower Section -->
           <div class="d-flex justify-content-between mt-2">
             <div class="text-dark">
               <i class="fa-tag fas"></i>
-              <strong>{{ program.applicationFee }}</strong>
+              <strong>{{ program.tuitionFee }}</strong>
               <p class="m-0 text-muted">Application Fee</p>
             </div>
             <div class="border-2 border-end"></div>
@@ -70,7 +72,12 @@
 
           <div class="d-flex rounded-pill gap-2 custom-action-buttons">
             <i class="text-danger fa-trash-alt fas"></i>
-            <i class="text-primary fa-edit fas"></i>
+            <i
+              class="text-primary fa-edit fas"
+              data-bs-toggle="modal"
+              data-bs-target="#programModal"
+              (click)="editProgram(program)"
+            ></i>
           </div>
         </div>
       </div>
@@ -144,7 +151,7 @@
             <select
               class="form-select"
               [(ngModel)]="newProgram.degreeLevel"
-              (change)="onEducationTypeChange()"
+              (change)="onEducationTypeChange(0)"
               name="degreeLevel"
             >
               <option [value]="null" disabled>Select Degree Level</option>
@@ -163,12 +170,17 @@
             <label class="form-label custom-form-label">Program</label>
             <select
               class="form-select"
-              [(ngModel)]="newProgram.programID"  
-              [disabled]="!newProgram.degreeLevel || availablePrograms.length === 0"
+              [(ngModel)]="newProgram.programID"
+              [disabled]="
+                !newProgram.degreeLevel || availablePrograms.length === 0
+              "
               name="program"
             >
               <option [value]="null" disabled>Select Program</option>
-              <option *ngFor="let program of availablePrograms" [value]="program.programID">
+              <option
+                *ngFor="let program of availablePrograms"
+                [value]="program.programID"
+              >
                 {{ program.programName }}
               </option>
             </select>

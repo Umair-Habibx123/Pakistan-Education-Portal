@@ -4,24 +4,35 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environments';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class addprogramService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   addprogram(programData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}Campus/saveCampusPrograms`, programData);
-  }
-  
-  
-  getPrograms(educationTypeID: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}Program/getPrograms?educationTypeID=${educationTypeID}`);
+    return this.http.post(
+      `${this.apiUrl}school-api/Campus/saveCampusPrograms`,
+      programData
+    );
   }
 
- 
+  getPrograms(educationTypeID: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}school-api/Program/getPrograms?educationTypeID=${educationTypeID}`
+    );
+  }
+
+  getCampusProgram(campusID: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}school-api/Program/getCampusProgram?campusID=${campusID}`
+    );
+  }
+
   getEducationType(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}Program/getEducationType`);
+    return this.http.get<any>(
+      `${this.apiUrl}school-api/Program/getEducationType`
+    );
   }
 }

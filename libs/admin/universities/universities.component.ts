@@ -13,6 +13,8 @@ export class UniversitiesComponent implements OnInit {
   @ViewChild('logoInput') logoInput!: ElementRef;
   @ViewChild('imageInput') imageInput!: ElementRef;
 
+  public productUrl = environment.productUrl;
+
   constructor(
     private snackBar: MatSnackBar,
     private universityService: UniversityDataService,
