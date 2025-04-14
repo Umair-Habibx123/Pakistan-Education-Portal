@@ -27,7 +27,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     campusProgramID: 0,
   };
 
-  constructor(private addprogramService: addprogramService) {}
+  constructor(private addprogramService: addprogramService) { }
 
   ngOnInit() {
     this.filterPrograms();
@@ -72,28 +72,26 @@ export class AdminUniversityDetailComponent implements OnInit {
     });
   }
 
-  filterPrograms() {
-    // this.filteredPrograms = this.university.programs.filter((program: any) =>
-    //   program.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-    // );
 
+  filterPrograms() {
     this.addprogramService.getCampusProgram(this.university.campusID).subscribe(
       (response) => {
         console.log('campus program:', response);
+
+        // this.filteredPrograms = response.filter((program: any) => !program.is_Deleted);
         this.filteredPrograms = response;
+
+
+        this.totalPages = Math.ceil(
+          this.filteredPrograms.length / this.itemsPerPage
+        );
+        this.currentPage = 1;
       },
       (error) => {
-        console.error('Error fetching education types:', error);
+        console.error('Error fetching campus programs:', error);
       }
     );
-
-    this.totalPages = Math.ceil(
-      this.filteredPrograms.length / this.itemsPerPage
-    );
-
-    this.currentPage = 1;
   }
-
   getPaginatedPrograms(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
@@ -123,9 +121,7 @@ export class AdminUniversityDetailComponent implements OnInit {
       alert('Please select a program');
       return;
     }
-    // const selectedProgram = this.availablePrograms.find(
-    //   (p) => p.programID === this.newProgram.programID
-    // );
+
 
     const selectedProgram = this.availablePrograms.filter(
       (x) => (x.programID = this.newProgram.programID)
@@ -174,6 +170,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         console.log('Program saved successfully:', response);
         alert('Program added successfully!');
         this.resetForm();
+        this.filterPrograms();
       },
       (error) => {
         console.error('Error saving program:', error);
@@ -186,12 +183,43 @@ export class AdminUniversityDetailComponent implements OnInit {
   editProgram(item: any) {
     this.newProgram.campusProgramID = item.campusProgramID;
     this.newProgram.degreeLevel = item.educationTypeID;
-    this.onEducationTypeChange(item.educationTypeID);
-    // this.newProgram.programID = item.programID;
+    this.newProgram.programID = item.programID; //added
+    this.onEducationTypeChange(item.programID);
+    // this.onEducationTypeChange(item.educationTypeID);
     this.newProgram.fee = item.tuitionFee;
     this.newProgram.duration = item.duration;
+
     console.log(this.newProgram);
   }
+
+  deleteProgram(program: any): void {
+    if (confirm('Are you sure you want to delete this program?')) {
+      const deleteData = {
+        spType: 'delete',
+        campusProgramID: program.campusProgramID,
+        userID: 1,
+        tuitionFee: program.tuitionFee.toString(),
+        duration: program.duration.toString(),
+        programID: program.programID.toString(),
+        educationType: program.educationTypeID.toString(),
+        uniID: this.university.uniID.toString(), 
+        campusID: this.university.campusID.toString() 
+      };
+
+      this.addprogramService.addprogram(deleteData).subscribe(
+        (response) => {
+          console.log('Program deleted successfully:', response);
+          alert('Program deleted successfully!');
+          this.filterPrograms();
+        },
+        (error) => {
+          console.error('Error deleting program:', error);
+          alert('Failed to delete program.');
+        }
+      );
+    }
+  }
+
   resetForm() {
     this.newProgram.degreeLevel = 0;
     this.newProgram.programID = null;

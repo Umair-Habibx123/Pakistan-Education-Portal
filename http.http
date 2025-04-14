@@ -1,0 +1,18 @@
+@baseUrl = http://95.217.205.57:13500/school-api/Campus
+
+### Add new program (insert)
+POST {{baseUrl}}/saveCampusPrograms
+Content-Type: application/json
+
+{
+  "spType": "insert",
+  "uniID": 1,
+  "eduationType": "Bachelor",
+  "programID": 101,
+  "programName": "Computer Science",
+  "applicationFee": 100,
+  "duration": 4,
+  "campusID": 1,
+  "userID": 1,
+  "tuitionFee": "5000"
+}

@@ -72,64 +72,19 @@
                 <div
                   class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
                 >
-                  <i class="text-danger cursor-pointer fa-trash-alt fas"></i>
-                  <i class="text-primary cursor-pointer fa-edit fas"></i>
+                  <i class="text-danger cursor-pointer fa-trash-alt fas"
+                  (click)="$event.stopPropagation(); deleteUniversity(university)"
+                  ></i>
+                  <i class="text-primary cursor-pointer fa-edit fas"
+                  data-bs-toggle="modal"
+                  data-bs-target="#universityModal"
+                  (click)="$event.stopPropagation(); editUniversity(university)"
+                  ></i>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- <div class="container-fluid my-4">
-          <div class="g-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
-            <div
-              class="col"
-              *ngFor="let university of filteredUniversities"
-              (click)="showUniversityDetail(university)"
-            >
-              <div
-                class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card"
-              >
-                <div>
-                  <img
-                    [src]="university.logo"
-                    alt="{{ university.name }} Logo"
-                    class="rounded-circle custom-university-logo"
-                  />
-                </div>
-                <div class="flex-grow-1">
-                  <h5 class="fw-bold mb-1 custom-university-name">
-                    {{ university.name }}
-                  </h5>
-                  <div class="text-muted small">
-                    <i class="fa-map-marker-alt fas"></i>
-                    {{ university.city }}
-                  </div>
-                  <div class="d-flex gap-1 mt-1">
-                    <span
-                      *ngFor="let campus of university.campuses"
-                      class="badge custom-badge"
-                      >{{ campus }}</span
-                    >
-                  </div>
-                  <div class="d-flex gap-1 mt-1">
-                    <span class="badge custom-badge">{{
-                      university.campusName
-                    }}</span>
-                  </div>
-                  <div class="text-success fw-semibold mt-1">
-                    {{ university.programsCount }} Programs
-                  </div>
-                </div>
-                <div
-                  class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
-                >
-                  <i class="text-danger cursor-pointer fa-trash-alt fas"></i>
-                  <i class="text-primary cursor-pointer fa-edit fas"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
 
         <!-- Pagination Section -->
         <div
@@ -202,41 +157,6 @@
           data-bs-dismiss="modal"
           aria-label="Close"
         ></button>
-      </div>
-
-      <!-- Radio buttons for selection -->
-      <div class="px-4 pt-2">
-        <div class="d-flex flex-column flex-sm-row gap-3">
-          <div class="form-check p-3 flex-grow-1">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="AddOption"
-              id="AddNew"
-              [(ngModel)]="universityOption"
-              value="new"
-              (change)="onUniversityOptionChange()"
-              checked
-            />
-            <label class="form-check-label fw-medium" for="AddNew">
-              Add New University
-            </label>
-          </div>
-          <div class="form-check p-3 flex-grow-1">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="AddOption"
-              id="ExistingUni"
-              [(ngModel)]="universityOption"
-              value="existing"
-              (change)="onUniversityOptionChange()"
-            />
-            <label class="form-check-label fw-medium" for="ExistingUni">
-              Existing University
-            </label>
-          </div>
-        </div>
       </div>
 
       <div class="modal-body">
@@ -320,22 +240,11 @@
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">University Name</label>
             <input
-              *ngIf="universityOption === 'new'"
               type="text"
               class="form-control"
               placeholder="COMSATS University"
               [(ngModel)]="newUniversity.name"
             />
-            <select
-              *ngIf="universityOption === 'existing'"
-              class="form-select"
-              [(ngModel)]="selectedExistingUniversity"
-            >
-              <option [ngValue]="null" disabled>Select University</option>
-              <option *ngFor="let uni of existingUniversities" [ngValue]="uni">
-                {{ uni.name }}
-              </option>
-            </select>
           </div>
           <div class="col-md-6">
             <label class="form-label">Campus Name</label>

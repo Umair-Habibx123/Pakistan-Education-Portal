@@ -19,7 +19,7 @@ export class UniversitiesComponent implements OnInit {
     private snackBar: MatSnackBar,
     private universityService: UniversityDataService,
     private adduniversityService: UniversityService
-  ) {}
+  ) { }
 
   logoPreviewUrl: string | ArrayBuffer | null = null;
   imagePreviewUrl: string | ArrayBuffer | null = null;
@@ -27,11 +27,12 @@ export class UniversitiesComponent implements OnInit {
   selectedImageFile: File | null = null;
   errorMessage: string = '';
 
-  universityOption: 'new' | 'existing' = 'new';
   newUniversity = {
     name: '',
     campus: '',
-    city: null as number | null, // Update this line
+    city: null as number | null,
+    universityID: 0,
+
   };
   selectedExistingUniversity: any = null;
   universities: any[] = [];
@@ -53,17 +54,17 @@ export class UniversitiesComponent implements OnInit {
   showDetailView = false;
 
   ngOnInit(): void {
-    // this.universities = this.universityService.getUniversities();
-    this.loadUniversities(); // get distinct universities
+
+    this.loadUniversities();
     this.updateFilteredUniversities();
-    this.loadCities(); // Call the method to load cities
+    this.loadCities();
   }
 
-  // display saved universities
+
   loadUniversities(): void {
     this.adduniversityService.getUniversity(0).subscribe(
       (response) => {
-        this.universities = response;
+        this.universities = response.filter((universities: any) => !universities.isDeleted);
         console.log(response);
         this.updateFilteredUniversities();
       },
@@ -73,7 +74,6 @@ export class UniversitiesComponent implements OnInit {
     );
   }
 
-  // Add this method to load cities from API
   loadCities(): void {
     this.adduniversityService.getCities().subscribe(
       (response) => {
@@ -86,121 +86,104 @@ export class UniversitiesComponent implements OnInit {
     );
   }
 
-  onUniversityOptionChange() {
-    this.newUniversity = {
-      name: '',
-      campus: '',
-      city: null,
-    };
-    this.selectedExistingUniversity = null;
-  }
-
   addUniversity(): void {
     this.errorMessage = '';
-
-    if (this.universityOption === 'new') {
-      if (
-        !this.newUniversity.name ||
-        !this.newUniversity.campus ||
-        !this.newUniversity.city
-      ) {
-        this.errorMessage = 'Please fill all required fields';
-        return;
-      }
-
-      if (!this.selectedLogoFile || !this.selectedImageFile) {
-        this.errorMessage = 'Please select image and logo....';
-        return;
-      }
-
-      const logoPromise = this.selectedLogoFile
-        ? this.fileToBase64(this.selectedLogoFile)
+    if (
+      !this.newUniversity.name ||
+      !this.newUniversity.campus ||
+      !this.newUniversity.city
+    ) {
+      this.errorMessage = 'Please fill all required fields';
+      return;
+    }
+  
+    if (!this.selectedLogoFile && !this.logoPreviewUrl) {
+      this.errorMessage = 'Please select or keep existing logo';
+      return;
+    }
+  
+    if (!this.selectedImageFile && !this.imagePreviewUrl) {
+      this.errorMessage = 'Please select or keep existing image';
+      return;
+    }
+  
+    const logoPromise = this.selectedLogoFile
+      ? this.fileToBase64(this.selectedLogoFile)
+      : this.logoPreviewUrl?.toString().includes('base64')
+        ? Promise.resolve(this.logoPreviewUrl.toString().split(',')[1])
         : Promise.resolve(null);
-      const imagePromise = this.selectedImageFile
-        ? this.fileToBase64(this.selectedImageFile)
+  
+    const imagePromise = this.selectedImageFile
+      ? this.fileToBase64(this.selectedImageFile)
+      : this.imagePreviewUrl?.toString().includes('base64')
+        ? Promise.resolve(this.imagePreviewUrl.toString().split(',')[1])
         : Promise.resolve(null);
-
-      Promise.all([logoPromise, imagePromise])
-        .then(([logoBase64, imageBase64]) => {
-          const universityData = {
-            spType: 'insert',
-            userID: 1,
-            universityName: this.newUniversity.name,
-            campusName: this.newUniversity.campus,
-            cityID: this.newUniversity.city,
-            logoEDoc: logoBase64,
-            imageEDoc: imageBase64,
-            logoEDocPath: this.selectedLogoFile ? 'C:/university/logos' : null,
-            logoEDocExt: this.selectedLogoFile
-              ? this.getFileExtension(this.selectedLogoFile.name)
-              : null,
-            imageEDocPath: this.selectedImageFile
-              ? 'C:/university/images'
-              : null,
-            imageEDocExt: this.selectedImageFile
-              ? this.getFileExtension(this.selectedImageFile.name)
-              : null,
-          };
-
-          console.log('Adding new university:', universityData);
-          this.adduniversityService.saveUniversity(universityData).subscribe(
-            (response) => {
-              console.log('University saved successfully:', response);
-              this.snackBar.open('University saved successfully!', 'Close', {
+  
+    Promise.all([logoPromise, imagePromise])
+      .then(([logoBase64, imageBase64]) => {
+        const universityData = {
+          spType: this.newUniversity.universityID !== 0 ? 'update' : 'insert',
+          userID: 1,
+          universityID: this.newUniversity.universityID,
+          universityName: this.newUniversity.name,
+          campusName: this.newUniversity.campus,
+          cityID: this.newUniversity.city,
+          logoEDoc: logoBase64,
+          imageEDoc: imageBase64,
+          logoEDocPath: this.selectedLogoFile ? 'C:/university/logos' : null,
+          logoEDocExt: this.selectedLogoFile
+            ? this.getFileExtension(this.selectedLogoFile.name)
+            : null,
+          imageEDocPath: this.selectedImageFile
+            ? 'C:/university/images'
+            : null,
+          imageEDocExt: this.selectedImageFile
+            ? this.getFileExtension(this.selectedImageFile.name)
+            : null,
+        };
+  
+        console.log('Saving university:', universityData);
+        this.adduniversityService.saveUniversity(universityData).subscribe(
+          (response) => {
+            if (Array.isArray(response) && response[0] === 'University already exists') {
+              this.errorMessage = 'A university with this name already exists';
+              this.snackBar.open('University already exists!', 'Close', {
                 duration: 5000,
-                panelClass: ['custom-snackbar', 'success-snackbar'],
-                verticalPosition: 'top',
-                horizontalPosition: 'right',
+                panelClass: ['error-snackbar'],
+              });
+            } else {
+              console.log('University saved successfully:', response);
+              this.snackBar.open(
+                this.newUniversity.universityID === 0 
+                  ? 'University added successfully!' 
+                  : 'University updated successfully!', 
+                'Close', {
+                duration: 5000,
+                panelClass: ['success-snackbar'],
               });
               this.resetForm();
               document.getElementById('universityModal')?.click();
-            },
-            (error) => {
-              console.error('Error saving university:', error);
-              this.errorMessage = 'Error saving university. Please try again.';
-
-              // Error snackbar
-              this.snackBar.open('Error saving university!', 'Close', {
-                duration: 5000,
-                panelClass: ['custom-snackbar', 'error-snackbar'],
-                verticalPosition: 'top',
-                horizontalPosition: 'right',
-              });
+              this.loadUniversities();
             }
-          );
-        })
-        .catch((error) => {
-          console.error('Error converting files to Base64:', error);
-          this.errorMessage = 'Error processing files. Please try again.';
-          this.snackBar.open('Error processing files!', 'Close', {
-            duration: 5000,
-            panelClass: ['error-snackbar'],
-          });
+          },
+          (error) => {
+            console.error('Error saving university:', error);
+            this.errorMessage = 'Error saving university. Please try again.';
+            this.snackBar.open('Error saving university!', 'Close', {
+              duration: 5000,
+              panelClass: ['error-snackbar'],
+            });
+          }
+        );
+      })
+      .catch((error) => {
+        console.error('Error converting files to Base64:', error);
+        this.errorMessage = 'Error processing files. Please try again.';
+        this.snackBar.open('Error processing files!', 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
         });
-    } else {
-      // Validate for existing university case
-      if (
-        !this.selectedExistingUniversity ||
-        !this.newUniversity.campus ||
-        !this.newUniversity.city
-      ) {
-        this.errorMessage = 'Please fill all required fields';
-        return;
-      }
-
-      console.log(
-        'Adding campus to existing university:',
-        this.selectedExistingUniversity,
-        this.newUniversity
-      );
-      this.snackBar.open('Campus added successfully!', 'Close', {
-        duration: 5000,
-        panelClass: ['success-snackbar'],
       });
-      // Reset form and close modal
-      this.resetForm();
-      document.getElementById('universityModal')?.click();
-    }
   }
 
   fileToBase64(file: File): Promise<string | null> {
@@ -318,13 +301,94 @@ export class UniversitiesComponent implements OnInit {
     };
   }
 
+
+  editUniversity(university: any) {
+    this.newUniversity = {
+      name: university.universityName,
+      campus: university.campusName,
+      city: university.cityID,
+      universityID: university.uniID,
+    };
+
+    if (!this.selectedLogoFile && !this.logoPreviewUrl) {
+      this.errorMessage = 'Please select or keep existing logo';
+      return;
+    }
+
+    if (!this.selectedImageFile && !this.imagePreviewUrl) {
+      this.errorMessage = 'Please select or keep existing image';
+      return;
+    }
+
+    if (university.logoEDocPath) {
+      this.logoPreviewUrl = `${this.productUrl}${university.logoEDocPath}`;
+    }
+    if (university.imageEDocPath) {
+      this.imagePreviewUrl = `${this.productUrl}${university.imageEDocPath}`;
+    }
+  }
+
+  deleteUniversity(university: any): void {
+    if (confirm('Are you sure you want to delete this University?')) {
+      const deleteData = {
+        spType: 'delete',
+        userID: 1,
+        universityID: university.uniID,
+        universityName: university.universityName.toString(),
+        campusName: university.campusName.toString(),
+        cityID: university.cityID.toString(),
+        isDeleted: 1,
+        logoEDoc: university.logoEDoc.toString(),
+        imageEDoc: university.imageEDoc.toString(),
+        logoEDocPath: university.logoEDocPath.toString(),
+        logoEDocExt: university.logoEDocExt,
+        imageEDocPath: university.imageEDocPath.toString(),
+        imageEDocExt: university.imageEDocExt
+      };
+  
+      this.adduniversityService.saveUniversity(deleteData).subscribe(
+        (response) => {
+          console.log('University deleted successfully:', response);
+          this.snackBar.open('University deleted successfully!', 'Close', {
+            duration: 5000,
+            panelClass: ['success-snackbar'],
+          });
+          this.loadUniversities();
+        },
+        (error) => {
+          console.error('Error deleting university:', error);
+          this.snackBar.open('Failed to delete university!', 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar'],
+          });
+        }
+      );
+    }
+  }
+
   resetForm() {
     this.logoPreviewUrl = null;
     this.imagePreviewUrl = null;
-    this.newUniversity.name = '';
-    this.newUniversity.campus = '';
-    this.newUniversity.city = null;
+    this.newUniversity = {
+      name: '',
+      campus: '',
+      city: null,
+      universityID: 0
+    };
+    this.selectedLogoFile = null;
+    this.selectedImageFile = null;
     this.selectedExistingUniversity = null;
-    this.universityOption = 'new';
+  }
+
+  clearLogo() {
+    this.logoPreviewUrl = null;
+    this.selectedLogoFile = null;
+    this.logoInput.nativeElement.value = '';
+  }
+
+  clearImage() {
+    this.imagePreviewUrl = null;
+    this.selectedImageFile = null;
+    this.imageInput.nativeElement.value = '';
   }
 }

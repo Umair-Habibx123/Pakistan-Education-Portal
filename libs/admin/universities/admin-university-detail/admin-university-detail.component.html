@@ -71,7 +71,10 @@
           </div>
 
           <div class="d-flex rounded-pill gap-2 custom-action-buttons">
-            <i class="text-danger fa-trash-alt fas"></i>
+            <i
+              class="text-danger fa-trash-alt fas"
+              (click)="deleteProgram(program)"
+            ></i>
             <i
               class="text-primary fa-edit fas"
               data-bs-toggle="modal"
