@@ -23,42 +23,92 @@
         />
         <h4 class="fw-bold mb-5 heading">Login Here</h4>
 
-        <!-- Email Input -->
-        <div class="mb-3">
-          <div class="input-group">
-            <input
-              type="email"
-              class="form-control border border-secondary bg-light"
-              placeholder="shilpa.m@xyz.com"
-            />
-            <span class="input-group-text bg-light border border-secondary"
-              ><i class="bi bi-envelope"></i
-            ></span>
-          </div>
+        <!-- Success Message -->
+        <div
+          *ngIf="showSuccess"
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+        >
+          {{ successMessage }}
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showSuccess = false"
+            aria-label="Close"
+          ></button>
         </div>
 
-        <div class="mb-4">
-          <div class="input-group">
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              class="form-control border border-secondary bg-light"
-              placeholder="Password"
-            />
-            <span
-              class="input-group-text bg-light border border-secondary cursor-pointer"
-              (click)="togglePasswordVisibility()"
-            >
-              <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
-            </span>
-          </div>
+
+        <div *ngIf="successMessage2" class="alert alert-success">
+          {{ successMessage2 }}
         </div>
+
+        <!-- Error Message -->
+        <div
+          *ngIf="showError"
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          {{ errorMessage }}
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showError = false"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <!-- Email Input -->
+          <div class="mb-3">
+            <div class="input-group">
+              <input
+              formControlName="email"
+              [ngClass]="{ 'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched }"
+             
+                type="email"
+                class="form-control border border-secondary bg-light"
+                placeholder="shilpa.m@xyz.com"
+              />
+              <span class="input-group-text bg-light border border-secondary"
+                ><i class="bi bi-envelope"></i
+              ></span>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="input-group">
+              <input
+              
+              formControlName="password"
+              [ngClass]="{ 'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched }"
+             
+                [type]="showPassword ? 'text' : 'password'"
+                class="form-control border border-secondary bg-light"
+                placeholder="Password"
+              />
+              <span
+                class="input-group-text bg-light border border-secondary cursor-pointer"
+                (click)="togglePasswordVisibility()"
+              >
+                <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
+              </span>
+            </div>
+          </div>
 
           <div class="text-end my-2">
-            <a [routerLink]="'/adminAuth/adminForgotPassword'" class="forgot-password-link">Forgot Password?</a>
+            <a
+              [routerLink]="'/adminAuth/adminForgotPassword'"
+              class="forgot-password-link"
+              >Forgot Password?</a
+            >
           </div>
 
-        <!-- Login Button -->
-        <button class="btn btn-success w-100 border-1 rounded-5">Login</button>
+          <!-- Login Button -->
+          <button class="btn btn-success w-100 border-1 rounded-5">
+            Login
+          </button>
+        </form>
       </div>
     </div>
   </div>

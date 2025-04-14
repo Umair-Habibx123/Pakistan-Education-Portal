@@ -186,3 +186,14 @@
   font-size: 0.875rem;
   margin-bottom: 1rem;
 }
+
+.spinner-border {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.2em;
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}

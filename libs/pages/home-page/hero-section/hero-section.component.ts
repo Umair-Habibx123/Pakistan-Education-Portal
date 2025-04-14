@@ -116,7 +116,7 @@ export class HeroSectionComponent implements OnInit {
   }
 
   applyFilters() {
-    debugger;
+    // debugger;
     if (!this.tempSelectedStudyLevel) {
       alert('Please select a Study Level before searching.');
       return;

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { addprogramService } from 'libs/service/addprogram/addProgram.service';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
+
 
 @Component({
   selector: 'app-admin-university-detail',
@@ -18,6 +20,9 @@ export class AdminUniversityDetailComponent implements OnInit {
   totalPages: number = 0;
   educationType: any[] = [];
   availablePrograms: any[] = [];
+  
+  user = this.userSessionService.getUser();
+  userId = this.user?.userLoginId;
 
   newProgram = {
     degreeLevel: 0,
@@ -27,7 +32,9 @@ export class AdminUniversityDetailComponent implements OnInit {
     campusProgramID: 0,
   };
 
-  constructor(private addprogramService: addprogramService) { }
+  constructor(private addprogramService: addprogramService,
+    private userSessionService: UserSessionService
+  ) { }
 
   ngOnInit() {
     this.filterPrograms();
@@ -144,7 +151,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         applicationFee: this.newProgram.fee,
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
-        userID: 1,
+        userID: this.userId,
         tuitionFee: this.newProgram.fee,
         campusProgramID: this.newProgram.campusProgramID,
       };
@@ -158,7 +165,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         applicationFee: this.newProgram.fee,
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
-        userID: 1,
+        userID: this.userId,
         tuitionFee: this.newProgram.fee,
       };
     }
@@ -197,7 +204,7 @@ export class AdminUniversityDetailComponent implements OnInit {
       const deleteData = {
         spType: 'delete',
         campusProgramID: program.campusProgramID,
-        userID: 1,
+        userID: this.userId,
         tuitionFee: program.tuitionFee.toString(),
         duration: program.duration.toString(),
         programID: program.programID.toString(),

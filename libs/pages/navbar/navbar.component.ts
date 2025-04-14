@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -6,28 +8,31 @@ import { Component, HostListener, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
   isMenuOpen = false;
   lastScrollPosition = 0;
   isNavbarHidden = false;
-  scrollThreshold = 100; // Set the scroll threshold (in pixels)
+  scrollThreshold = 100;
+  isDropdownOpen = false;
 
   navLinks = [
     { path: '/', label: 'Home', exact: true },
-    // { path: '/programs', label: 'Programs' },
-    // { path: '/universities', label: 'Universities' },
     { path: '/aboutUs', label: 'About Us' },
     { path: '/contactUs', label: 'Contact' },
   ];
 
+  constructor(
+    public sessionService: UserSessionService,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
     this.lastScrollPosition = window.pageYOffset;
   }
+
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     const currentScrollPosition = window.pageYOffset;
   
-    // Hide navbar when scrolled down by at least 75px
     if (currentScrollPosition > this.lastScrollPosition && currentScrollPosition > 75) {
       this.isNavbarHidden = true;
     }
@@ -44,5 +49,25 @@ export class NavbarComponent implements OnInit {
 
   closeMenu(): void {
     this.isMenuOpen = false;
+  }
+
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown(): void {
+    this.isDropdownOpen = false;
+  }
+
+  goToDashboard(): void {
+    this.router.navigate(['/admin-dashboard']);
+    this.closeDropdown();
+  }
+
+  logout(): void {
+    this.sessionService.clearSession();
+    window.location.reload();
+    this.isDropdownOpen = false;
+    this.router.navigate(['/']);
   }
 }

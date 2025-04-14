@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from 'libs/service/userSignUp/userSignup.service';
+import { AuthService } from 'libs/service/userSignUp/userAuth.service';
 
 
 @Component({
@@ -58,10 +58,15 @@ export class SignupComponent {
     this.errorMessage = '';
 
     const registrationData = {
+      newUserID: 0,
+      firstName: "",
+      userCNIC: "",
+      userID: 0,
+      spType: "insert",
       email: this.registerForm.value.email,
       mobile: this.registerForm.value.mobile,
       password: this.registerForm.value.password,
-      roleID: 2
+      // roleID: 0   //user
     };
 
     this.userService.signup(registrationData)

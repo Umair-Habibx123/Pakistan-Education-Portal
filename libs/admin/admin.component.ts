@@ -1,16 +1,15 @@
-import { Component, HostListener } from '@angular/core';
-
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent {
-  
+export class AdminComponent implements OnInit {
   isSidebarOpen = false;
   isLargeScreen = window.innerWidth >= 992;
 
+  // Initialize with default value that will be overwritten in ngOnInit
   currentSection: string = 'dashboard';
 
   menuItems = [
@@ -27,6 +26,14 @@ export class AdminComponent {
     this.updateScreenSize();
   }
 
+  ngOnInit() {
+    // Load the saved section from local storage when component initializes
+    const savedSection = localStorage.getItem('selectedSidebarTab');
+    if (savedSection && this.menuItems.some(item => item.id === savedSection)) {
+      this.currentSection = savedSection;
+    }
+  }
+
   @HostListener('window:resize', ['$event'])
   updateScreenSize() {
     this.isLargeScreen = window.innerWidth >= 992;
@@ -37,6 +44,8 @@ export class AdminComponent {
 
   loadContent(section: string) {
     this.currentSection = section;
+    // Save the selected section to local storage
+    localStorage.setItem('selectedSidebarTab', section);
     if (!this.isLargeScreen) this.isSidebarOpen = false;
   }
 

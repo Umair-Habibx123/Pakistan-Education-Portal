@@ -5,6 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptor } from 'libs/interceptor/loading.interceptor';
 import { LucideAngularModule, Bell, LayoutDashboard,Send, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight, CalendarDays, NotebookTabs } from 'lucide-angular';
 
 
@@ -94,7 +96,9 @@ import { AdminEnterCodeComponent } from '../../libs/admin/admin-auth/admin-enter
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

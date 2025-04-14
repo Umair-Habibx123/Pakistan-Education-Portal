@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UniversityDataService } from '../../service/UniversityData/university-data.service';
+import { ChangeDetectorRef } from '@angular/core';
 import { UniversityService } from 'libs/service/addUniversity/university.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environments';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
 
 @Component({
   selector: 'app-universities',
@@ -17,8 +18,9 @@ export class UniversitiesComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private universityService: UniversityDataService,
-    private adduniversityService: UniversityService
+    private adduniversityService: UniversityService,
+    private cdRef: ChangeDetectorRef,
+    private userSessionService: UserSessionService
   ) { }
 
   logoPreviewUrl: string | ArrayBuffer | null = null;
@@ -26,14 +28,17 @@ export class UniversitiesComponent implements OnInit {
   selectedLogoFile: File | null = null;
   selectedImageFile: File | null = null;
   errorMessage: string = '';
+  user = this.userSessionService.getUser();
+  userId = this.user?.userLoginId;
 
   newUniversity = {
     name: '',
     campus: '',
     city: null as number | null,
     universityID: 0,
-
+    campusID: 0,
   };
+
   selectedExistingUniversity: any = null;
   universities: any[] = [];
   filteredUniversities: any[] = [];
@@ -58,14 +63,15 @@ export class UniversitiesComponent implements OnInit {
     this.loadUniversities();
     this.updateFilteredUniversities();
     this.loadCities();
+    console.log(this.userId);
   }
 
 
   loadUniversities(): void {
+
     this.adduniversityService.getUniversity(0).subscribe(
       (response) => {
         this.universities = response.filter((universities: any) => !universities.isDeleted);
-        console.log(response);
         this.updateFilteredUniversities();
       },
       (error) => {
@@ -96,36 +102,35 @@ export class UniversitiesComponent implements OnInit {
       this.errorMessage = 'Please fill all required fields';
       return;
     }
-  
+
     if (!this.selectedLogoFile && !this.logoPreviewUrl) {
       this.errorMessage = 'Please select or keep existing logo';
       return;
     }
-  
+
     if (!this.selectedImageFile && !this.imagePreviewUrl) {
       this.errorMessage = 'Please select or keep existing image';
       return;
     }
-  
-    const logoPromise = this.selectedLogoFile
-      ? this.fileToBase64(this.selectedLogoFile)
-      : this.logoPreviewUrl?.toString().includes('base64')
-        ? Promise.resolve(this.logoPreviewUrl.toString().split(',')[1])
-        : Promise.resolve(null);
-  
-    const imagePromise = this.selectedImageFile
-      ? this.fileToBase64(this.selectedImageFile)
-      : this.imagePreviewUrl?.toString().includes('base64')
-        ? Promise.resolve(this.imagePreviewUrl.toString().split(',')[1])
-        : Promise.resolve(null);
-  
+
+    
+  const logoPromise = this.selectedLogoFile
+  ? this.fileToBase64(this.selectedLogoFile)
+  : Promise.resolve(null);
+
+const imagePromise = this.selectedImageFile
+  ? this.fileToBase64(this.selectedImageFile)
+  : Promise.resolve(null);
+
+
     Promise.all([logoPromise, imagePromise])
       .then(([logoBase64, imageBase64]) => {
         const universityData = {
           spType: this.newUniversity.universityID !== 0 ? 'update' : 'insert',
-          userID: 1,
+          userID: this.userId,
           universityID: this.newUniversity.universityID,
           universityName: this.newUniversity.name,
+          campusID: this.newUniversity.campusID,
           campusName: this.newUniversity.campus,
           cityID: this.newUniversity.city,
           logoEDoc: logoBase64,
@@ -141,7 +146,7 @@ export class UniversitiesComponent implements OnInit {
             ? this.getFileExtension(this.selectedImageFile.name)
             : null,
         };
-  
+
         console.log('Saving university:', universityData);
         this.adduniversityService.saveUniversity(universityData).subscribe(
           (response) => {
@@ -154,9 +159,9 @@ export class UniversitiesComponent implements OnInit {
             } else {
               console.log('University saved successfully:', response);
               this.snackBar.open(
-                this.newUniversity.universityID === 0 
-                  ? 'University added successfully!' 
-                  : 'University updated successfully!', 
+                this.newUniversity.universityID === 0
+                  ? 'University added successfully!'
+                  : 'University updated successfully!',
                 'Close', {
                 duration: 5000,
                 panelClass: ['success-snackbar'],
@@ -254,42 +259,76 @@ export class UniversitiesComponent implements OnInit {
     this.imageInput.nativeElement.click();
   }
 
-  onLogoSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.handleFileSelection(input, 'logo');
-  }
 
-  onImageSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.handleFileSelection(input, 'image');
-  }
-
-  private handleFileSelection(input: HTMLInputElement, type: 'logo' | 'image') {
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg'];
+  onLogoSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.logoPreviewUrl = null;
+      this.selectedLogoFile = null;
+      
+      const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'];
       if (!validTypes.includes(file.type)) {
-        alert('Please select a valid image file (SVG, PNG, JPG)');
+        this.errorMessage = 'Invalid file type. Please upload SVG, PNG, or JPG.';
+        this.cdRef.detectChanges();
         return;
       }
-
-      const maxSize = 2 * 1024 * 1024;
-      if (file.size > maxSize) {
-        alert('File size should not exceed 2MB');
+  
+      if (file.size > 2 * 1024 * 1024) {
+        this.errorMessage = 'File size too large. Max 2MB allowed.';
+        this.cdRef.detectChanges();
         return;
       }
-
+  
+      this.selectedLogoFile = file;
       const reader = new FileReader();
-      reader.onload = (e) => {
-        if (type === 'logo') {
-          this.logoPreviewUrl = e.target?.result as string;
-          this.selectedLogoFile = file;
-        } else {
-          this.imagePreviewUrl = e.target?.result as string;
-          this.selectedImageFile = file;
-        }
+  
+      reader.onload = (e: any) => {
+        this.logoPreviewUrl = e.target.result;
+        this.errorMessage = '';
+        this.cdRef.detectChanges();
       };
+  
+      reader.onerror = () => {
+        this.errorMessage = 'Error reading logo file';
+        this.logoPreviewUrl = null;
+        this.cdRef.detectChanges();
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'];
+      if (!validTypes.includes(file.type)) {
+        this.errorMessage = 'Invalid file type. Please upload SVG, PNG, or JPG.';
+        this.cdRef.detectChanges(); // Add this
+        return;
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        this.errorMessage = 'File size too large. Max 2MB allowed.';
+        this.cdRef.detectChanges(); // Add this
+        return;
+      }
+
+      this.selectedImageFile = file;
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.imagePreviewUrl = e.target.result;
+        this.errorMessage = '';
+        this.cdRef.detectChanges(); // Add this to update UI immediately
+      };
+
+      reader.onerror = () => {
+        this.errorMessage = 'Error reading image file';
+        this.imagePreviewUrl = null;
+        this.cdRef.detectChanges(); // Add this
+      };
+
       reader.readAsDataURL(file);
     }
   }
@@ -303,23 +342,28 @@ export class UniversitiesComponent implements OnInit {
 
 
   editUniversity(university: any) {
+    // Reset all file states first
+    this.selectedLogoFile = null;
+    this.selectedImageFile = null;
+    this.logoPreviewUrl = null;
+    this.imagePreviewUrl = null;
+    
+    if (this.logoInput?.nativeElement) {
+      this.logoInput.nativeElement.value = '';
+    }
+    if (this.imageInput?.nativeElement) {
+      this.imageInput.nativeElement.value = '';
+    }
+  
     this.newUniversity = {
       name: university.universityName,
       campus: university.campusName,
+      campusID: university.campusID,
       city: university.cityID,
       universityID: university.uniID,
     };
-
-    if (!this.selectedLogoFile && !this.logoPreviewUrl) {
-      this.errorMessage = 'Please select or keep existing logo';
-      return;
-    }
-
-    if (!this.selectedImageFile && !this.imagePreviewUrl) {
-      this.errorMessage = 'Please select or keep existing image';
-      return;
-    }
-
+  
+    
     if (university.logoEDocPath) {
       this.logoPreviewUrl = `${this.productUrl}${university.logoEDocPath}`;
     }
@@ -328,24 +372,26 @@ export class UniversitiesComponent implements OnInit {
     }
   }
 
+
+
   deleteUniversity(university: any): void {
     if (confirm('Are you sure you want to delete this University?')) {
       const deleteData = {
         spType: 'delete',
-        userID: 1,
+        userID: this.userId,
         universityID: university.uniID,
-        universityName: university.universityName.toString(),
-        campusName: university.campusName.toString(),
-        cityID: university.cityID.toString(),
-        isDeleted: 1,
-        logoEDoc: university.logoEDoc.toString(),
-        imageEDoc: university.imageEDoc.toString(),
-        logoEDocPath: university.logoEDocPath.toString(),
-        logoEDocExt: university.logoEDocExt,
-        imageEDocPath: university.imageEDocPath.toString(),
-        imageEDocExt: university.imageEDocExt
+        campusID: university.campusID,
+        universityName: university.universityName?.toString() || "",
+        campusName: university.campusName?.toString() || "",
+        cityID: university.cityID?.toString() || "",
+        logoEDoc: "",
+        imageEDoc: "",
+        logoEDocPath: "",
+        logoEDocExt: "",
+        imageEDocPath: "",
+        imageEDocExt: ""
       };
-  
+
       this.adduniversityService.saveUniversity(deleteData).subscribe(
         (response) => {
           console.log('University deleted successfully:', response);
@@ -356,7 +402,8 @@ export class UniversitiesComponent implements OnInit {
           this.loadUniversities();
         },
         (error) => {
-          console.error('Error deleting university:', error);
+          console.error('Error deleting university:', error.error);
+          this.loadUniversities();
           this.snackBar.open('Failed to delete university!', 'Close', {
             duration: 5000,
             panelClass: ['error-snackbar'],
@@ -373,11 +420,20 @@ export class UniversitiesComponent implements OnInit {
       name: '',
       campus: '',
       city: null,
-      universityID: 0
+      universityID: 0,
+      campusID: 0
     };
     this.selectedLogoFile = null;
     this.selectedImageFile = null;
     this.selectedExistingUniversity = null;
+    this.errorMessage = '';
+
+    if (this.logoInput?.nativeElement) {
+      this.logoInput.nativeElement.value = '';
+    }
+    if (this.imageInput?.nativeElement) {
+      this.imageInput.nativeElement.value = '';
+    }
   }
 
   clearLogo() {
