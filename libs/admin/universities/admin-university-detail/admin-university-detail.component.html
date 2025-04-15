@@ -20,7 +20,7 @@
       / Programs
     </h2>
     <div
-      class="d-flex flex-column flex-sm-row align-items-center gap-3 w-100 w-sm-65"
+      class="d-flex flex-column flex-sm-row align-items-center gap-3 w-75 w-sm-65 ps-5"
     >
       <!-- Search Input -->
       <div class="input-group w-75 w-sm-75 custom-input-height">
@@ -49,23 +49,23 @@
     <div class="g-4 row row-cols-1 row-cols-lg-3 row-cols-md-2">
       <div class="col" *ngFor="let program of getPaginatedPrograms()">
         <!-- Program Card Content -->
-        <div class="d-flex flex-column p-4 rounded-3 gap-3 custom-program-card">
+        <div class="d-flex flex-column p-4 rounded-3 gap-3 shadow-sm border custom-program-card">
           <div class="border-2 border-bottom pb-3">
-            <h5 class="fw-bold">{{ program.programName }}</h5>
+            <h5 class="fw-bold title">{{ program.programName }}</h5>
             <p class="m-0 text-muted">{{ program.educationTypeTitle }}</p>
           </div>
           <!-- Lower Section -->
           <div class="d-flex justify-content-between mt-2">
             <div class="text-dark">
               <i class="fa-tag fas"></i>
-              <strong>{{ program.tuitionFee }}</strong>
+              <strong>{{ program.tuitionFee }} PKR</strong>
               <p class="m-0 text-muted">Application Fee</p>
             </div>
             <div class="border-2 border-end"></div>
 
             <div class="text-dark ps-3">
               <i class="fa-hourglass-half fas"></i>
-              <strong>{{ program.duration }}</strong>
+              <strong>{{ program.duration }} Years</strong>
               <p class="m-0 text-muted">Duration</p>
             </div>
           </div>
@@ -142,6 +142,7 @@
           (click)="resetForm()"
           type="button"
           class="btn-close"
+          id="modalClose"
           data-bs-dismiss="modal"
           aria-label="Close"
         ></button>
@@ -163,7 +164,6 @@
                 [value]="type.educationTypeID"
               >
                 {{ type.educationTypeTitle }}
-                <!-- Make sure this matches your data structure -->
               </option>
             </select>
           </div>
@@ -197,19 +197,19 @@
             <input
               type="text"
               class="form-control"
-              placeholder=""
+              placeholder="Enter Fee in (PKR)"
               [(ngModel)]="newProgram.fee"
             />
           </div>
           <!-- Duration -->
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label"
-              >Duration (months)</label
+              >Duration (years)</label
             >
             <input
               type="number"
               class="form-control"
-              placeholder="Enter duration in months"
+              placeholder="Enter duration in years"
               [(ngModel)]="newProgram.duration"
               name="duration"
             />

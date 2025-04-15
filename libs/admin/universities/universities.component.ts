@@ -112,14 +112,14 @@ export class UniversitiesComponent implements OnInit {
       return;
     }
 
-    
-  const logoPromise = this.selectedLogoFile
-  ? this.fileToBase64(this.selectedLogoFile)
-  : Promise.resolve(null);
 
-const imagePromise = this.selectedImageFile
-  ? this.fileToBase64(this.selectedImageFile)
-  : Promise.resolve(null);
+    const logoPromise = this.selectedLogoFile
+      ? this.fileToBase64(this.selectedLogoFile)
+      : Promise.resolve(null);
+
+    const imagePromise = this.selectedImageFile
+      ? this.fileToBase64(this.selectedImageFile)
+      : Promise.resolve(null);
 
 
     Promise.all([logoPromise, imagePromise])
@@ -157,6 +157,7 @@ const imagePromise = this.selectedImageFile
               });
             } else {
               console.log('University saved successfully:', response);
+              document.getElementById('closeModal')?.click();
               this.snackBar.open(
                 this.newUniversity.universityID === 0
                   ? 'University added successfully!'
@@ -264,35 +265,35 @@ const imagePromise = this.selectedImageFile
     if (file) {
       this.logoPreviewUrl = null;
       this.selectedLogoFile = null;
-      
+
       const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'];
       if (!validTypes.includes(file.type)) {
         this.errorMessage = 'Invalid file type. Please upload SVG, PNG, or JPG.';
         this.cdRef.detectChanges();
         return;
       }
-  
+
       if (file.size > 2 * 1024 * 1024) {
         this.errorMessage = 'File size too large. Max 2MB allowed.';
         this.cdRef.detectChanges();
         return;
       }
-  
+
       this.selectedLogoFile = file;
       const reader = new FileReader();
-  
+
       reader.onload = (e: any) => {
         this.logoPreviewUrl = e.target.result;
         this.errorMessage = '';
         this.cdRef.detectChanges();
       };
-  
+
       reader.onerror = () => {
         this.errorMessage = 'Error reading logo file';
         this.logoPreviewUrl = null;
         this.cdRef.detectChanges();
       };
-  
+
       reader.readAsDataURL(file);
     }
   }
@@ -346,14 +347,14 @@ const imagePromise = this.selectedImageFile
     this.selectedImageFile = null;
     this.logoPreviewUrl = null;
     this.imagePreviewUrl = null;
-    
+
     if (this.logoInput?.nativeElement) {
       this.logoInput.nativeElement.value = '';
     }
     if (this.imageInput?.nativeElement) {
       this.imageInput.nativeElement.value = '';
     }
-  
+
     this.newUniversity = {
       name: university.universityName,
       campus: university.campusName,
@@ -361,8 +362,8 @@ const imagePromise = this.selectedImageFile
       city: university.cityID,
       universityID: university.uniID,
     };
-  
-    
+
+
     if (university.logoEDocPath) {
       this.logoPreviewUrl = `${this.productUrl}${university.logoEDocPath}`;
     }
@@ -447,3 +448,5 @@ const imagePromise = this.selectedImageFile
     this.imageInput.nativeElement.value = '';
   }
 }
+
+
