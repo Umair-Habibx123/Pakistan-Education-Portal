@@ -66,7 +66,7 @@ export class SignupComponent {
       email: this.registerForm.value.email,
       mobile: this.registerForm.value.mobile,
       password: this.registerForm.value.password,
-      // roleID: 0   //user
+      // roleID: 2   //user
     };
 
     this.userService.signup(registrationData)

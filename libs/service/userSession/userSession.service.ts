@@ -9,13 +9,13 @@ export class UserSessionService {
 
   constructor() { }
 
-  
+
   saveUserSession(userData: any): void {
     if (userData?.token) {
       localStorage.setItem(this.TOKEN_KEY, userData.token);
     }
 
-    
+
     const userToStore = {
       userLoginId: userData.userLoginId,
       roleId: userData.roleId,
@@ -33,29 +33,29 @@ export class UserSessionService {
     return user ? JSON.parse(user) : null;
   }
 
-  
+
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  
+
   isLoggedIn(): boolean {
     return this.getToken() !== null;
   }
 
-  
+
   getRoleId(): number | null {
     const user = this.getUser();
     return user?.roleId || null;
   }
 
-  
+
   getRoleTitle(): string | null {
     const user = this.getUser();
     return user?.roleTitle || null;
   }
 
-  
+
   clearSession(): void {
     localStorage.removeItem(this.USER_KEY);
     localStorage.removeItem(this.TOKEN_KEY);
@@ -64,7 +64,7 @@ export class UserSessionService {
   hasRole(roleId: number): boolean {
     const user = this.getUser();
     if (!user || !user.roleJson) return false;
-    
+
     try {
       const roles = JSON.parse(user.roleJson);
       return roles.some((role: any) => role.roleId === roleId);

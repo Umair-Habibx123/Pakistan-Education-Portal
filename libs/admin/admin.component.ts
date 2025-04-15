@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,8 +10,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
 export class AdminComponent implements OnInit {
   isSidebarOpen = false;
   isLargeScreen = window.innerWidth >= 992;
-
-  // Initialize with default value that will be overwritten in ngOnInit
   currentSection: string = 'dashboard';
 
   menuItems = [
@@ -22,12 +22,21 @@ export class AdminComponent implements OnInit {
     { id: 'settings', label: 'Settings', icon: 'Settings' },
   ];
 
-  constructor() {
+
+  constructor(
+    private router: Router,
+    private userSessionService: UserSessionService
+  ) {
     this.updateScreenSize();
   }
 
   ngOnInit() {
-    // Load the saved section from local storage when component initializes
+    const roleId = this.userSessionService.getRoleId();
+    if (roleId !== 1) {
+      this.router.navigate(['/']);
+      return;
+    }
+
     const savedSection = localStorage.getItem('selectedSidebarTab');
     if (savedSection && this.menuItems.some(item => item.id === savedSection)) {
       this.currentSection = savedSection;
@@ -38,13 +47,12 @@ export class AdminComponent implements OnInit {
   updateScreenSize() {
     this.isLargeScreen = window.innerWidth >= 992;
     if (this.isLargeScreen) {
-      this.isSidebarOpen = true; // Always open on large screens
+      this.isSidebarOpen = true;
     }
   }
 
   loadContent(section: string) {
     this.currentSection = section;
-    // Save the selected section to local storage
     localStorage.setItem('selectedSidebarTab', section);
     if (!this.isLargeScreen) this.isSidebarOpen = false;
   }

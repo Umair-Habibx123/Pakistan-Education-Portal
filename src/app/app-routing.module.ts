@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'aboutUs', component: AboutUsPageComponent },
   { path: 'contactUs', component: ContactUSPageComponent },
   { path: 'apply-through-us', component: ApplyThroughUSComponent },
-  { path: 'admin-dashboard', component: AdminComponent },
+  { path: 'admin-dashboard', component: AdminComponent }, 
   { path: 'university-details/:id', component: AdminUniversityDetailComponent },
   {
     path: 'auth', component: AuthComponent, children: [
@@ -42,12 +42,13 @@ const routes: Routes = [
       { path: '', redirectTo: '/', pathMatch: 'full' },
     ]
   },
-   // Redirect invalid routes to home page
+  
    { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  // imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 

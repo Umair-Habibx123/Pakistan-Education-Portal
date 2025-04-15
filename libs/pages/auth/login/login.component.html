@@ -55,6 +55,14 @@
               </small>
             </div>
 
+            <div class="text-end my-2">
+              <a
+                [routerLink]="'/adminAuth/adminForgotPassword'"
+                class="forgot-password-link"
+                >Forgot Password?</a
+              >
+            </div>
+
             <button class="btn w-100 border-1 rounded-5 mb-3 login-btn" [disabled]="isLoading">
               <span *ngIf="!isLoading">Login</span>
               <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

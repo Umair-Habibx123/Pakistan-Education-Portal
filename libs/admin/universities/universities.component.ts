@@ -59,7 +59,6 @@ export class UniversitiesComponent implements OnInit {
   showDetailView = false;
 
   ngOnInit(): void {
-
     this.loadUniversities();
     this.updateFilteredUniversities();
     this.loadCities();
