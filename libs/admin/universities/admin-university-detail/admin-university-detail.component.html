@@ -28,10 +28,12 @@
           <i class="text-muted fa-search fas"></i>
         </span>
         <input
-          type="text"
-          class="form-control bg-light border-0"
-          placeholder="Search here..."
-        />
+        type="text"
+        class="form-control bg-light border-0"
+        placeholder="Search here..."
+        [(ngModel)]="searchTerm"
+        (input)="searchCampus()"
+      />
       </div>
       <!-- Add Program Button -->
       <button

@@ -18,10 +18,12 @@
                 <i class="text-muted fa-search fas"></i>
               </span>
               <input
-                type="text"
-                class="form-control bg-light border-0"
-                placeholder="Search here..."
-              />
+              type="text"
+              class="form-control bg-light border-0"
+              placeholder="Search here..."
+              [(ngModel)]="searchTerm"
+              (input)="searchUniversities()"
+            />
             </div>
             <!-- Add Slider Button -->
             <button
@@ -53,8 +55,8 @@
                   />
                 </div>
                 <div class="flex-grow-1">
-                  <h5 class="fw-bold mb-1 custom-university-name">
-                    {{ university.universityname }}
+                  <h5 class="fw-bold mb-1 custom-university-name title">
+                    {{ university.universityName }}
                   </h5>
                   <div class="text-muted small">
                     <i class="fa-map-marker-alt fas"></i>

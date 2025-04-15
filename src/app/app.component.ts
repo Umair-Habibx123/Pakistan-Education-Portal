@@ -10,7 +10,7 @@ import { LoaderService } from 'libs/service/Loader/loader.service';
   changeDetection: ChangeDetectionStrategy.OnPush  // so that ExpressionChangedAfterItHasBeenCheckedError error not occurs
 })
 export class AppComponent implements OnInit {
-  title = 'ASAS-portal';
+  title = 'Education-portal';
 
   constructor(private router: Router, private route: ActivatedRoute,
     public loaderService: LoaderService

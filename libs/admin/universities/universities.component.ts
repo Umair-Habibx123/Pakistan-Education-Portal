@@ -23,6 +23,8 @@ export class UniversitiesComponent implements OnInit {
     private userSessionService: UserSessionService
   ) { }
 
+  searchTerm: string = '';
+
   logoPreviewUrl: string | ArrayBuffer | null = null;
   imagePreviewUrl: string | ArrayBuffer | null = null;
   selectedLogoFile: File | null = null;
@@ -47,14 +49,6 @@ export class UniversitiesComponent implements OnInit {
   totalPages: number = 0;
   cities: any[] = [];
 
-  existingUniversities = [
-    { id: 1, name: 'COMSATS University' },
-    { id: 2, name: 'Quaid-i-Azam University' },
-    { id: 3, name: 'Lahore University of Management Sciences' },
-    { id: 4, name: 'University of the Punjab' },
-    { id: 5, name: 'National University of Sciences and Technology' },
-  ];
-
   selectedUniversity: any = null;
   showDetailView = false;
 
@@ -67,10 +61,10 @@ export class UniversitiesComponent implements OnInit {
 
 
   loadUniversities(): void {
-
     this.adduniversityService.getUniversity(0).subscribe(
       (response) => {
         this.universities = response.filter((universities: any) => !universities.isDeleted);
+        this.searchTerm = ''; // Reset search term
         this.updateFilteredUniversities();
       },
       (error) => {
@@ -90,6 +84,24 @@ export class UniversitiesComponent implements OnInit {
       }
     );
   }
+
+  searchUniversities(): void {
+    if (!this.searchTerm) {
+      this.filteredUniversities = [...this.universities];
+      this.updateFilteredUniversities();
+      return;
+    }
+
+    const term = this.searchTerm.toLowerCase();
+    this.filteredUniversities = this.universities.filter(university => 
+      university.universityName.toLowerCase().includes(term) ||
+      (university.campusName && university.campusName.toLowerCase().includes(term)) ||
+      (university.cityName && university.cityName.toLowerCase().includes(term))
+    );
+    this.currentPage = 1; 
+    this.updateFilteredUniversities();
+  }
+  
 
   addUniversity(): void {
     this.errorMessage = '';
@@ -222,12 +234,13 @@ export class UniversitiesComponent implements OnInit {
   }
 
   updateFilteredUniversities(): void {
-    console.log('data:' + this.universities);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.filteredUniversities = this.universities.slice(startIndex, endIndex);
-    this.totalPages = Math.ceil(this.universities.length / this.itemsPerPage);
-    console.log('uni:' + this.filteredUniversities);
+    
+    const sourceArray = this.searchTerm ? this.filteredUniversities : this.universities;
+    
+    this.filteredUniversities = sourceArray.slice(startIndex, endIndex);
+    this.totalPages = Math.ceil(sourceArray.length / this.itemsPerPage);
   }
 
   goToPage(page: number): void {

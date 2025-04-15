@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     public sessionService: UserSessionService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.lastScrollPosition = window.pageYOffset;
@@ -32,14 +32,14 @@ export class NavbarComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     const currentScrollPosition = window.pageYOffset;
-  
+
     if (currentScrollPosition > this.lastScrollPosition && currentScrollPosition > 75) {
       this.isNavbarHidden = true;
     }
     else if (currentScrollPosition < this.lastScrollPosition) {
       this.isNavbarHidden = false;
     }
-  
+
     this.lastScrollPosition = currentScrollPosition;
   }
 
@@ -69,5 +69,12 @@ export class NavbarComponent implements OnInit {
     window.location.reload();
     this.isDropdownOpen = false;
     this.router.navigate(['/']);
+  }
+
+  getInitials(name: string | undefined): string {
+    if (!name) return '?';
+    const parts = name.split(' ');
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return `${parts[0].charAt(0)}${parts[parts.length - 1].charAt(0)}`.toUpperCase();
   }
 }

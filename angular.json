@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ASAS-portal": {
+    "Education-portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/asas-portal",
+            "outputPath": "dist/education-portal",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ASAS-portal:build:production"
+              "browserTarget": "Education-portal:build:production"
             },
             "development": {
-              "browserTarget": "ASAS-portal:build:development"
+              "browserTarget": "Education-portal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ASAS-portal:build"
+            "browserTarget": "Education-portal:build"
           }
         },
         "test": {

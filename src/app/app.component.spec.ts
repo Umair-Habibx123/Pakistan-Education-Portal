@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'ASAS-portal'`, () => {
+  it(`should have as title 'Education-portal'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ASAS-portal');
+    expect(app.title).toEqual('Education-portal');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('ASAS-portal app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Education-portal app is running!');
   });
 });

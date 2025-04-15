@@ -46,11 +46,11 @@
         <!-- Show user icon when logged in -->
         <div *ngIf="sessionService.isLoggedIn()" class="position-relative">
           <button
-            class="user-avatar"
+            class="user-avatar colorWhite fw-bold"
             (click)="toggleDropdown()"
             (mouseenter)="(null)"
           >
-            <svg
+            <!-- <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -62,8 +62,9 @@
               stroke-linejoin="round"
             >
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+              <circle cx="12" cy="7" r="4"></circle> -->
+            <!-- </svg> -->
+            {{ getInitials(sessionService.getUser()?.loginName) }}
           </button>
 
           <!-- Full screen overlay -->

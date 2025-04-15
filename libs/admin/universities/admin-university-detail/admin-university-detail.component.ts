@@ -14,13 +14,15 @@ export class AdminUniversityDetailComponent implements OnInit {
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();
 
-  searchQuery: string = '';
+  searchTerm: string = '';
   filteredPrograms: any[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 9;
+  itemsPerPage: number = 2;
   totalPages: number = 0;
   educationType: any[] = [];
   availablePrograms: any[] = [];
+  allPrograms: any[] = [];
+
 
   user = this.userSessionService.getUser();
   userId = this.user?.userLoginId;
@@ -85,16 +87,13 @@ export class AdminUniversityDetailComponent implements OnInit {
     });
   }
 
-
   filterPrograms() {
     this.addprogramService.getCampusProgram(this.university.campusID).subscribe(
       (response) => {
         console.log('campus program:', response);
-
-        // this.filteredPrograms = response.filter((program: any) => !program.is_Deleted);
         this.filteredPrograms = response;
-
-
+        this.allPrograms = [...response]; // Store original programs for filtering
+        
         this.totalPages = Math.ceil(
           this.filteredPrograms.length / this.itemsPerPage
         );
@@ -105,6 +104,29 @@ export class AdminUniversityDetailComponent implements OnInit {
       }
     );
   }
+
+
+  searchCampus(): void {
+    if (!this.searchTerm) {
+      this.filteredPrograms = [...this.allPrograms]; // Reset to original list
+      this.currentPage = 1;
+      this.totalPages = Math.ceil(this.filteredPrograms.length / this.itemsPerPage);
+      return;
+    }
+  
+    const term = this.searchTerm.toLowerCase();
+    this.filteredPrograms = this.allPrograms.filter(program => 
+      (program.programName && program.programName.toLowerCase().includes(term)) ||
+      (program.educationTypeTitle && program.educationTypeTitle.toLowerCase().includes(term)) ||
+      (program.tuitionFee && program.tuitionFee.toString().includes(term)) ||
+      (program.duration && program.duration.toString().includes(term))
+    );
+    
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.filteredPrograms.length / this.itemsPerPage);
+  }
+
+
   getPaginatedPrograms(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;

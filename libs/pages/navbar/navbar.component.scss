@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; 
+  z-index: 1000;
   transition: transform 0.3s ease-in-out;
   background-color: var(--main-pink);
 }
@@ -13,7 +13,7 @@
 }
 
 .active-link {
-  color:  var(--active-link-pink) !important;
+  color: var(--active-link-pink) !important;
 }
 
 /* Logo Image */
@@ -108,7 +108,7 @@
   transition: all 0.3s ease;
   padding: 0;
   margin-left: 12px;
-  
+
   &:hover {
     background-color: #e0e0e0;
     border-color: #d0d0d0;
@@ -132,6 +132,10 @@
   z-index: 999;
 }
 
+.colorWhite {
+  color: white;
+}
+
 
 /* User Dropdown */
 .user-dropdown {
@@ -144,17 +148,17 @@
   min-width: 240px;
   z-index: 1000;
   overflow: hidden;
-  
+
   .dropdown-header {
     padding: 16px;
     border-bottom: 1px solid #f0f0f0;
-    
+
     .user-info {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    
+
     .user-avatar-large {
       width: 48px;
       height: 48px;
@@ -163,27 +167,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      
+
       svg {
         width: 24px;
         height: 24px;
         color: #555;
       }
     }
-    
+
     .user-name {
       font-weight: 600;
       font-size: 14px;
       color: #333;
     }
-    
+
     .user-role {
       font-size: 12px;
       color: #777;
       margin-top: 2px;
     }
   }
-  
+
   .dropdown-item {
     padding: 12px 16px;
     display: flex;
@@ -192,17 +196,17 @@
     cursor: pointer;
     color: #333;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
       background-color: #f8f8f8;
     }
-    
+
     svg {
       width: 18px;
       height: 18px;
       color: #666;
     }
-    
+
     span {
       font-size: 14px;
     }
