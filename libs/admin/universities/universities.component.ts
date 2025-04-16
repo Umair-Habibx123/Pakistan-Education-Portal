@@ -64,7 +64,7 @@ export class UniversitiesComponent implements OnInit {
     this.adduniversityService.getUniversity(0).subscribe(
       (response) => {
         this.universities = response.filter((universities: any) => !universities.isDeleted);
-        this.searchTerm = ''; // Reset search term
+        this.searchTerm = '';
         this.updateFilteredUniversities();
       },
       (error) => {
@@ -93,15 +93,15 @@ export class UniversitiesComponent implements OnInit {
     }
 
     const term = this.searchTerm.toLowerCase();
-    this.filteredUniversities = this.universities.filter(university => 
+    this.filteredUniversities = this.universities.filter(university =>
       university.universityName.toLowerCase().includes(term) ||
       (university.campusName && university.campusName.toLowerCase().includes(term)) ||
       (university.cityName && university.cityName.toLowerCase().includes(term))
     );
-    this.currentPage = 1; 
+    this.currentPage = 1;
     this.updateFilteredUniversities();
   }
-  
+
 
   addUniversity(): void {
     this.errorMessage = '';
@@ -114,28 +114,42 @@ export class UniversitiesComponent implements OnInit {
       return;
     }
 
-    if (!this.selectedLogoFile && !this.logoPreviewUrl) {
-      this.errorMessage = 'Please select or keep existing logo';
-      return;
-    }
+    const isEditWithExistingImages = (this.newUniversity.universityID !== 0 &&
+      !this.selectedLogoFile &&
+      !this.selectedImageFile &&
+      this.logoPreviewUrl &&
+      this.imagePreviewUrl);
 
-    if (!this.selectedImageFile && !this.imagePreviewUrl) {
-      this.errorMessage = 'Please select or keep existing image';
-      return;
-    }
 
+    if (!isEditWithExistingImages) {
+      if (!this.selectedLogoFile && !this.logoPreviewUrl) {
+        this.errorMessage = 'Please select or keep existing logo';
+        return;
+      }
+
+      if (!this.selectedImageFile && !this.imagePreviewUrl) {
+        this.errorMessage = 'Please select or keep existing image';
+        return;
+      }
+    }
 
     const logoPromise = this.selectedLogoFile
       ? this.fileToBase64(this.selectedLogoFile)
-      : Promise.resolve(null);
+      : isEditWithExistingImages
+        ? Promise.resolve('existing')
+        : Promise.resolve(null);
 
     const imagePromise = this.selectedImageFile
       ? this.fileToBase64(this.selectedImageFile)
-      : Promise.resolve(null);
-
+      : isEditWithExistingImages
+        ? Promise.resolve('existing')
+        : Promise.resolve(null);
 
     Promise.all([logoPromise, imagePromise])
       .then(([logoBase64, imageBase64]) => {
+
+        const existingUni = this.universities.find(u => u.uniID === this.newUniversity.universityID);
+
         const universityData = {
           spType: this.newUniversity.universityID !== 0 ? 'update' : 'insert',
           userID: this.userId,
@@ -144,18 +158,20 @@ export class UniversitiesComponent implements OnInit {
           campusID: this.newUniversity.campusID,
           campusName: this.newUniversity.campus,
           cityID: this.newUniversity.city,
-          logoEDoc: logoBase64,
-          imageEDoc: imageBase64,
-          logoEDocPath: this.selectedLogoFile ? 'C:/university/logos' : null,
+          logoEDoc: logoBase64 === 'existing' ? '' : logoBase64,
+          imageEDoc: imageBase64 === 'existing' ? '' : imageBase64,
+          logoEDocPath: this.selectedLogoFile
+            ? environment.logoUrl
+            : (existingUni?.logoEDocPath || null),
           logoEDocExt: this.selectedLogoFile
             ? this.getFileExtension(this.selectedLogoFile.name)
-            : null,
+            : (existingUni?.logoEDocPath?.split('.').pop() || null),
           imageEDocPath: this.selectedImageFile
-            ? 'C:/university/images'
-            : null,
+            ? environment.imageUrl
+            : (existingUni?.imageEDocPath || null),
           imageEDocExt: this.selectedImageFile
             ? this.getFileExtension(this.selectedImageFile.name)
-            : null,
+            : (existingUni?.imageEDocPath?.split('.').pop() || null),
         };
 
         console.log('Saving university:', universityData);
@@ -203,6 +219,8 @@ export class UniversitiesComponent implements OnInit {
       });
   }
 
+
+
   fileToBase64(file: File): Promise<string | null> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -236,9 +254,9 @@ export class UniversitiesComponent implements OnInit {
   updateFilteredUniversities(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    
+
     const sourceArray = this.searchTerm ? this.filteredUniversities : this.universities;
-    
+
     this.filteredUniversities = sourceArray.slice(startIndex, endIndex);
     this.totalPages = Math.ceil(sourceArray.length / this.itemsPerPage);
   }
@@ -317,13 +335,13 @@ export class UniversitiesComponent implements OnInit {
       const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'];
       if (!validTypes.includes(file.type)) {
         this.errorMessage = 'Invalid file type. Please upload SVG, PNG, or JPG.';
-        this.cdRef.detectChanges(); // Add this
+        this.cdRef.detectChanges();
         return;
       }
 
       if (file.size > 2 * 1024 * 1024) {
         this.errorMessage = 'File size too large. Max 2MB allowed.';
-        this.cdRef.detectChanges(); // Add this
+        this.cdRef.detectChanges();
         return;
       }
 
@@ -333,29 +351,21 @@ export class UniversitiesComponent implements OnInit {
       reader.onload = (e: any) => {
         this.imagePreviewUrl = e.target.result;
         this.errorMessage = '';
-        this.cdRef.detectChanges(); // Add this to update UI immediately
+        this.cdRef.detectChanges();
       };
 
       reader.onerror = () => {
         this.errorMessage = 'Error reading image file';
         this.imagePreviewUrl = null;
-        this.cdRef.detectChanges(); // Add this
+        this.cdRef.detectChanges();
       };
 
       reader.readAsDataURL(file);
     }
   }
 
-  getUploadedFiles(): { logo?: File; image?: File } {
-    return {
-      logo: this.selectedLogoFile || undefined,
-      image: this.selectedImageFile || undefined,
-    };
-  }
-
 
   editUniversity(university: any) {
-    // Reset all file states first
     this.selectedLogoFile = null;
     this.selectedImageFile = null;
     this.logoPreviewUrl = null;
@@ -383,6 +393,8 @@ export class UniversitiesComponent implements OnInit {
     if (university.imageEDocPath) {
       this.imagePreviewUrl = `${this.productUrl}${university.imageEDocPath}`;
     }
+
+    console.log(this.logoPreviewUrl, this.imagePreviewUrl)
   }
 
 
@@ -448,18 +460,4 @@ export class UniversitiesComponent implements OnInit {
       this.imageInput.nativeElement.value = '';
     }
   }
-
-  clearLogo() {
-    this.logoPreviewUrl = null;
-    this.selectedLogoFile = null;
-    this.logoInput.nativeElement.value = '';
-  }
-
-  clearImage() {
-    this.imagePreviewUrl = null;
-    this.selectedImageFile = null;
-    this.imageInput.nativeElement.value = '';
-  }
 }
-
-
