@@ -18,12 +18,12 @@
                 <i class="text-muted fa-search fas"></i>
               </span>
               <input
-              type="text"
-              class="form-control bg-light border-0"
-              placeholder="Search here..."
-              [(ngModel)]="searchTerm"
-              (input)="searchUniversities()"
-            />
+                type="text"
+                class="form-control bg-light border-0"
+                placeholder="Search here..."
+                [(ngModel)]="searchTerm"
+                (input)="searchUniversities()"
+              />
             </div>
             <!-- Add Slider Button -->
             <button
@@ -74,13 +74,21 @@
                 <div
                   class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
                 >
-                  <i class="text-danger cursor-pointer fa-trash-alt fas"
-                  (click)="$event.stopPropagation(); deleteUniversity(university)"
+                  <i
+                    class="text-danger cursor-pointer fa-trash-alt fas"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteConfirmationModal1"
+                    (click)="
+                      $event.stopPropagation(); confirmDelete(university)
+                    "
                   ></i>
-                  <i class="text-primary cursor-pointer fa-edit fas"
-                  data-bs-toggle="modal"
-                  data-bs-target="#universityModal"
-                  (click)="$event.stopPropagation(); editUniversity(university)"
+                  <i
+                    class="text-primary cursor-pointer fa-edit fas"
+                    data-bs-toggle="modal"
+                    data-bs-target="#universityModal"
+                    (click)="
+                      $event.stopPropagation(); editUniversity(university)
+                    "
                   ></i>
                 </div>
               </div>
@@ -284,6 +292,77 @@
         >
           Add University
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="deleteConfirmationModal1"
+  tabindex="-1"
+  aria-labelledby="deleteConfirmationModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header border-0 pb-0">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body text-center px-4 py-3">
+        <div class="mb-4">
+          <svg
+            width="60"
+            height="60"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+              stroke="#F44336"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <h5 class="modal-title fw-bold mb-3" id="deleteConfirmationModalLabel">
+          Delete University
+        </h5>
+
+        <p class="text-muted mb-4">
+          Are you sure you want to delete
+          <span class="fw-bold">{{ universityToDelete?.universityName }}</span
+          >? This action cannot be undone.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3">
+          <button
+            type="button"
+            class="btn btn-light border px-4 py-2"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger px-4 py-2"
+            (click)="
+                      $event.stopPropagation(); deleteUniversity()
+                    "
+            data-bs-dismiss="modal"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </div>

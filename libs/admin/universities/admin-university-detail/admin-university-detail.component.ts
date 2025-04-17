@@ -22,6 +22,8 @@ export class AdminUniversityDetailComponent implements OnInit {
   educationType: any[] = [];
   availablePrograms: any[] = [];
   allPrograms: any[] = [];
+  programToDelete: any = null;
+
 
 
   user = this.userSessionService.getUser();
@@ -237,16 +239,21 @@ export class AdminUniversityDetailComponent implements OnInit {
     console.log(this.newProgram);
   }
 
-  deleteProgram(program: any): void {
-    if (confirm('Are you sure you want to delete this program?')) {
+  confirmDelete(program: any) : void{
+    this.programToDelete = program;
+  }
+
+  deleteProgram(): void {
+    if (!this.programToDelete) return;
+
       const deleteData = {
         spType: 'delete',
-        campusProgramID: program.campusProgramID,
+        campusProgramID: this.programToDelete.campusProgramID,
         userID: this.userId,
-        tuitionFee: program.tuitionFee.toString(),
-        duration: program.duration.toString(),
-        programID: program.programID.toString(),
-        educationType: program.educationTypeID.toString(),
+        tuitionFee: this.programToDelete.tuitionFee.toString(),
+        duration: this.programToDelete.duration.toString(),
+        programID: this.programToDelete.programID.toString(),
+        educationType: this.programToDelete.educationTypeID.toString(),
         uniID: this.university.uniID.toString(),
         campusID: this.university.campusID.toString()
       };
@@ -271,7 +278,6 @@ export class AdminUniversityDetailComponent implements OnInit {
         }
       );
     }
-  }
 
   resetForm() {
     this.newProgram.degreeLevel = 0;

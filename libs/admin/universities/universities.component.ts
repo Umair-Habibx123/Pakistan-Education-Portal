@@ -49,6 +49,8 @@ export class UniversitiesComponent implements OnInit {
   totalPages: number = 0;
   cities: any[] = [];
 
+  universityToDelete: any = null;
+
   selectedUniversity: any = null;
   showDetailView = false;
 
@@ -398,44 +400,47 @@ export class UniversitiesComponent implements OnInit {
   }
 
 
+  confirmDelete(university: any): void {
+    this.universityToDelete = university;
+  }
 
-  deleteUniversity(university: any): void {
-    if (confirm('Are you sure you want to delete this University?')) {
-      const deleteData = {
-        spType: 'delete',
-        userID: this.userId,
-        universityID: university.uniID,
-        campusID: university.campusID,
-        universityName: university.universityName?.toString() || "",
-        campusName: university.campusName?.toString() || "",
-        cityID: university.cityID?.toString() || "",
-        logoEDoc: "",
-        imageEDoc: "",
-        logoEDocPath: "",
-        logoEDocExt: "",
-        imageEDocPath: "",
-        imageEDocExt: ""
-      };
+  deleteUniversity(): void {
+    if (!this.universityToDelete) return;
 
-      this.adduniversityService.saveUniversity(deleteData).subscribe(
-        (response) => {
-          console.log('University deleted successfully:', response);
-          this.snackBar.open('University deleted successfully!', 'Close', {
-            duration: 5000,
-            panelClass: ['success-snackbar'],
-          });
-          this.loadUniversities();
-        },
-        (error) => {
-          console.error('Error deleting university:', error.error);
-          this.loadUniversities();
-          this.snackBar.open('Failed to delete university!', 'Close', {
-            duration: 5000,
-            panelClass: ['error-snackbar'],
-          });
-        }
-      );
-    }
+    const deleteData = {
+      spType: 'delete',
+      userID: this.userId,
+      universityID: this.universityToDelete.uniID,
+      campusID: this.universityToDelete.campusID,
+      universityName: this.universityToDelete.universityName?.toString() || "",
+      campusName: this.universityToDelete.campusName?.toString() || "",
+      cityID: this.universityToDelete.cityID?.toString() || "",
+      logoEDoc: "",
+      imageEDoc: "",
+      logoEDocPath: "",
+      logoEDocExt: "",
+      imageEDocPath: "",
+      imageEDocExt: ""
+    };
+
+    this.adduniversityService.saveUniversity(deleteData).subscribe(
+      (response) => {
+        console.log('University deleted successfully:', response);
+        this.snackBar.open('University deleted successfully!', 'Close', {
+          duration: 5000,
+          panelClass: ['success-snackbar'],
+        });
+        this.loadUniversities();
+      },
+      (error) => {
+        console.error('Error deleting university:', error.error);
+        this.loadUniversities();
+        this.snackBar.open('Failed to delete university!', 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+        });
+      }
+    );
   }
 
   resetForm() {
@@ -460,4 +465,5 @@ export class UniversitiesComponent implements OnInit {
       this.imageInput.nativeElement.value = '';
     }
   }
+
 }

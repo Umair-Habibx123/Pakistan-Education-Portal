@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UniversityDataService } from '../../../service/UniversityData/university-data.service'; // Import the service
+import { UniversityService } from 'libs/service/addUniversity/university.service';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-partner-universities',
@@ -8,14 +9,33 @@ import { UniversityDataService } from '../../../service/UniversityData/universit
   styleUrls: ['./partner-universities.component.scss']
 })
 export class PartnerUniversitiesComponent implements OnInit {
-  universities: any[] = []; // Initialize as an empty array
+  universities: any[] = [];
+  public productUrl = environment.productUrl;
+
   isUniversityPage: boolean = false;
 
-  constructor(private router: Router, private universityDataService: UniversityDataService) {
+  constructor(
+    private router: Router,
+    private universityService: UniversityService,
+  ) {
     this.isUniversityPage = this.router.url === '/universities';
   }
 
   ngOnInit(): void {
-    this.universities = this.universityDataService.getUniversities();
+    this.loadUniversities();
+  }
+
+  loadUniversities(): void {
+    this.universityService.getUniversity(0).subscribe(
+      (response) => {
+        this.universities = response.filter((university: any) => !university.isDeleted);
+      },
+      (error) => {
+        console.error('Error fetching universities:', error);
+      }
+
+    );
+    console.log("universities = ", this.universities);
+
   }
 }

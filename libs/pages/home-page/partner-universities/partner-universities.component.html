@@ -23,12 +23,23 @@
     <!-- University Grid -->
     <div class="col-12 px-3 px-md-5">
       <div class="row">
-        <div *ngFor="let university of universities" class="col-6 col-md-3 mb-4">
+        <div
+          *ngFor="let university of universities | slice:0:8"
+          class="col-6 col-md-3 mb-4"
+        >
           <div class="university-card">
-            <img [src]="university.image" alt="University" class="university-image" />
-            <img [src]="university.logo" alt="Logo" class="university-logo" />
+            <img
+              [src]="productUrl + university.imageEDocPath"
+              alt="University"
+              class="university-image"
+            />
+            <img
+              [src]="productUrl + university.logoEDocPath"
+              alt="Logo"
+              class="university-logo"
+            />
           </div>
-          <p class="university-name">{{ university.name }}</p>
+          <p class="university-name">{{ university.universityName }}</p>
 
           <!-- Additional details if route is /universities -->
           <div *ngIf="isUniversityPage">
@@ -46,12 +57,28 @@
     <!-- Button -->
     <div class="col-12 text-center">
       <div class="view-button">
-        <a routerLink="/universities" routerLinkActive="active-link" class="view-button-text">
+        <a
+          routerLink="/universities"
+          routerLinkActive="active-link"
+          class="view-button-text"
+        >
           View All Universities
         </a>
         <div class="view-button-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 19L19 5M19 5H9M19 5V15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 19L19 5M19 5H9M19 5V15"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
       </div>
