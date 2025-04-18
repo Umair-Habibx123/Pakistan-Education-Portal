@@ -24,6 +24,9 @@ export class UniversitiesComponent implements OnInit {
   ) { }
 
   searchTerm: string = '';
+  private readonly NAME_REGEX = /^[a-zA-Z\s\-']{2,100}$/;
+  private readonly CAMPUS_REGEX = /^[a-zA-Z0-9\s\-',.()]{2,100}$/;
+  private readonly URL_REGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
 
   logoPreviewUrl: string | ArrayBuffer | null = null;
   imagePreviewUrl: string | ArrayBuffer | null = null;
@@ -37,6 +40,7 @@ export class UniversitiesComponent implements OnInit {
     name: '',
     campus: '',
     city: null as number | null,
+    url: '',
     universityID: 0,
     campusID: 0,
   };
@@ -110,11 +114,32 @@ export class UniversitiesComponent implements OnInit {
     if (
       !this.newUniversity.name ||
       !this.newUniversity.campus ||
-      !this.newUniversity.city
+      !this.newUniversity.city ||
+      !this.newUniversity.url
     ) {
       this.errorMessage = 'Please fill all required fields';
       return;
     }
+
+    if (!this.NAME_REGEX.test(this.newUniversity.name)) {
+      this.errorMessage = 'University name must be 2-100 characters long and contain only letters, spaces, hyphens, and apostrophes';
+      return;
+    }
+
+    if (!this.CAMPUS_REGEX.test(this.newUniversity.campus)) {
+      this.errorMessage = 'Campus name must be 2-100 characters long and contain only letters, numbers, spaces, and basic punctuation';
+      return;
+    }
+
+    if (!this.URL_REGEX.test(this.newUniversity.url)) {
+      this.errorMessage = 'Please enter a valid website URL (e.g., https://www.example.edu)';
+      return;
+    }
+
+    if (!this.newUniversity.url.startsWith('http://') && !this.newUniversity.url.startsWith('https://')) {
+      this.newUniversity.url = 'https://' + this.newUniversity.url;
+    }
+
 
     const isEditWithExistingImages = (this.newUniversity.universityID !== 0 &&
       !this.selectedLogoFile &&
@@ -157,6 +182,7 @@ export class UniversitiesComponent implements OnInit {
           userID: this.userId,
           universityID: this.newUniversity.universityID,
           universityName: this.newUniversity.name,
+          url: this.newUniversity.url,
           campusID: this.newUniversity.campusID,
           campusName: this.newUniversity.campus,
           cityID: this.newUniversity.city,
@@ -384,6 +410,7 @@ export class UniversitiesComponent implements OnInit {
       name: university.universityName,
       campus: university.campusName,
       campusID: university.campusID,
+      url: university.url,
       city: university.cityID,
       universityID: university.uniID,
     };
@@ -451,6 +478,7 @@ export class UniversitiesComponent implements OnInit {
       campus: '',
       city: null,
       universityID: 0,
+      url: '',
       campusID: 0
     };
     this.selectedLogoFile = null;

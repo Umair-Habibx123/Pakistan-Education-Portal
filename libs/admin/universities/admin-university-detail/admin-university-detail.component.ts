@@ -15,7 +15,11 @@ export class AdminUniversityDetailComponent implements OnInit {
   @Output() goBack = new EventEmitter<void>();
 
   searchTerm: string = '';
+  private readonly FEE_REGEX = /^\d+(\.\d{1,2})?$/; // Allows numbers with optional 2 decimal places
+  private readonly DURATION_REGEX = /^[1-9]\d*(\.\d{1,2})?$/; // Positive numbers with optional 2 decimal places
+
   filteredPrograms: any[] = [];
+  errorMessage: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 2;
   totalPages: number = 0;
@@ -33,6 +37,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     degreeLevel: 0,
     programID: null,
     fee: "",
+    degreeFee: "",
     duration: '123...',
     campusProgramID: 0,
   };
@@ -95,7 +100,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         console.log('campus program:', response);
         this.filteredPrograms = response;
         this.allPrograms = [...response]; // Store original programs for filtering
-        
+
         this.totalPages = Math.ceil(
           this.filteredPrograms.length / this.itemsPerPage
         );
@@ -115,15 +120,15 @@ export class AdminUniversityDetailComponent implements OnInit {
       this.totalPages = Math.ceil(this.filteredPrograms.length / this.itemsPerPage);
       return;
     }
-  
+
     const term = this.searchTerm.toLowerCase();
-    this.filteredPrograms = this.allPrograms.filter(program => 
+    this.filteredPrograms = this.allPrograms.filter(program =>
       (program.programName && program.programName.toLowerCase().includes(term)) ||
       (program.educationTypeTitle && program.educationTypeTitle.toLowerCase().includes(term)) ||
       (program.tuitionFee && program.tuitionFee.toString().includes(term)) ||
       (program.duration && program.duration.toString().includes(term))
     );
-    
+
     this.currentPage = 1;
     this.totalPages = Math.ceil(this.filteredPrograms.length / this.itemsPerPage);
   }
@@ -159,6 +164,24 @@ export class AdminUniversityDetailComponent implements OnInit {
       return;
     }
 
+    // Application Fee validation
+    if (!this.newProgram.fee || !this.FEE_REGEX.test(this.newProgram.fee)) {
+      this.errorMessage = 'Please enter a valid application fee';
+      return;
+    }
+
+    // Degree Fee validation
+    if (!this.newProgram.degreeFee || !this.FEE_REGEX.test(this.newProgram.degreeFee)) {
+      this.errorMessage = 'Please enter a valid degree fee';
+      return;
+    }
+
+    // Duration validation
+    if (!this.newProgram.duration || !this.DURATION_REGEX.test(this.newProgram.duration)) {
+      this.errorMessage = 'Please enter a valid duration (1 or higher)';
+      return;
+    }
+
 
     const selectedProgram = this.availablePrograms.filter(
       (x) => (x.programID = this.newProgram.programID)
@@ -180,6 +203,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         programID: selectedProgram[0].programID,
         programName: selectedProgram[0].programName,
         applicationFee: this.newProgram.fee,
+        degreeFee: this.newProgram.degreeFee,
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
         userID: this.userId,
@@ -194,6 +218,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         programID: selectedProgram[0].programID,
         programName: selectedProgram[0].programName,
         applicationFee: this.newProgram.fee,
+        degreeFee: this.newProgram.degreeFee,
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
         userID: this.userId,
@@ -211,7 +236,6 @@ export class AdminUniversityDetailComponent implements OnInit {
           duration: 5000,
           panelClass: ['error-snackbar'],
         });
-        // alert('Program added successfully!');
         this.resetForm();
         this.filterPrograms();
       },
@@ -221,7 +245,6 @@ export class AdminUniversityDetailComponent implements OnInit {
           duration: 5000,
           panelClass: ['error-snackbar'],
         });
-        // alert('Failed to add program.');
       }
     );
   }
@@ -230,60 +253,61 @@ export class AdminUniversityDetailComponent implements OnInit {
   editProgram(item: any) {
     this.newProgram.campusProgramID = item.campusProgramID;
     this.newProgram.degreeLevel = item.educationTypeID;
-    this.newProgram.programID = item.programID; //added
+    this.newProgram.programID = item.programID;
     this.onEducationTypeChange(item.programID);
-    // this.onEducationTypeChange(item.educationTypeID);
     this.newProgram.fee = item.tuitionFee;
+    this.newProgram.degreeFee = item.degreeFee;
     this.newProgram.duration = item.duration;
 
     console.log(this.newProgram);
   }
 
-  confirmDelete(program: any) : void{
+  confirmDelete(program: any): void {
     this.programToDelete = program;
   }
 
   deleteProgram(): void {
     if (!this.programToDelete) return;
 
-      const deleteData = {
-        spType: 'delete',
-        campusProgramID: this.programToDelete.campusProgramID,
-        userID: this.userId,
-        tuitionFee: this.programToDelete.tuitionFee.toString(),
-        duration: this.programToDelete.duration.toString(),
-        programID: this.programToDelete.programID.toString(),
-        educationType: this.programToDelete.educationTypeID.toString(),
-        uniID: this.university.uniID.toString(),
-        campusID: this.university.campusID.toString()
-      };
+    const deleteData = {
+      spType: 'delete',
+      campusProgramID: this.programToDelete.campusProgramID,
+      userID: this.userId,
+      tuitionFee: this.programToDelete.tuitionFee.toString(),
+      duration: this.programToDelete.duration.toString(),
+      programID: this.programToDelete.programID.toString(),
+      educationType: this.programToDelete.educationTypeID.toString(),
+      uniID: this.university.uniID.toString(),
+      campusID: this.university.campusID.toString()
+    };
 
-      this.addprogramService.addprogram(deleteData).subscribe(
-        (response) => {
-          console.log('Program deleted successfully:', response);
-          this.snackBar.open('Program deleted successfully!', 'Close', {
-            duration: 5000,
-            panelClass: ['error-snackbar'],
-          });
-          // alert('Program deleted successfully!');
-          this.filterPrograms();
-        },
-        (error) => {
-          console.error('Error deleting program:', error);
-          this.snackBar.open('Failed to delete program.', 'Close', {
-            duration: 5000,
-            panelClass: ['error-snackbar'],
-          });
-          // alert('Failed to delete program.');
-        }
-      );
-    }
+    this.addprogramService.addprogram(deleteData).subscribe(
+      (response) => {
+        console.log('Program deleted successfully:', response);
+        this.snackBar.open('Program deleted successfully!', 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+        });
+        // alert('Program deleted successfully!');
+        this.filterPrograms();
+      },
+      (error) => {
+        console.error('Error deleting program:', error);
+        this.snackBar.open('Failed to delete program.', 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+        });
+        // alert('Failed to delete program.');
+      }
+    );
+  }
 
   resetForm() {
     this.newProgram.degreeLevel = 0;
     this.newProgram.programID = null;
     this.newProgram.fee = "";
     this.newProgram.duration = '';
+    this.newProgram.degreeFee = "";
     this.newProgram.campusProgramID = 0;
   }
 }

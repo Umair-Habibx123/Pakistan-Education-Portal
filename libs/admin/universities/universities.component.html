@@ -278,7 +278,23 @@
             </option>
           </select>
         </div>
+
+
+        <div class="mt-3">
+          <label class="form-label">Website URL</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="https://www.url.edu.pk/"
+            [(ngModel)]="newUniversity.url"
+          />
+        </div>
+
       </div>
+
+
+
+
       <!-- Error message display -->
       <div *ngIf="errorMessage" class="px-4 text-danger-2">
         {{ errorMessage }}
