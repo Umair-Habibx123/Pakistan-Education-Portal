@@ -15,6 +15,7 @@ export class AdminComponent implements OnInit {
   menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
     { id: 'registrations', label: 'Registrations', icon: 'NotebookTabs' },
+    { id: 'userManage', label: 'User Management', icon: 'UserRoundPlus' },
     { id: 'sliders', label: 'Sliders', icon: 'Images' },
     { id: 'universities', label: 'Universities', icon: 'University' },
     // { id: 'aboutUs', label: 'About Us', icon: 'FileText' },

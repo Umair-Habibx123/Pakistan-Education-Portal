@@ -15,8 +15,8 @@ export class AdminUniversityDetailComponent implements OnInit {
   @Output() goBack = new EventEmitter<void>();
 
   searchTerm: string = '';
-  private readonly FEE_REGEX = /^\d+(\.\d{1,2})?$/; // Allows numbers with optional 2 decimal places
-  private readonly DURATION_REGEX = /^[1-9]\d*(\.\d{1,2})?$/; // Positive numbers with optional 2 decimal places
+  private readonly FEE_REGEX = /^\d+(\.\d{1,2})?$/;
+  private readonly DURATION_REGEX = /^[1-9]\d*(\.\d{1,2})?$/;
 
   filteredPrograms: any[] = [];
   errorMessage: string = '';
@@ -34,7 +34,7 @@ export class AdminUniversityDetailComponent implements OnInit {
   userId = this.user?.userLoginId;
 
   newProgram = {
-    degreeLevel: 0,
+    degreeLevel: null,
     programID: null,
     fee: "",
     degreeFee: "",
@@ -303,7 +303,7 @@ export class AdminUniversityDetailComponent implements OnInit {
   }
 
   resetForm() {
-    this.newProgram.degreeLevel = 0;
+    this.newProgram.degreeLevel = null;
     this.newProgram.programID = null;
     this.newProgram.fee = "";
     this.newProgram.duration = '';

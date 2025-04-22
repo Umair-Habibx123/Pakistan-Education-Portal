@@ -34,7 +34,7 @@
             process.
           </p>
 
-          <div class="search-container">
+          <!-- <div class="search-container">
             <select [(ngModel)]="tempSelectedStudyLevel" class="custom-select">
               <option [value]="" disabled selected>Study Level</option>
               <option
@@ -69,6 +69,52 @@
               </option>
             </select>
 
+            <button (click)="applyFilters()" class="search-button">
+              Search
+            </button>
+          </div> -->
+
+          <div class="search-container">
+            <select 
+              [(ngModel)]="tempSelectedStudyLevel" 
+              (change)="onStudyLevelChange()" 
+              class="custom-select"
+            >
+              <option [value]="" disabled selected>Study Level</option>
+              <option
+                *ngFor="let level of studyLevels"
+                [value]="level.educationTypeID"
+              >
+                {{ level.educationTypeTitle }}
+              </option>
+            </select>
+        
+            <select
+              [(ngModel)]="tempSelectedSubject"
+              (change)="onSubjectChange()"
+              [disabled]="!tempSelectedStudyLevel"
+              class="custom-select"
+            >
+              <option [value]="" disabled selected>Subject</option>
+              <option
+                *ngFor="let subject of subjects"
+                [value]="subject.programID"
+              >
+                {{ subject.programName }}
+              </option>
+            </select>
+            
+            <select
+              [(ngModel)]="tempSelectedCity"
+              [disabled]="!tempSelectedSubject"
+              class="custom-select"
+            >
+              <option [value]="" disabled selected>City</option>
+              <option *ngFor="let city of cities" [value]="city.cityID">
+                {{ city.cityName }}
+              </option>
+            </select>
+        
             <button (click)="applyFilters()" class="search-button">
               Search
             </button>

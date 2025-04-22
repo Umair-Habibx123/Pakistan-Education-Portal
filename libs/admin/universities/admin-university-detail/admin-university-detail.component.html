@@ -166,19 +166,19 @@
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Degree Level</label>
             <select
-              class="form-select"
-              [(ngModel)]="newProgram.degreeLevel"
-              (change)="onEducationTypeChange(0)"
-              name="degreeLevel"
+            class="form-select"
+            [(ngModel)]="newProgram.degreeLevel"
+            (change)="onEducationTypeChange(0)"
+            name="degreeLevel"
+          >
+            <option [value]="null" disabled>Select Degree Level</option>
+            <option
+              *ngFor="let type of educationType"
+              [value]="type.educationTypeID"
             >
-              <option [value]="null" disabled>Select Degree Level</option>
-              <option
-                *ngFor="let type of educationType"
-                [value]="type.educationTypeID"
-              >
-                {{ type.educationTypeTitle }}
-              </option>
-            </select>
+              {{ type.educationTypeTitle }}
+            </option>
+          </select>
           </div>
 
           <!-- Subjects -->
@@ -205,7 +205,7 @@
 
         <div class="row mt-3">
           <!-- Application Fee -->
-          <div class="col-md-4 mb-3">
+          <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Application Fee</label>
             <input
               type="text"
@@ -215,7 +215,7 @@
             />
           </div>
           <!-- Duration -->
-          <div class="col-md-4 mb-3">
+          <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Duration (years)</label>
             <input
               type="number"
@@ -225,7 +225,10 @@
               name="duration"
             />
           </div>
-          <div class="col-md-4 mb-3">
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Degree Fee</label>
             <input
               type="number"
@@ -235,7 +238,26 @@
               name="degreeFee"
             />
           </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label custom-form-label">Mode of Study</label>
+          <select
+          class="form-select"
+          name="modeOfStudy"
+        >
+          <option [value]="null" disabled>Select Mode of Study</option>
+          <option
+          >
+          Online
+          </option>
+          <option
+          >
+          OnSite
+          </option>
+        </select>
         </div>
+      </div>
+
       </div>
 
       <div *ngIf="errorMessage" class="px-4 text-danger">

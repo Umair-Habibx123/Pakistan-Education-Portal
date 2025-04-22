@@ -7,7 +7,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from 'libs/interceptor/loading.interceptor';
-import { LucideAngularModule, Bell, LayoutDashboard,Send, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight, CalendarDays, NotebookTabs } from 'lucide-angular';
+import { LucideAngularModule, Bell, LayoutDashboard,Send, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight, CalendarDays, NotebookTabs, UserRoundPlus } from 'lucide-angular';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,6 +46,7 @@ import { ApplyThroughUSComponent } from '../../libs/pages/home-page/apply-throug
 import { RegistrationsComponent } from '../../libs/admin/registrations/registrations.component';
 import { AdminForgotComponent } from '../../libs/admin/admin-auth/admin-forgot/admin-forgot.component';
 import { AdminEnterCodeComponent } from '../../libs/admin/admin-auth/admin-enter-code/admin-enter-code.component';
+import { UserManagementComponent } from '../../libs/admin/user-management/user-management.component';
 
 
 
@@ -84,6 +85,7 @@ import { AdminEnterCodeComponent } from '../../libs/admin/admin-auth/admin-enter
     RegistrationsComponent,
     AdminForgotComponent,
     AdminEnterCodeComponent,
+    UserManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +94,7 @@ import { AdminEnterCodeComponent } from '../../libs/admin/admin-auth/admin-enter
     MatSnackBarModule,
     NgbModule,
     HttpClientModule, // Add this line
-    LucideAngularModule.pick({ArrowLeft,ArrowRight, Bell, Send, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings , CalendarDays , NotebookTabs}),
+    LucideAngularModule.pick({UserRoundPlus, ArrowLeft,ArrowRight, Bell, Send, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings , CalendarDays , NotebookTabs}),
     FormsModule,
     ReactiveFormsModule
   ],
