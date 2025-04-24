@@ -1,15 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Location } from '@angular/common';
 import { addprogramService } from 'libs/service/addprogram/addProgram.service';
 import { UserSessionService } from 'libs/service/userSession/userSession.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
 
 @Component({
   selector: 'app-admin-university-detail',
   templateUrl: './admin-university-detail.component.html',
   styleUrls: ['./admin-university-detail.component.scss'],
 })
+
 export class AdminUniversityDetailComponent implements OnInit {
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();
@@ -24,11 +23,10 @@ export class AdminUniversityDetailComponent implements OnInit {
   itemsPerPage: number = 2;
   totalPages: number = 0;
   educationType: any[] = [];
+  teachingModes: any[] = [];
   availablePrograms: any[] = [];
   allPrograms: any[] = [];
   programToDelete: any = null;
-
-
 
   user = this.userSessionService.getUser();
   userId = this.user?.userLoginId;
@@ -40,6 +38,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     degreeFee: "",
     duration: '123...',
     campusProgramID: 0,
+    teachingModeID: null,
   };
 
   constructor(private addprogramService: addprogramService,
@@ -47,10 +46,25 @@ export class AdminUniversityDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) { }
 
+
   ngOnInit() {
     this.filterPrograms();
     this.loadEducationType();
+    this.getTeachingMode();
   }
+
+  getTeachingMode(): void {
+    this.addprogramService.getTeachingMode().subscribe(
+      (response) => {
+        console.log('Teaching Modes:', response);
+        this.teachingModes = response;
+      },
+      (error) => {
+        console.error('Error fetching teaching Modes:', error);
+      }
+    );
+  }
+
 
   loadEducationType(): void {
     this.addprogramService.getEducationType().subscribe(
@@ -70,10 +84,12 @@ export class AdminUniversityDetailComponent implements OnInit {
       return;
     }
 
+    console.log("programs for " , this.newProgram.degreeLevel);
+
     this.addprogramService.getPrograms(this.newProgram.degreeLevel).subscribe({
       next: (response) => {
         if (!response || response.length === 0) {
-          console.warn('No programs available for this degree level');
+          console.warn('No programs available for ', this.newProgram.degreeLevel, "response = " , response);
         }
         this.availablePrograms = response;
         if (id !== 0) {
@@ -85,21 +101,23 @@ export class AdminUniversityDetailComponent implements OnInit {
       error: (err) => {
         console.error('Error fetching programs:', err);
         this.availablePrograms = [];
-        this.snackBar.open('Failed to load programs for this degree level', 'Close', {
+        this.snackBar.open('Failed to load programs', 'Close', {
           duration: 5000,
           panelClass: ['error-snackbar'],
         });
-        // alert('Failed to load programs for this degree level');
       },
     });
   }
+ 
+
 
   filterPrograms() {
+    console.log(this.university.campusID);
     this.addprogramService.getCampusProgram(this.university.campusID).subscribe(
       (response) => {
         console.log('campus program:', response);
         this.filteredPrograms = response;
-        this.allPrograms = [...response]; // Store original programs for filtering
+        this.allPrograms = [...response];
 
         this.totalPages = Math.ceil(
           this.filteredPrograms.length / this.itemsPerPage
@@ -164,19 +182,16 @@ export class AdminUniversityDetailComponent implements OnInit {
       return;
     }
 
-    // Application Fee validation
     if (!this.newProgram.fee || !this.FEE_REGEX.test(this.newProgram.fee)) {
       this.errorMessage = 'Please enter a valid application fee';
       return;
     }
 
-    // Degree Fee validation
     if (!this.newProgram.degreeFee || !this.FEE_REGEX.test(this.newProgram.degreeFee)) {
       this.errorMessage = 'Please enter a valid degree fee';
       return;
     }
 
-    // Duration validation
     if (!this.newProgram.duration || !this.DURATION_REGEX.test(this.newProgram.duration)) {
       this.errorMessage = 'Please enter a valid duration (1 or higher)';
       return;
@@ -198,17 +213,19 @@ export class AdminUniversityDetailComponent implements OnInit {
     if (this.newProgram.campusProgramID !== 0) {
       programData = {
         spType: 'update',
-        uniID: this.university.uniID,
-        eduationType: this.newProgram.degreeLevel,
+        // uniID: this.university.uniID,
+        // eduationType: this.newProgram.degreeLevel,
         programID: selectedProgram[0].programID,
-        programName: selectedProgram[0].programName,
-        applicationFee: this.newProgram.fee,
+        // programName: selectedProgram[0].programName,
+        // applicationFee: this.newProgram.fee,
         degreeFee: this.newProgram.degreeFee,
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
-        userID: this.userId,
+        userID: this.user.userId,
         tuitionFee: this.newProgram.fee.toString(),
         campusProgramID: this.newProgram.campusProgramID,
+        TeachingModeID: Number(this.newProgram.teachingModeID),
+
       };
     } else {
       programData = {
@@ -221,8 +238,9 @@ export class AdminUniversityDetailComponent implements OnInit {
         degreeFee: this.newProgram.degreeFee,
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
-        userID: this.userId,
+        userID: this.user.userId,
         tuitionFee: this.newProgram.fee,
+        TeachingModeID: Number(this.newProgram.teachingModeID),
       };
     }
 
@@ -249,7 +267,6 @@ export class AdminUniversityDetailComponent implements OnInit {
     );
   }
 
-  // edit on click of campus program card edit icon
   editProgram(item: any) {
     this.newProgram.campusProgramID = item.campusProgramID;
     this.newProgram.degreeLevel = item.educationTypeID;
@@ -258,7 +275,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     this.newProgram.fee = item.tuitionFee;
     this.newProgram.degreeFee = item.degreeFee;
     this.newProgram.duration = item.duration;
-
+    this.newProgram.teachingModeID = item.teachingModeID;
     console.log(this.newProgram);
   }
 
@@ -272,7 +289,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     const deleteData = {
       spType: 'delete',
       campusProgramID: this.programToDelete.campusProgramID,
-      userID: this.userId,
+      userID: this.user.userId,
       tuitionFee: this.programToDelete.tuitionFee.toString(),
       duration: this.programToDelete.duration.toString(),
       programID: this.programToDelete.programID.toString(),
@@ -288,7 +305,6 @@ export class AdminUniversityDetailComponent implements OnInit {
           duration: 5000,
           panelClass: ['error-snackbar'],
         });
-        // alert('Program deleted successfully!');
         this.filterPrograms();
       },
       (error) => {
@@ -297,7 +313,6 @@ export class AdminUniversityDetailComponent implements OnInit {
           duration: 5000,
           panelClass: ['error-snackbar'],
         });
-        // alert('Failed to delete program.');
       }
     );
   }
@@ -309,5 +324,6 @@ export class AdminUniversityDetailComponent implements OnInit {
     this.newProgram.duration = '';
     this.newProgram.degreeFee = "";
     this.newProgram.campusProgramID = 0;
+    this.newProgram.teachingModeID = null;
   }
 }

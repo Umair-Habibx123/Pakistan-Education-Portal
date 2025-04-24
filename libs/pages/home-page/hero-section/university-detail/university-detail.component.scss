@@ -1,127 +1,178 @@
-
 .custom-container-padding {
-    margin: 0;
-    padding: 72px 72px;
-  }
+  margin: 0;
+  padding: 3rem 4rem;
+}
 
-  .custom-back-button {
-    cursor: pointer;
-  }
+.custom-back-button {
+  cursor: pointer;
+}
 
-  .custom-dark-green-text {
-    color: var(--dark-green);
-  }
+.custom-dark-green-text {
+  color: var(--dark-green);
+}
 
-  .custom-university-image {
-    height: auto;
-    max-height: 515px;
+
+.custom-university-image {
+  height: auto;
+  max-height: 500px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.custom-university-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.custom-university-name {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+
+.custom-apply-button {
+  border-radius: 48px;
+  background-color: var(--dark-green);
+  width: auto;
+  cursor: pointer;
+}
+
+.custom-apply-link {
+  color: var(--white);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  padding: 2px 4px;
+}
+
+.custom-apply-icon {
+  width: 30px;
+  height: 30px;
+  background-color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-contact-info {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.custom-contact-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.custom-contact-column:last-child {
+  border-right: none;
+}
+
+.custom-contact-column div:first-child {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.custom-contact-column div:last-child {
+  font-size: 1rem;
+}
+
+.custom-program-card {
+  position: relative;
+  background-color: white;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-program-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.custom-pagination-btn {
+  color: var(--subtitle);
+}
+
+@media (max-width: 991.98px) {
+  .custom-container-padding {
+    padding: 2rem;
+  }
+  
+  .custom-university-logo {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .custom-university-name {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .custom-container-padding {
+    padding: 1.5rem;
+  }
+  
+  .custom-contact-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  
+  .custom-contact-column {
+    border-right: none;
+    padding: 0;
     width: 100%;
   }
-
-  .custom-university-logo {
-    width: 100px;
-    height: 100px;
-  }
-
-  .custom-university-name {
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  .custom-apply-button {
-    border-radius: 48px;
-    background-color: var(--dark-green);
-    width: auto;
-    cursor: pointer;
-  }
-
-  .custom-apply-link {
-    color: var(--white);
-    font-weight: 500;
-    letter-spacing: 0.025em;
-    text-decoration: none;
-    padding: 2px 4px;
-  }
-
-  .custom-apply-icon {
-    width: 30px;
-    height: 30px;
-    background-color: var(--white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .custom-contact-info {
-    background-color: var(--active-link-pink);
-    color: var(--white);
-    padding: 10px 20px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-  }
-
-  .custom-contact-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 5px 10px;
-    border-right: 2px solid var(--gray);
-  }
-
-  .custom-contact-column:last-child {
-    border-right: none;
-  }
-
-  .custom-program-card {
-    position: relative;
-    background-color: var(--light-gray);
-    border-radius: 8px;
-    padding: 16px;
-  }
-
-  .custom-pagination-btn {
-    color: var(--subtitle);
-  }
-
   
-  @media (max-width: 767.98px) {
-    .custom-container-padding {
-      padding: 20px; 
-    }
-
-    .custom-university-logo {
-      width: 80px; 
-      height: 80px; 
-    }
-
-    .custom-contact-info {
-      flex-direction: column; 
-      align-items: flex-start; 
-    }
-
-    .custom-contact-column {
-      border-right: none; 
-      padding: 10px 0; 
-    }
-
-    .custom-pagination-btn {
-      width: 100%; 
-      margin-bottom: 0.5rem; 
-    }
-
-    .row-cols-md-2 > .col,
-    .row-cols-lg-4 > .col {
-      flex: 0 0 100%; 
-      max-width: 100%;
-    }
+  .custom-university-logo {
+    width: 80px;
+    height: 80px;
   }
+  
+  .row-cols-md-2 > .col,
+  .row-cols-lg-3 > .col {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  .custom-program-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .custom-container-padding {
+    padding: 1rem;
+  }
+  
+  .custom-university-logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .custom-university-name {
+    font-size: 1.1rem;
+  }
+}

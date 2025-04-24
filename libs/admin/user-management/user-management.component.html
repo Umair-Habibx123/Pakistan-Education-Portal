@@ -87,13 +87,20 @@
             <td class="p-3">
               <div class="d-flex align-items-center gap-2">
                 <i
-                  class="cursor-pointer fa-eye fas custom-black-icon"
+                  class="cursor-pointer fa-eye fas custom-icon"
                   data-bs-toggle="modal"
                   data-bs-target="#userDetailsModal"
                   (click)="viewUserDetails(user)"
                 ></i>
-                <i class="cursor-pointer fas fa-download custom-blue-icon"></i>
-                <i class="cursor-pointer fa-trash-alt fas custom-red-icon"></i>
+                <i
+                  class="text-danger cursor-pointer fa-trash-alt fas custom-icon"
+                ></i>
+                <i
+                  class="text-primary cursor-pointer fa-edit fas custom-icon"
+                  data-bs-toggle="modal"
+                  data-bs-target="#userManageModal"
+                  (click)="editUser(user)"
+                ></i>
               </div>
             </td>
           </tr>
@@ -156,7 +163,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title custom-modal-title" id="userManageModalLabel">
-          Add New User
+          {{ isEditMode ? "Edit User" : "Add New User" }}
         </h5>
         <button
           (click)="resetForm()"
@@ -172,44 +179,96 @@
         <div class="row mt-4 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">User Name</label>
-            <input type="text" class="form-control" placeholder="User Name" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="User Name"
+              [(ngModel)]="currentEditingUser.firstName"
+              *ngIf="currentEditingUser"
+            />
           </div>
           <div class="col-md-6">
             <label class="form-label">Designation</label>
-            <input type="text" class="form-control" placeholder="Designation" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Designation"
+              [(ngModel)]="currentEditingUser.designation"
+              *ngIf="currentEditingUser"
+            />
           </div>
         </div>
 
         <div class="row mt-4 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">Email</label>
-            <input type="text" class="form-control" placeholder="Email" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Email"
+              [(ngModel)]="currentEditingUser.email"
+              *ngIf="currentEditingUser"
+            />
           </div>
           <div class="col-md-6">
             <label class="form-label">Contact</label>
-            <input type="text" class="form-control" placeholder="Contact" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Contact"
+              [(ngModel)]="currentEditingUser.mobile"
+              *ngIf="currentEditingUser"
+            />
           </div>
         </div>
 
         <div class="row mt-4 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">University Name</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="University Name"
-            />
+            <div class="dropdown" ngbDropdown>
+              <button class="form-control text-start dropdown-toggle" ngbDropdownToggle>
+                {{
+                  selectedUniversityIds.length > 0
+                    ? getSelectedUniversityNames()
+                    : "Select Universities"
+                }}
+              </button>
+              <div class="dropdown-menu p-2" ngbDropdownMenu>
+                <div class="form-check" *ngFor="let university of universities">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [id]="'university-' + university.uniID"
+                    [value]="university.uniID"
+                    [checked]="isUniversitySelected(university.uniID)"
+                    (change)="onUniversityChange($event, university)"
+                  />
+                  <label
+                    class="form-check-label"
+                    [for]="'university-' + university.uniID"
+                  >
+                    {{ university.universityName }}
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-6">
             <label class="form-label">Campus</label>
-            <input type="text" class="form-control" placeholder="Campus Name" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Campus Name"
+              [(ngModel)]="currentEditingUser.campus"
+              *ngIf="currentEditingUser"
+            />
           </div>
         </div>
 
         <div class="row mt-4 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">Password</label>
-            <input type="text" class="form-control" placeholder="Password" />
+            <input type="text" class="form-control" placeholder="Password"   [(ngModel)]="currentEditingUser.password" />
           </div>
           <div class="col-md-6">
             <label class="form-label">Confirm Password</label>
@@ -230,9 +289,9 @@
         <button
           type="button"
           class="btn btn-success w-100 custom-modal-footer-btn"
-          (click)="addUser()"
+          (click)="isEditMode ? updateUser() : addUser()"
         >
-          Add User
+          {{ isEditMode ? "Update User" : "Add User" }}
         </button>
       </div>
     </div>
@@ -264,18 +323,18 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="selectedUser">
         <div class="row">
           <div class="col-md-6">
-            <p><strong>User Name:</strong>Ahmed</p>
-            <p><strong>Email:</strong>Ali</p>
-            <p><strong>Password:</strong>35203-4358564-6</p>
+            <p><strong>First Name:</strong> {{ selectedUser.firstName }}</p>
+            <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+            <p><strong>Contact:</strong> {{ selectedUser.mobile }}</p>
           </div>
 
           <div class="col-md-6">
-            <p><strong>Designamtion:</strong>Cape Town</p>
-            <p><strong>Contact:</strong>English</p>
-            <p><strong>Confirm Password:</strong>Non-Muslim</p>
+            <p><strong>Designation:</strong> {{ selectedUser.designation }}</p>
+            <p><strong>University:</strong> {{ selectedUser.university }}</p>
+            <p><strong>Campus:</strong> {{ selectedUser.campus }}</p>
           </div>
         </div>
 

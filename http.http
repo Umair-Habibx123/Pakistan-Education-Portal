@@ -1,7 +1,7 @@
-@baseUrl = http://95.217.205.57:13500/school-api/Campus
+@baseUrl = http://95.217.205.57:13500/school-api/
 
 ### Add new program (insert)
-POST {{baseUrl}}/saveCampusPrograms
+POST {{baseUrl}}Campus/saveCampusPrograms
 Content-Type: application/json
 
 {
@@ -16,3 +16,6 @@ Content-Type: application/json
   "userID": 1,
   "tuitionFee": "5000"
 }
+###
+
+GET {{baseUrl}}Program/getCampusProgram?campusID=31

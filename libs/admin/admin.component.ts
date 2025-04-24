@@ -26,7 +26,7 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userSessionService: UserSessionService
+    private userSessionService: UserSessionService,
   ) {
     this.updateScreenSize();
   }
@@ -73,5 +73,12 @@ export class AdminComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+
+  logout(): void {
+    this.userSessionService.clearSession();
+    this.router.navigate(['/']);
+    window.location.reload();
   }
 }

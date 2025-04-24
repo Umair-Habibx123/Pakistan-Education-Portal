@@ -15,9 +15,18 @@ export class AuthService {
 
   signup(registrationData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}auth-api/saveUser`, registrationData);
+    // return this.http.post(`${this.apiUrl}user-api/saveMobileUser`, registrationData);
+  }
+
+  updateUser(userData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}`, userData);
   }
 
   login(loginData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}auth-api/auth`, loginData);
+  }
+
+  getRoles(): Observable<any> {
+    return this.http.get(`${this.apiUrl}auth-api/auth`);
   }
 }

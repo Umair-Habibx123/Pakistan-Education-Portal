@@ -37,7 +37,7 @@ export class UniversitiesComponent implements OnInit {
   userId = this.user?.userLoginId;
 
   newUniversity = {
-    name: '',
+    name: null,
     campus: '',
     city: null as number | null,
     url: '',
@@ -52,6 +52,7 @@ export class UniversitiesComponent implements OnInit {
   itemsPerPage: number = 9;
   totalPages: number = 0;
   cities: any[] = [];
+  UniNames: any[] = [];
 
   universityToDelete: any = null;
 
@@ -62,6 +63,7 @@ export class UniversitiesComponent implements OnInit {
     this.loadUniversities();
     this.updateFilteredUniversities();
     this.loadCities();
+    this.loadUniversityNames();
     console.log(this.userId);
   }
 
@@ -70,6 +72,7 @@ export class UniversitiesComponent implements OnInit {
     this.adduniversityService.getUniversity(0).subscribe(
       (response) => {
         this.universities = response.filter((universities: any) => !universities.isDeleted);
+        console.log(this.universities);
         this.searchTerm = '';
         this.updateFilteredUniversities();
       },
@@ -87,6 +90,17 @@ export class UniversitiesComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching cities:', error);
+      }
+    );
+  }
+
+  loadUniversityNames(): void {
+    this.adduniversityService.getUniversityNames().subscribe(
+      (response) => {
+        this.UniNames = response;
+      },
+      (error) => {
+        console.error('Error fetching Uni Names:', error);
       }
     );
   }
@@ -109,7 +123,14 @@ export class UniversitiesComponent implements OnInit {
   }
 
 
+
   addUniversity(): void {
+
+    console.log('Selected logo file:', this.selectedLogoFile);
+    console.log('Selected image file:', this.selectedImageFile);
+    console.log('Logo preview URL:', this.logoPreviewUrl);
+    console.log('Image preview URL:', this.imagePreviewUrl);
+
     this.errorMessage = '';
     if (
       !this.newUniversity.name ||
@@ -121,10 +142,6 @@ export class UniversitiesComponent implements OnInit {
       return;
     }
 
-    if (!this.NAME_REGEX.test(this.newUniversity.name)) {
-      this.errorMessage = 'University name must be 2-100 characters long and contain only letters, spaces, hyphens, and apostrophes';
-      return;
-    }
 
     if (!this.CAMPUS_REGEX.test(this.newUniversity.campus)) {
       this.errorMessage = 'Campus name must be 2-100 characters long and contain only letters, numbers, spaces, and basic punctuation';
@@ -174,20 +191,22 @@ export class UniversitiesComponent implements OnInit {
 
     Promise.all([logoPromise, imagePromise])
       .then(([logoBase64, imageBase64]) => {
+        console.log('Logo base64:', logoBase64 ? 'exists' : 'null');
+        console.log('Image base64:', imageBase64 ? 'exists' : 'null');
 
         const existingUni = this.universities.find(u => u.uniID === this.newUniversity.universityID);
 
         const universityData = {
           spType: this.newUniversity.universityID !== 0 ? 'update' : 'insert',
-          userID: this.userId,
+          userID: this.user?.userLoginId,
           universityID: this.newUniversity.universityID,
           universityName: this.newUniversity.name,
           url: this.newUniversity.url,
           campusID: this.newUniversity.campusID,
           campusName: this.newUniversity.campus,
           cityID: this.newUniversity.city,
-          logoEDoc: logoBase64 === 'existing' ? '' : logoBase64,
-          imageEDoc: imageBase64 === 'existing' ? '' : imageBase64,
+          logoEDoc: logoBase64 === 'existing' ? '' : (logoBase64 || ''),
+          imageEDoc: imageBase64 === 'existing' ? '' : (imageBase64 || ''),
           logoEDocPath: this.selectedLogoFile
             ? environment.logoUrl
             : (existingUni?.logoEDocPath || null),
@@ -201,6 +220,7 @@ export class UniversitiesComponent implements OnInit {
             ? this.getFileExtension(this.selectedImageFile.name)
             : (existingUni?.imageEDocPath?.split('.').pop() || null),
         };
+
 
         console.log('Saving university:', universityData);
         this.adduniversityService.saveUniversity(universityData).subscribe(
@@ -360,6 +380,9 @@ export class UniversitiesComponent implements OnInit {
   onImageSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
+      this.imagePreviewUrl = null;
+      this.selectedImageFile = null;
+
       const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'];
       if (!validTypes.includes(file.type)) {
         this.errorMessage = 'Invalid file type. Please upload SVG, PNG, or JPG.';
@@ -394,6 +417,7 @@ export class UniversitiesComponent implements OnInit {
 
 
   editUniversity(university: any) {
+    console.log(this.newUniversity)
     this.selectedLogoFile = null;
     this.selectedImageFile = null;
     this.logoPreviewUrl = null;
@@ -405,6 +429,7 @@ export class UniversitiesComponent implements OnInit {
     if (this.imageInput?.nativeElement) {
       this.imageInput.nativeElement.value = '';
     }
+
 
     this.newUniversity = {
       name: university.universityName,
@@ -418,6 +443,8 @@ export class UniversitiesComponent implements OnInit {
 
     if (university.logoEDocPath) {
       this.logoPreviewUrl = `${this.productUrl}${university.logoEDocPath}`;
+
+
     }
     if (university.imageEDocPath) {
       this.imagePreviewUrl = `${this.productUrl}${university.imageEDocPath}`;
@@ -436,12 +463,13 @@ export class UniversitiesComponent implements OnInit {
 
     const deleteData = {
       spType: 'delete',
-      userID: this.userId,
+      userID: this.user?.userLoginId,
       universityID: this.universityToDelete.uniID,
       campusID: this.universityToDelete.campusID,
       universityName: this.universityToDelete.universityName?.toString() || "",
       campusName: this.universityToDelete.campusName?.toString() || "",
       cityID: this.universityToDelete.cityID?.toString() || "",
+      url: this.universityToDelete.url?.toString() || "",
       logoEDoc: "",
       imageEDoc: "",
       logoEDocPath: "",
@@ -474,7 +502,7 @@ export class UniversitiesComponent implements OnInit {
     this.logoPreviewUrl = null;
     this.imagePreviewUrl = null;
     this.newUniversity = {
-      name: '',
+      name: null,
       campus: '',
       city: null,
       universityID: 0,

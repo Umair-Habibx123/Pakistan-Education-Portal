@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environments';
 export class addprogramService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   addprogram(programData: any): Observable<any> {
     return this.http.post(
@@ -20,7 +20,19 @@ export class addprogramService {
 
   getPrograms(educationTypeID: number): Observable<any> {
     return this.http.get<any>(
+      `${this.apiUrl}school-api/Program/getAllPrograms?educationTypeID=${educationTypeID}`
+    );
+  }
+
+  getProgramsForHome(educationTypeID: number): Observable<any> {
+    return this.http.get<any>(
       `${this.apiUrl}school-api/Program/getPrograms?educationTypeID=${educationTypeID}`
+    );
+  }
+
+  getTeachingMode(): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}school-api/Program/getTeachingMode`
     );
   }
 

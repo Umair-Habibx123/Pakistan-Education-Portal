@@ -39,7 +39,9 @@
       <lucide-angular name="X"></lucide-angular>
     </button>
 
-    <div class="mt-auto">
+    <div class="mt-auto"
+    (click)="logout();"
+    >
       <button class="logout-button">
         <lucide-angular name="LogOut" class="me-2"></lucide-angular>
         <span>Logout</span>
@@ -54,7 +56,7 @@
       'margin-left': isSidebarOpen && isLargeScreen ? '265px' : '0'
     }"
   >
-    <nav class="main-content-nav">
+    <nav class="main-content-nav border-bottom">
       <div
         class="d-flex flex-wrap justify-content-between align-items-center p-1 p-lg-2"
       >
@@ -78,7 +80,7 @@
             class="main-content-icon"
           ></lucide-angular>
 
-          <div class="position-relative ms-3 d-flex align-items-center">
+          <!-- <div class="position-relative ms-3 d-flex align-items-center">
             <img
               src="../../../../assets/user.png"
               class="user-image"
@@ -88,7 +90,7 @@
               name="ChevronDown"
               class="ms-2 d-none d-lg-block main-content-icon"
             ></lucide-angular>
-          </div>
+          </div> -->
         </div>
       </div>
     </nav>

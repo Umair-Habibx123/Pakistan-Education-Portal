@@ -34,53 +34,13 @@
             process.
           </p>
 
-          <!-- <div class="search-container">
-            <select [(ngModel)]="tempSelectedStudyLevel" class="custom-select">
-              <option [value]="" disabled selected>Study Level</option>
-              <option
-                *ngFor="let level of studyLevels"
-                [value]="level.educationTypeID"
-              >
-                {{ level.educationTypeTitle }}
-              </option>
-            </select>
-
-            <select
-              [(ngModel)]="tempSelectedSubject"
-              [disabled]="!tempSelectedStudyLevel"
-              class="custom-select"
-            >
-              <option [value]="" disabled selected>Subject</option>
-              <option
-                *ngFor="let subject of subjects"
-                [value]="subject.programID"
-              >
-                {{ subject.programName }}
-              </option>
-            </select>
-            <select
-              [(ngModel)]="tempSelectedCity"
-              [disabled]="!tempSelectedStudyLevel || !tempSelectedSubject"
-              class="custom-select"
-            >
-              <option [value]="" disabled selected>City</option>
-              <option *ngFor="let city of cities" value="city.cityID">
-                {{ city.cityName }}
-              </option>
-            </select>
-
-            <button (click)="applyFilters()" class="search-button">
-              Search
-            </button>
-          </div> -->
-
           <div class="search-container">
             <select 
               [(ngModel)]="tempSelectedStudyLevel" 
               (change)="onStudyLevelChange()" 
               class="custom-select"
             >
-              <option [value]="" disabled selected>Study Level</option>
+              <option [value]="null" disabled selected>Study Level</option>
               <option
                 *ngFor="let level of studyLevels"
                 [value]="level.educationTypeID"
@@ -95,7 +55,7 @@
               [disabled]="!tempSelectedStudyLevel"
               class="custom-select"
             >
-              <option [value]="" disabled selected>Subject</option>
+              <option [value]="null" disabled selected>Subject</option>
               <option
                 *ngFor="let subject of subjects"
                 [value]="subject.programID"
@@ -109,9 +69,9 @@
               [disabled]="!tempSelectedSubject"
               class="custom-select"
             >
-              <option [value]="" disabled selected>City</option>
-              <option *ngFor="let city of cities" [value]="city.cityID">
-                {{ city.cityName }}
+              <option [value]="null" disabled selected>City</option>
+              <option *ngFor="let subject of subjects" [value]="subject.cityID">
+                {{ subject.cityName }}
               </option>
             </select>
         
@@ -119,6 +79,7 @@
               Search
             </button>
           </div>
+
         </div>
       </div>
 
@@ -135,6 +96,7 @@
       </div>
     </div>
   </div>
+  
 
   <div class="col-12 container-fluid custom-padding">
     <div *ngIf="filteredUniversities.length > 0" class="row mb-4">
@@ -189,6 +151,7 @@
       </div>
     </div>
 
+
     <div class="row">
       <div
         *ngFor="let university of getPaginatedUniversities()"
@@ -196,22 +159,28 @@
         class="col-6 col-md-3 mb-4 university-card"
       >
         <div class="university-image-container">
+          <!-- Prepend the campus image base URL -->
           <img
-            [src]="university.image"
+            [src]="'http://95.217.205.57:13400/assets/campusImages/' + university.imageEDoc"
             alt="University"
             class="university-image"
           />
-          <img [src]="university.logo" alt="Logo" class="university-logo" />
+          <!-- Prepend the logo base URL -->
+          <img
+            [src]="'http://95.217.205.57:13400/assets/universityLogo/' + university.logoEDoc"
+            alt="Logo"
+            class="university-logo"
+          />
         </div>
-        <p class="university-name">{{ university.name }}</p>
+        <p class="university-name">{{ university.universityName }}</p>
         <div>
           <p class="university-details">
-            {{ university.location }} •
-            {{ university.programsCount }} Programmes
+            {{ university.cityName }} • {{ university.noOfPrograms }} Programmes
           </p>
         </div>
       </div>
     </div>
+    
 
     <!-- Pagination Section -->
     <div
@@ -240,6 +209,7 @@
       </div>
     </div>
   </div>
+  
 </div>
 
 <div *ngIf="showDetailView" class="detail-container">

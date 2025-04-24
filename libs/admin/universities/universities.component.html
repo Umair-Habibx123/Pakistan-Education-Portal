@@ -153,10 +153,10 @@
   aria-labelledby="universityModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content p-2">
       <div class="modal-header">
-        <h5 class="modal-title custom-modal-title" id="universityModalLabel">
+        <h5 class="fw-bold custom-modal-title" id="universityModalLabel">
           Add New University
         </h5>
         <button
@@ -170,6 +170,57 @@
       </div>
 
       <div class="modal-body">
+        <div class="row mb-4 custom-form-label">
+
+
+          
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label custom-form-label">University Name</label>
+            <select class="form-select" [(ngModel)]="newUniversity.name">
+              <option [ngValue]="null" disabled>Select University Name</option>
+              <option *ngFor="let uniName of UniNames" [ngValue]="uniName.universityName">
+                {{ uniName.universityName }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Campus Name</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Campus Name"
+              [(ngModel)]="newUniversity.campus"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-4 custom-form-label">
+          <div class="col-md-4 mb-3 mb-md-0 mt-3">
+            <label class="form-label custom-form-label">City</label>
+            <select class="form-select" [(ngModel)]="newUniversity.city">
+              <option [ngValue]="null" disabled>Select City</option>
+              <option *ngFor="let city of cities" [ngValue]="city.cityID">
+                {{ city.cityName }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3 mb-md-0 mt-3">
+            <label class="form-label custom-form-label">State</label>
+            <select class="form-select" [(ngModel)]="newUniversity.city">
+              <option [ngValue]="null" disabled>Select State</option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3 mb-md-0 mt-3">
+            <label class="form-label custom-form-label">Country</label>
+            <select class="form-select" [(ngModel)]="newUniversity.city">
+              <option [ngValue]="null" disabled>Select Country</option>
+            </select>
+          </div>
+        </div>
+
         <div class="row">
           <!-- University Logo Upload -->
           <div class="col-md-6 mb-3 mb-md-0">
@@ -244,41 +295,6 @@
           </div>
         </div>
 
-        <!-- University Details -->
-        <div class="row mt-4 custom-form-label">
-          <!-- Dynamic University Name Field -->
-          <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label">University Name</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="University Name"
-              [(ngModel)]="newUniversity.name"
-            />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Campus Name</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Campus Name"
-              [(ngModel)]="newUniversity.campus"
-            />
-          </div>
-        </div>
-
-        <div class="mt-3">
-          <label class="form-label custom-form-label"
-            >Campus Location/City</label
-          >
-          <select class="form-select" [(ngModel)]="newUniversity.city">
-            <option [ngValue]="null" disabled>Select City</option>
-            <option *ngFor="let city of cities" [ngValue]="city.cityID">
-              {{ city.cityName }}
-            </option>
-          </select>
-        </div>
-
 
         <div class="mt-3">
           <label class="form-label">Website URL</label>
@@ -290,10 +306,56 @@
           />
         </div>
 
+        <h5
+          class="mt-4 mb-4 fw-bold modal-title custom-modal-title"
+          id="universityModalLabel"
+        >
+          Add Contact Details
+        </h5>
+
+        <div class="row mb-4 custom-form-label">
+          <div class="col-md-4 mb-3 mb-md-0">
+            <label class="form-label">User Name</label>
+            <input type="text" class="form-control" placeholder="User Name" />
+          </div>
+          
+          
+          <div class="col-md-4 mb-3 mb-md-0">
+            <label class="form-label">User Role</label>
+            <select class="form-select">
+              <option [ngValue]="null" disabled>Select User Role</option>
+              <!-- <option *ngFor="let uniName of UniNames" [ngValue]="uniName.universityName"> -->
+              <option>
+                <!-- {{ uniName.universityName }} -->
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">WhatsApp Number</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="WhatsApp  Number"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-4 custom-form-label">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label">Contact</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="User Contact"
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="text" class="form-control" placeholder="Email" />
+          </div>
+        </div>
       </div>
-
-
-
 
       <!-- Error message display -->
       <div *ngIf="errorMessage" class="px-4 text-danger-2">
@@ -371,9 +433,7 @@
           <button
             type="button"
             class="btn btn-danger px-4 py-2"
-            (click)="
-                      $event.stopPropagation(); deleteUniversity()
-                    "
+            (click)="$event.stopPropagation(); deleteUniversity()"
             data-bs-dismiss="modal"
           >
             Delete

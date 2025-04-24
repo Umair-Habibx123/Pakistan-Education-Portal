@@ -1,19 +1,19 @@
 <div class="container-fluid partner-section">
   <div class="row justify-content-center gap-2">
-    <div class="col-12 text-center">
+    <div class="col-12 text-center mt-1 mb-4">
       <!-- Badge -->
-      <div class="badge-container">
+      <div class="badge-container mb-2">
         <i class="fas fa-graduation-cap badge-icon"></i>
         <p class="badge-text">Partner Universities</p>
       </div>
 
       <!-- Heading -->
-      <h1 class="section-heading">
+      <h1 class="section-heading mb-2">
         Trusted by <span class="highlight-text">50+ </span> global universities
       </h1>
 
       <!-- Description -->
-      <p class="section-description">
+      <p class="section-description mb-2">
         Connect with the next wave of expert mentors, guiding you with fresh
         <br class="d-none d-md-block" />
         perspectives, innovative insights, and proven expertise.
@@ -24,7 +24,7 @@
     <div class="col-12 px-3 px-md-5">
       <div class="row">
         <div
-          *ngFor="let university of universities | slice:0:8"
+          *ngFor="let university of filteredUniversities"
           class="col-6 col-md-3 mb-4"
         >
           <div class="university-card">
@@ -46,16 +46,16 @@
             <p class="university-details">
               {{ university.location }} • {{ university.programs }} Programmes
             </p>
-            <p class="university-details">
+            <!-- <p class="university-details">
               Tuition Fee: {{ university.tuitionFee }} / year
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Button -->
-    <div class="col-12 text-center">
+    <!-- Button - Only show on home page -->
+    <div *ngIf="!isUniversityPage" class="col-12 text-center">
       <div class="view-button">
         <a
           routerLink="/universities"
@@ -81,6 +81,33 @@
             />
           </svg>
         </div>
+      </div>
+    </div>
+
+    <!-- Pagination - Only show on universities page -->
+    <div
+      *ngIf="isUniversityPage && totalPages > 1"
+      class="pagination-container"
+    >
+      <div class="pagination-buttons">
+        <button
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          class="pagination-button"
+          [ngClass]="{ 'active-page': currentPage === i + 1 }"
+          (click)="goToPage(i + 1)"
+        >
+          {{ i + 1 }}
+        </button>
+      </div>
+      <div class="pagination-navigation">
+        <button class="pagination-nav-button" (click)="previousPage()">
+          <span><lucide-angular name="ArrowLeft"></lucide-angular></span>
+          <span>Previous</span>
+        </button>
+        <button class="pagination-nav-button" (click)="nextPage()">
+          <span>Next</span>
+          <span><lucide-angular name="ArrowRight"></lucide-angular></span>
+        </button>
       </div>
     </div>
   </div>

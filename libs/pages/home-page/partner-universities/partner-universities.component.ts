@@ -10,15 +10,22 @@ import { environment } from 'src/environments/environments';
 })
 export class PartnerUniversitiesComponent implements OnInit {
   universities: any[] = [];
+  filteredUniversities: any[] = [];
   public productUrl = environment.productUrl;
-
   isUniversityPage: boolean = false;
+  
+  
+  currentPage: number = 1;
+  itemsPerPage: number = 12; 
+  totalPages: number = 1;
+  totalItems: number = 0;
 
   constructor(
     private router: Router,
     private universityService: UniversityService,
   ) {
     this.isUniversityPage = this.router.url === '/universities';
+    this.itemsPerPage = this.isUniversityPage ? 12 : 8;
   }
 
   ngOnInit(): void {
@@ -29,13 +36,41 @@ export class PartnerUniversitiesComponent implements OnInit {
     this.universityService.getUniversity(0).subscribe(
       (response) => {
         this.universities = response.filter((university: any) => !university.isDeleted);
+        this.totalItems = this.universities.length;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+        this.updateFilteredUniversities();
       },
       (error) => {
         console.error('Error fetching universities:', error);
       }
-
     );
-    console.log("universities = ", this.universities);
+  }
 
+  updateFilteredUniversities(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.filteredUniversities = this.universities.slice(startIndex, endIndex);
+  }
+
+  
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateFilteredUniversities();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updateFilteredUniversities();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updateFilteredUniversities();
+    }
   }
 }

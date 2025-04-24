@@ -52,12 +52,22 @@
       <div class="col" *ngFor="let program of getPaginatedPrograms()">
         <!-- Program Card Content -->
         <div
-          class="d-flex flex-column p-4 rounded-3 gap-3 shadow-sm border custom-program-card"
+          class="d-flex justify-content-between flex-column p-4 rounded-3 gap-3 shadow-sm border custom-program-card"
         >
-          <div class="border-2 border-bottom pb-3">
-            <h5 class="fw-bold title">{{ program.programName }}</h5>
-            <p class="m-0 text-muted">{{ program.educationTypeTitle }}</p>
+          <div
+            class="d-flex justify-content-between mt-2 border-2 border-bottom pb-3"
+          >
+            <div class="">
+              <h5 class="fw-bold title">{{ program.programName }}</h5>
+              <p class="m-0 text-muted">{{ program.educationTypeTitle }}</p>
+            </div>
+            <div class="border-2 border-end"></div>
+            <div class="">
+              <h5 class="fw-bold title">Teaching Mode</h5>
+              <h5 class="m-0 text-muted">{{ program.teachingMode }}</h5>
+            </div>
           </div>
+
           <!-- Lower Section -->
           <div class="d-flex justify-content-between mt-2">
             <div class="text-dark">
@@ -145,7 +155,7 @@
   aria-labelledby="programModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title custom-modal-title" id="programModalLabel">
@@ -166,19 +176,19 @@
           <div class="col-md-6 mb-3">
             <label class="form-label custom-form-label">Degree Level</label>
             <select
-            class="form-select"
-            [(ngModel)]="newProgram.degreeLevel"
-            (change)="onEducationTypeChange(0)"
-            name="degreeLevel"
-          >
-            <option [value]="null" disabled>Select Degree Level</option>
-            <option
-              *ngFor="let type of educationType"
-              [value]="type.educationTypeID"
+              class="form-select"
+              [(ngModel)]="newProgram.degreeLevel"
+              (change)="onEducationTypeChange(0)"
+              name="degreeLevel"
             >
-              {{ type.educationTypeTitle }}
-            </option>
-          </select>
+              <option [value]="null" disabled>Select Degree Level</option>
+              <option
+                *ngFor="let type of educationType"
+                [value]="type.educationTypeID"
+              >
+                {{ type.educationTypeTitle }}
+              </option>
+            </select>
           </div>
 
           <!-- Subjects -->
@@ -239,25 +249,23 @@
             />
           </div>
 
-        <div class="col-md-6 mb-3">
-          <label class="form-label custom-form-label">Mode of Study</label>
-          <select
-          class="form-select"
-          name="modeOfStudy"
-        >
-          <option [value]="null" disabled>Select Mode of Study</option>
-          <option
-          >
-          Online
-          </option>
-          <option
-          >
-          OnSite
-          </option>
-        </select>
+          <div class="col-md-6 mb-3">
+            <label class="form-label custom-form-label">Mode of Study</label>
+            <select
+              class="form-select"
+              name="modeOfStudy"
+              [(ngModel)]="newProgram.teachingModeID"
+            >
+              <option [value]="null" disabled>Select Mode of Study</option>
+              <option
+                *ngFor="let modes of teachingModes"
+                [value]="modes.teachingModeID"
+              >
+                {{ modes.teachingMode }}
+              </option>
+            </select>
+          </div>
         </div>
-      </div>
-
       </div>
 
       <div *ngIf="errorMessage" class="px-4 text-danger">

@@ -48,8 +48,7 @@
     color: var(--subtitle);
   }
 
-  .custom-black-icon {
-    color: var(--black);
+  .custom-icon {
     font-size: 1rem;
   }
 
@@ -105,4 +104,18 @@
     font-weight: bold;
     padding-top: 8px;
     font-size: 20px;
+  }
+
+  .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .form-check {
+    padding: 5px 15px;
+  }
+  
+  .dropdown-toggle::after {
+    float: right;
+    margin-top: 10px;
   }

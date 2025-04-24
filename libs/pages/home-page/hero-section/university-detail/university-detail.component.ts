@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common'; // Import the Location service
+import { addprogramService } from "libs/service/addprogram/addProgram.service"
 
 
 @Component({
@@ -10,7 +11,7 @@ import { Location } from '@angular/common'; // Import the Location service
 })
 export class UniversityDetailComponent {
 
-  
+
 
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();
@@ -21,7 +22,10 @@ export class UniversityDetailComponent {
   itemsPerPage: number = 9;
   totalPages: number = 0;
 
-  constructor(private location: Location) { }
+  constructor(private location: Location,
+    private addprogramService: addprogramService,
+  ) {
+  }
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -29,13 +33,20 @@ export class UniversityDetailComponent {
   }
 
   filterPrograms() {
-    this.filteredPrograms = this.university.programs.filter((program: any) =>
-      program.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    console.log(this.university.campusID);
+    this.addprogramService.getCampusProgram(this.university.campusID).subscribe(
+      (response) => {
+        console.log('campus program:', response);
+        this.filteredPrograms = response;
+        this.totalPages = Math.ceil(
+          this.filteredPrograms.length / this.itemsPerPage
+        );
+        this.currentPage = 1;
+      },
+      (error) => {
+        console.error('Error fetching campus programs:', error);
+      }
     );
-
-    this.totalPages = Math.ceil(this.filteredPrograms.length / this.itemsPerPage);
-
-    this.currentPage = 1;
   }
 
   getPaginatedPrograms(): any[] {
