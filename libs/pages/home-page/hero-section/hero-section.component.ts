@@ -16,6 +16,11 @@ interface University {
   city: string;
   campusName: string;
   noOfPrograms: number;
+  firstName: string,
+  email: string,
+  designation: string,
+  contact: string,
+  whatsapp: string,
 }
 
 interface Program {
@@ -70,7 +75,6 @@ export class HeroSectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getEducationTypes();
   }
 
@@ -136,16 +140,29 @@ export class HeroSectionComponent implements OnInit {
   // }
 
   applyFilters() {
-    if (!this.tempSelectedStudyLevel && !this.tempSelectedSubject) {
-      alert('Please select a Study Level and Program before searching.');
+    
+    if (!this.tempSelectedStudyLevel || !this.tempSelectedSubject || !this.tempSelectedCity) {
+      alert('Please select a Study Level, Subject, and City before searching.');
       return;
     }
-
-
+  
     const educationTypeID = parseInt(this.tempSelectedStudyLevel);
-    const programID = this.tempSelectedSubject ? parseInt(this.tempSelectedSubject) : null;
-    const cityID = this.tempSelectedCity ? parseInt(this.tempSelectedCity) : null;
-
+    const programID = parseInt(this.tempSelectedSubject);
+    const cityID = parseInt(this.tempSelectedCity);
+  
+    
+    this.selectedStudyLevel = this.studyLevels.find(
+      (level: any) => level.educationTypeID === educationTypeID
+    )?.educationTypeTitle || '';
+    
+    this.selectedSubject = this.subjects.find(
+      (subject: any) => subject.programID === programID
+    )?.programName || '';
+    
+    this.selectedCity = this.cities.find(
+      (city: any) => city.cityID === cityID
+    )?.cityName || '';
+  
     this.universityService.getUniversityForHero(educationTypeID, programID, cityID).subscribe(
       (response) => {
         this.filteredUniversities = response;

@@ -3,25 +3,30 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 96px;
+  padding-top: 6rem;
+  min-height: 90vh;
 }
 
-.detail-container
-{
-  padding-top: 72px;
+.detail-container {
+  padding-top: 5rem;
 }
 
 .image-padding {
-  padding: 16px;
+  padding: 1.5rem;
 }
 
 .custom-image {
   max-width: 200px;
   height: auto;
+  transition: transform 0.3s ease;
+}
+
+.custom-image:hover {
+  transform: scale(1.05);
 }
 
 .content-wrapper {
-  padding: 40px 20px;
+  padding: 2.5rem 1.5rem;
   text-align: center;
   max-width: 900px;
   margin: 0 auto;
@@ -29,133 +34,159 @@
 
 .badge-container {
   background-color: var(--light-green);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 48px;
-  width: auto;
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .icon-style {
   color: var(--dark-green);
-  font-size: 16px;
-  padding-right: 8px;
+  font-size: 1rem;
+  margin-right: 0.5rem;
 }
 
 .badge-text {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   margin: 0;
+  color: var(--dark-green);
 }
 
 .main-heading {
-  font-size: 80px;
-  font-weight: 500;
-  line-height: 90px;
-  letter-spacing: 0%;
-  vertical-align: middle;
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1.1;
   color: var(--black);
-  margin: 20px 0;
+  margin: 1.5rem 0;
+  letter-spacing: -0.5px;
 }
-
 
 .highlight-text {
   color: var(--active-link-pink);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight-text::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255, 105, 180, 0.2);
+  z-index: -1;
+  border-radius: 4px;
 }
 
 .description-text {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--gray);
-  margin: 20px 0;
-  line-height: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  margin: 1.5rem auto;
+  line-height: 1.6;
+  max-width: 700px;
 }
 
 .search-container {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 0.75rem;
   flex-wrap: wrap;
-  margin-top: 20px;
   border: 1px solid var(--gray);
   border-radius: 48px;
-  padding: 18px;
-  margin-top: 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem;
+  margin: 2rem auto 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 900px;
+  background: white;
 }
 
 .custom-select {
-  padding: 10px 30px 10px 15px;
-  font-size: 16px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   border-radius: 48px;
   border: 1px solid var(--gray);
   flex: 1;
-  min-width: 150px;
+  min-width: 160px;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right 12px center;
+  background-position: right 15px center;
   background-size: 1em;
+  transition: all 0.2s ease;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: var(--dark-green);
+  box-shadow: 0 0 0 2px rgba(0, 120, 100, 0.1);
 }
 
 .search-button {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
   border-radius: 48px;
   background-color: var(--dark-green);
   color: var(--white);
   border: none;
   cursor: pointer;
   flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
+.search-button:hover {
+  background-color: var(--dark-green);
+  transform: translateY(-1px);
+}
 
-/* Custom Padding */
 .custom-padding {
-  padding: 0px 96px;
+  padding: 2rem 6rem;
 }
 
-/* Search Result Heading */
 .search-result-heading {
-  font-size: 24px;
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .highlight-text2 {
-  font-weight: bold;
+  font-weight: 600;
   color: var(--black);
+  position: relative;
 }
 
-/* Search Result Subtitle */
 .search-result-subtitle {
-  font-size: 20px;
-  color: #4E5255;
-  margin-top: 10px;
+  font-size: 1.125rem;
+  color: var(--gray);
 }
 
-/* No Results Heading */
 .no-results-heading {
-  font-size: 24px;
+  font-size: 1.5rem;
+  font-weight: 500;
   color: var(--black);
 }
 
-/* University Card */
 .university-card {
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.university-card:hover {
+  transform: translateY(-5px);
 }
 
 .university-image-container {
   width: 100%;
-  padding-bottom: 55%;
+  padding-bottom: 65%;
   background: var(--white);
   border-radius: 16px;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 .university-image {
@@ -165,6 +196,11 @@
   position: absolute;
   top: 0;
   left: 0;
+  transition: transform 0.3s ease;
+}
+
+.university-card:hover .university-image {
+  transform: scale(1.05);
 }
 
 .university-logo {
@@ -172,136 +208,168 @@
   height: 50px;
   object-fit: contain;
   position: absolute;
-  bottom: 8px;
-  left: 8px;
+  bottom: 12px;
+  left: 12px;
   background-color: var(--white);
   border-radius: 50%;
   padding: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .university-name {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  color: var(--black);
 }
 
 .university-details {
-  font-size: 14px;
+  font-size: 0.9375rem;
   color: var(--gray);
-  margin: 0;
+  margin: 0.25rem 0 0;
 }
 
-/* Pagination */
 .pagination-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  margin-top: 16px;
-  border-top: 1px solid var(--gray);
-  padding-top: 16px;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .pagination-buttons {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .pagination-button {
-  font-weight: bold;
-  padding: 0;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
   background: none;
   border: none;
   color: var(--subtitle);
   cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .pagination-button.active-page {
-  font-weight: bold;
-  color: var(--black);
+  font-weight: 600;
+  color: var(--white);
+  background: var(--dark-green);
 }
 
 .pagination-navigation {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 1rem;
 }
 
 .pagination-nav-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 4px;
-  border: 2px solid var(--gray);
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--gray);
   background-color: var(--white);
   color: var(--subtitle);
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-nav-button:hover:not([disabled]) {
+  border-color: var(--dark-green);
+  color: var(--dark-green);
+}
+
+.pagination-nav-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1200px) {
+
+  .custom-padding {
+    padding: 2rem 4rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-heading {
+    font-size: 2.75rem;
+  }
+  
+  .custom-padding {
+    padding: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .container-fluid {
-    padding: 40px 20px !important;
-    height: auto !important;
+  .custom-container {
+    padding-top: 12rem;
+    min-height: auto;
   }
-
-  h1 {
-    font-size: 36px !important;
-    margin: 10px 0 !important;
+  
+  .main-heading {
+    font-size: 2.25rem;
+    line-height: 1.2;
   }
-
-  .logo-image {
-    height: 35px !important;
-    width: 35px !important;
+  
+  .description-text {
+    font-size: 1rem;
   }
-
-  p {
-    font-size: 16px !important;
-    margin: 10px 0 !important;
-  }
-
-  .search-form {
+  
+  .search-container {
     flex-direction: column;
-    gap: 10px;
+    border-radius: 24px;
+    padding: 1.5rem;
   }
-
-  .search-form select,
-  .search-form button {
+  
+  .custom-select, .search-button {
     width: 100%;
-    min-width: auto !important;
+    border-radius: 24px;
+  }
+  
+  .custom-padding {
+    padding: 1.5rem;
+  }
+  
+  .university-card {
+    margin-bottom: 1.5rem;
   }
 }
 
 @media (max-width: 576px) {
-  .container-fluid {
-    padding: 30px 15px !important;
+  .main-heading {
+    font-size: 1.75rem;
   }
-
-  h1 {
-    font-size: 30px !important;
-    margin: 8px 0 !important;
+  
+  .badge-container {
+    padding: 0.375rem 0.75rem;
   }
-
-  .logo-image {
-    height: 25px !important;
-    width: 25px !important;
+  
+  .content-wrapper {
+    padding: 1.5rem 1rem;
   }
-
-  p {
-    font-size: 14px !important;
-    margin: 8px 0 !important;
+  
+  .search-result-heading {
+    font-size: 1.25rem;
   }
-
-  .search-form {
-    flex-direction: column;
-    gap: 8px;
+  
+  .university-name {
+    font-size: 1rem;
   }
-
-  .search-form select,
-  .search-form button {
-    width: 100%;
-    min-width: auto !important;
+  
+  .university-details {
+    font-size: 0.875rem;
   }
 }

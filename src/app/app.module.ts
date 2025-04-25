@@ -7,7 +7,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from 'libs/interceptor/loading.interceptor';
-import { LucideAngularModule, Bell, LayoutDashboard,Send, Settings,University, CircleAlert,FileText,Images, LogOut, Menu, X, ChevronDown, ArrowLeft, ArrowRight, CalendarDays, NotebookTabs, UserRoundPlus } from 'lucide-angular';
+import { LucideAngularModule, Bell, LayoutDashboard,Send, Settings,University, CircleAlert,FileText,Images, LogOut, MenuSquare, X, ChevronDown, ArrowLeft, ArrowRight, CalendarDays, NotebookTabs, UserRoundPlus } from 'lucide-angular';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -94,7 +94,7 @@ import { UserManagementComponent } from '../../libs/admin/user-management/user-m
     MatSnackBarModule,
     NgbModule,
     HttpClientModule, // Add this line
-    LucideAngularModule.pick({UserRoundPlus, ArrowLeft,ArrowRight, Bell, Send, LayoutDashboard,Images, LogOut, Menu, X, ChevronDown,University,FileText, CircleAlert, Settings , CalendarDays , NotebookTabs}),
+    LucideAngularModule.pick({UserRoundPlus, ArrowLeft,ArrowRight, Bell, Send, LayoutDashboard,Images, LogOut, MenuSquare, X, ChevronDown,University,FileText, CircleAlert, Settings , CalendarDays , NotebookTabs}),
     FormsModule,
     ReactiveFormsModule
   ],

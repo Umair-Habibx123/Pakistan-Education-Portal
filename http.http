@@ -19,3 +19,15 @@ Content-Type: application/json
 ###
 
 GET {{baseUrl}}Program/getCampusProgram?campusID=31
+
+
+###
+GET {{baseUrl}}University/getCountry
+
+###
+
+GET {{baseUrl}}University/getProvince?CountryID=1
+
+###
+GET {{baseUrl}}University/getCity?ProvinceID=1
+

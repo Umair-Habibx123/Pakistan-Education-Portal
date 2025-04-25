@@ -1,9 +1,7 @@
 <div *ngIf="!showDetailView">
   <div class="container-fluid custom-container vh-100">
     <div class="row align-items-center w-100 px-0 mx-0">
-      <div
-        class="col-12 col-md-2 d-flex justify-content-center align-items-center px-0"
-      >
+      <div class="col-12 col-md-2 d-flex justify-content-center align-items-center px-0 d-none d-md-flex">
         <div class="image-padding">
           <img
             src="assets/hero1.png"
@@ -15,7 +13,7 @@
 
       <div class="col-12 col-md-8 px-0">
         <div class="content-wrapper">
-          <div class="row justify-content-center">
+          <div class="row justify-content-center mb-3">
             <div class="badge-container">
               <i class="fas fa-graduation-cap icon-style"></i>
               <p class="badge-text">Start your Journey in Pakistan</p>
@@ -79,13 +77,10 @@
               Search
             </button>
           </div>
-
         </div>
       </div>
 
-      <div
-        class="col-12 col-md-2 d-flex justify-content-center align-items-center px-0"
-      >
+      <div class="col-12 col-md-2 d-flex justify-content-center align-items-center px-0 d-none d-md-flex">
         <div class="image-padding">
           <img
             src="assets/hero2.png"
@@ -97,82 +92,61 @@
     </div>
   </div>
   
-
   <div class="col-12 container-fluid custom-padding">
-    <div *ngIf="filteredUniversities.length > 0" class="row mb-4">
+    <div *ngIf="filteredUniversities.length > 0" class="row mb-5">
       <div class="col-12">
-        <h2 class="search-result-heading">
-          <ng-container
-            *ngIf="selectedStudyLevel && !selectedSubject && !selectedCity"
-          >
+        <h2 class="search-result-heading mb-2">
+          <ng-container *ngIf="selectedStudyLevel && !selectedSubject && !selectedCity">
             Your search for
             <span class="highlight-text2">{{ selectedStudyLevel }}</span> found
-            <span class="highlight-text2"
-              >{{ filteredUniversities.length }} Universities.</span
-            >
+            <span class="highlight-text2">{{ filteredUniversities.length }} Universities.</span>
           </ng-container>
 
-          <ng-container
-            *ngIf="selectedStudyLevel && selectedSubject && !selectedCity"
-          >
+          <ng-container *ngIf="selectedStudyLevel && selectedSubject && !selectedCity">
             Your search for
             <span class="highlight-text2">{{ selectedStudyLevel }}</span> found
             <span class="highlight-text2">{{ selectedSubject }}</span> at
-            <span class="highlight-text2"
-              >{{ filteredUniversities.length }} Universities.</span
-            >
+            <span class="highlight-text2">{{ filteredUniversities.length }} Universities.</span>
           </ng-container>
 
-          <ng-container
-            *ngIf="selectedStudyLevel && selectedSubject && selectedCity"
-          >
+          <ng-container *ngIf="selectedStudyLevel && selectedSubject && selectedCity">
             Your search for
-            <span class="highlight-text2"
-              >{{ selectedStudyLevel }} in {{ selectedCity }}</span
-            >
+            <span class="highlight-text2">{{ selectedStudyLevel }} in {{ selectedCity }}</span>
             found <span class="highlight-text2">{{ selectedSubject }}</span> at
-            <span class="highlight-text2"
-              >{{ filteredUniversities.length }} Universities.</span
-            >
+            <span class="highlight-text2">{{ filteredUniversities.length }} Universities.</span>
           </ng-container>
         </h2>
-        <p class="search-result-subtitle">Search Result</p>
+        <p class="search-result-subtitle text-muted">Search Results</p>
       </div>
     </div>
 
-    <div
-      *ngIf="filteredUniversities.length === 0 && hasSearched"
-      class="row mb-4"
-    >
-      <div class="col-12 text-center">
-        <h2 class="no-results-heading">
+    <div *ngIf="filteredUniversities.length === 0 && hasSearched" class="row mb-5">
+      <div class="col-12 text-center py-5">
+        <h2 class="no-results-heading mb-3">
           No universities found matching your criteria.
         </h2>
       </div>
     </div>
 
-
-    <div class="row">
+    <div class="row g-4">
       <div
         *ngFor="let university of getPaginatedUniversities()"
         (click)="showUniversityDetail(university)"
-        class="col-6 col-md-3 mb-4 university-card"
+        class="col-6 col-md-3 university-card"
       >
         <div class="university-image-container">
-          <!-- Prepend the campus image base URL -->
           <img
             [src]="'http://95.217.205.57:13400/assets/campusImages/' + university.imageEDoc"
             alt="University"
             class="university-image"
           />
-          <!-- Prepend the logo base URL -->
           <img
             [src]="'http://95.217.205.57:13400/assets/universityLogo/' + university.logoEDoc"
             alt="Logo"
             class="university-logo"
           />
         </div>
-        <p class="university-name">{{ university.universityName }}</p>
+        <p class="university-name mt-3">{{ university.universityName }}</p>
         <div>
           <p class="university-details">
             {{ university.cityName }} • {{ university.noOfPrograms }} Programmes
@@ -181,12 +155,8 @@
       </div>
     </div>
     
-
     <!-- Pagination Section -->
-    <div
-      *ngIf="filteredUniversities.length > 0 || isUniversityPage"
-      class="pagination-container"
-    >
+    <div *ngIf="filteredUniversities.length > 0 || isUniversityPage" class="pagination-container mt-5">
       <div class="pagination-buttons">
         <button
           *ngFor="let page of [].constructor(totalPages); let i = index"
@@ -198,18 +168,17 @@
         </button>
       </div>
       <div class="pagination-navigation">
-        <button class="pagination-nav-button" (click)="previousPage()">
+        <button class="pagination-nav-button" (click)="previousPage()" [disabled]="currentPage === 1">
           <span><lucide-angular name="ArrowLeft"></lucide-angular></span>
           <span>Previous</span>
         </button>
-        <button class="pagination-nav-button" (click)="nextPage()">
+        <button class="pagination-nav-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
           <span>Next</span>
           <span><lucide-angular name="ArrowRight"></lucide-angular></span>
         </button>
       </div>
     </div>
   </div>
-  
 </div>
 
 <div *ngIf="showDetailView" class="detail-container">

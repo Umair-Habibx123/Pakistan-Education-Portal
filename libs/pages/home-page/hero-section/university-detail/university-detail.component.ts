@@ -1,7 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common'; // Import the Location service
 import { addprogramService } from "libs/service/addprogram/addProgram.service"
+import { UniversityService } from 'libs/service/addUniversity/university.service';
 
+
+interface contactInfo {
+  contactID: Number;
+  employeeName: string;
+  email: string;
+  designation: string;
+  contact: string;
+  whatsapp: string;
+}
 
 @Component({
   selector: 'app-university-detail',
@@ -11,8 +21,6 @@ import { addprogramService } from "libs/service/addprogram/addProgram.service"
 })
 export class UniversityDetailComponent {
 
-
-
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();
 
@@ -21,8 +29,10 @@ export class UniversityDetailComponent {
   currentPage: number = 1;
   itemsPerPage: number = 9;
   totalPages: number = 0;
+  contactInfo: any[] = [];
 
   constructor(private location: Location,
+    private universityService: UniversityService,
     private addprogramService: addprogramService,
   ) {
   }
@@ -30,6 +40,7 @@ export class UniversityDetailComponent {
   ngOnInit() {
     window.scrollTo(0, 0);
     this.filterPrograms();
+    this.getUniversityPerson();
   }
 
   filterPrograms() {
@@ -45,6 +56,19 @@ export class UniversityDetailComponent {
       },
       (error) => {
         console.error('Error fetching campus programs:', error);
+      }
+    );
+  }
+
+  getUniversityPerson() {
+    console.log(this.university.uniID);
+    this.universityService.getUniversityPerson(this.university.uniID).subscribe(
+      (response) => {
+        console.log('contact information:', response);
+        this.contactInfo = response;
+      },
+      (error) => {
+        console.error('Error fetching contact info:', error);
       }
     );
   }

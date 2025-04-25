@@ -17,10 +17,14 @@ export class AdminUniversityDetailComponent implements OnInit {
   private readonly FEE_REGEX = /^\d+(\.\d{1,2})?$/;
   private readonly DURATION_REGEX = /^[1-9]\d*(\.\d{1,2})?$/;
 
+  isEditing: boolean = false;
+  isLoading: boolean = false;
+  isDeleting: boolean = false;
+
   filteredPrograms: any[] = [];
   errorMessage: string = '';
   currentPage: number = 1;
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 6;
   totalPages: number = 0;
   educationType: any[] = [];
   teachingModes: any[] = [];
@@ -54,12 +58,16 @@ export class AdminUniversityDetailComponent implements OnInit {
   }
 
   getTeachingMode(): void {
+    this.isLoading = true;
     this.addprogramService.getTeachingMode().subscribe(
       (response) => {
-        console.log('Teaching Modes:', response);
+        this.isLoading = false;
+
         this.teachingModes = response;
       },
       (error) => {
+        this.isLoading = false;
+
         console.error('Error fetching teaching Modes:', error);
       }
     );
@@ -67,12 +75,16 @@ export class AdminUniversityDetailComponent implements OnInit {
 
 
   loadEducationType(): void {
+    this.isLoading = true;
     this.addprogramService.getEducationType().subscribe(
       (response) => {
-        console.log('Education Types:', response);
+        this.isLoading = false;
+
         this.educationType = response;
       },
       (error) => {
+        this.isLoading = false;
+
         console.error('Error fetching education types:', error);
       }
     );
@@ -84,12 +96,10 @@ export class AdminUniversityDetailComponent implements OnInit {
       return;
     }
 
-    console.log("programs for " , this.newProgram.degreeLevel);
-
     this.addprogramService.getPrograms(this.newProgram.degreeLevel).subscribe({
       next: (response) => {
         if (!response || response.length === 0) {
-          console.warn('No programs available for ', this.newProgram.degreeLevel, "response = " , response);
+          console.warn('No programs available for ', this.newProgram.degreeLevel, "response = ", response);
         }
         this.availablePrograms = response;
         if (id !== 0) {
@@ -108,14 +118,14 @@ export class AdminUniversityDetailComponent implements OnInit {
       },
     });
   }
- 
 
 
   filterPrograms() {
-    console.log(this.university.campusID);
+    this.isLoading = true;
+
     this.addprogramService.getCampusProgram(this.university.campusID).subscribe(
       (response) => {
-        console.log('campus program:', response);
+        this.isLoading = false;
         this.filteredPrograms = response;
         this.allPrograms = [...response];
 
@@ -125,6 +135,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         this.currentPage = 1;
       },
       (error) => {
+        this.isLoading = false;
         console.error('Error fetching campus programs:', error);
       }
     );
@@ -177,22 +188,34 @@ export class AdminUniversityDetailComponent implements OnInit {
   }
 
   addProgram(): void {
+
+    this.isLoading = true;
+
     if (!this.newProgram.programID) {
+      this.isLoading = false;
+
       alert('Please select a program');
       return;
     }
 
     if (!this.newProgram.fee || !this.FEE_REGEX.test(this.newProgram.fee)) {
+      this.isLoading = false;
+
       this.errorMessage = 'Please enter a valid application fee';
+
       return;
     }
 
     if (!this.newProgram.degreeFee || !this.FEE_REGEX.test(this.newProgram.degreeFee)) {
+      this.isLoading = false;
+
       this.errorMessage = 'Please enter a valid degree fee';
       return;
     }
 
     if (!this.newProgram.duration || !this.DURATION_REGEX.test(this.newProgram.duration)) {
+      this.isLoading = false;
+
       this.errorMessage = 'Please enter a valid duration (1 or higher)';
       return;
     }
@@ -202,10 +225,11 @@ export class AdminUniversityDetailComponent implements OnInit {
       (x) => (x.programID = this.newProgram.programID)
     );
 
-    console.log(selectedProgram);
 
     if (!selectedProgram) {
       alert('Invalid program selection');
+      this.isLoading = false;
+
       return;
     }
 
@@ -213,11 +237,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     if (this.newProgram.campusProgramID !== 0) {
       programData = {
         spType: 'update',
-        // uniID: this.university.uniID,
-        // eduationType: this.newProgram.degreeLevel,
         programID: selectedProgram[0].programID,
-        // programName: selectedProgram[0].programName,
-        // applicationFee: this.newProgram.fee,
         degreeFee: this.newProgram.degreeFee,
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
@@ -244,10 +264,9 @@ export class AdminUniversityDetailComponent implements OnInit {
       };
     }
 
-    console.log('Adding new program:', programData);
-
     this.addprogramService.addprogram(programData).subscribe(
       (response) => {
+        this.isLoading = false;
         document.getElementById('modalClose')?.click();
         console.log('Program saved successfully:', response);
         this.snackBar.open('Program added successfully!', 'Close', {
@@ -258,6 +277,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         this.filterPrograms();
       },
       (error) => {
+        this.isLoading = false;
         console.error('Error saving program:', error);
         this.snackBar.open('Failed to add program.', 'Close', {
           duration: 5000,
@@ -268,6 +288,8 @@ export class AdminUniversityDetailComponent implements OnInit {
   }
 
   editProgram(item: any) {
+    this.isEditing = true;
+
     this.newProgram.campusProgramID = item.campusProgramID;
     this.newProgram.degreeLevel = item.educationTypeID;
     this.newProgram.programID = item.programID;
@@ -285,6 +307,7 @@ export class AdminUniversityDetailComponent implements OnInit {
 
   deleteProgram(): void {
     if (!this.programToDelete) return;
+    this.isLoading = true;
 
     const deleteData = {
       spType: 'delete',
@@ -300,6 +323,8 @@ export class AdminUniversityDetailComponent implements OnInit {
 
     this.addprogramService.addprogram(deleteData).subscribe(
       (response) => {
+        this.isLoading = false;
+
         console.log('Program deleted successfully:', response);
         this.snackBar.open('Program deleted successfully!', 'Close', {
           duration: 5000,
@@ -308,6 +333,8 @@ export class AdminUniversityDetailComponent implements OnInit {
         this.filterPrograms();
       },
       (error) => {
+        this.isLoading = false;
+
         console.error('Error deleting program:', error);
         this.snackBar.open('Failed to delete program.', 'Close', {
           duration: 5000,

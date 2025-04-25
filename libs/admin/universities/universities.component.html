@@ -1,44 +1,46 @@
 <div class="d-flex flex-column">
-  <!-- Scrollable Content -->
-  <div class="flex-grow-1 p-4 p-sm-6 overflow-auto">
-    <div class="bg-white border border-2 m-2 p-3 rounded-3">
+  <div class="flex-grow-1 p-1 p-sm-1 p-md-2 overflow-auto">
+    <div class="bg-white border border-2 m-0 m-sm-2 p-3 p-sm-4 rounded-3">
       <!-- Grid View -->
       <div *ngIf="!showDetailView">
         <div
-          class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4"
+          class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 gap-sm-0 px-2 px-sm-4 py-3 py-sm-4"
         >
           <h2 class="font-weight-bold h5 mb-0">University Details</h2>
 
           <div
-            class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65"
+            class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-3 custom-width-65"
           >
             <!-- Search Input -->
-            <div class="input-group w-75 w-sm-75 custom-input-height">
-              <span class="input-group-text bg-light border-0">
+            <div
+              class="input-group flex-grow-1 w-75 w-sm-auto custom-input-height"
+            >
+              <span class="input-group-text bg-light border-0 px-3">
                 <i class="text-muted fa-search fas"></i>
               </span>
               <input
                 type="text"
-                class="form-control bg-light border-0"
+                class="form-control bg-light border-0 ps-2"
                 placeholder="Search here..."
                 [(ngModel)]="searchTerm"
                 (input)="searchUniversities()"
               />
             </div>
-            <!-- Add Slider Button -->
+            <!-- Add University Button -->
             <button
               data-bs-toggle="modal"
               data-bs-target="#universityModal"
-              class="btn border border-2 rounded-5 w-25 w-sm-auto px-3 py-2 mt-2 mt-sm-0"
+              class="btn addBtn border-0 rounded-5 w-auto px-3 py-2 mt-0"
             >
-              Add University +
+              <span class="d-none d-sm-inline">+ Add University</span>
+              <span class="d-sm-none">Add +</span>
             </button>
           </div>
         </div>
 
         <!-- Grid Section -->
-        <div class="container-fluid my-4">
-          <div class="g-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
+        <div class="container-fluid my-3 my-sm-4">
+          <div class="g-3 g-sm-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
             <div
               class="col"
               *ngFor="let university of filteredUniversities"
@@ -47,49 +49,53 @@
               <div
                 class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card"
               >
-                <div>
+                <div class="flex-shrink-0">
                   <img
                     [src]="productUrl + university.logoEDocPath"
-                    alt="{{ university.universityName }} Logo"
-                    class="rounded-circle custom-university-logo"
+                    alt="Logo"
+                    class="rounded-circle custom-university-logo object-fit-cover"
                   />
                 </div>
-                <div class="flex-grow-1">
+                <div class="flex-grow-1 min-width-0">
                   <h5 class="fw-bold mb-1 custom-university-name title">
                     {{ university.universityName }}
                   </h5>
-                  <div class="text-muted small">
+                  <div class="text-muted small d-flex align-items-center gap-1">
                     <i class="fa-map-marker-alt fas"></i>
-                    {{ university.cityName }}
+                    <span>{{ university.cityName }}</span>
                   </div>
-                  <div class="d-flex gap-1 mt-1">
-                    <span class="badge custom-badge">{{
+                  <div class="d-flex gap-1 mt-2">
+                    <span class="badge custom-badge small py-2 px-3">{{
                       university.campusName
                     }}</span>
                   </div>
-                  <div class="text-success fw-semibold mt-1">
+                  <div class="text-success fw-semibold mt-2">
                     {{ university.noOfPrograms }} Programs
                   </div>
                 </div>
                 <div
-                  class="d-flex position-absolute rounded-pill shadow-sm end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
+                  class="d-flex position-absolute end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
                 >
-                  <i
-                    class="text-danger cursor-pointer fa-trash-alt fas"
+                  <button
+                    class="btn btn-icon p-1"
                     data-bs-toggle="modal"
                     data-bs-target="#deleteConfirmationModal1"
                     (click)="
                       $event.stopPropagation(); confirmDelete(university)
                     "
-                  ></i>
-                  <i
-                    class="text-primary cursor-pointer fa-edit fas"
+                  >
+                    <i class="text-danger fa-trash-alt fas small"></i>
+                  </button>
+                  <button
+                    class="btn btn-icon p-1"
                     data-bs-toggle="modal"
                     data-bs-target="#universityModal"
                     (click)="
                       $event.stopPropagation(); editUniversity(university)
                     "
-                  ></i>
+                  >
+                    <i class="text-primary fa-edit fas small"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -99,15 +105,15 @@
         <!-- Pagination Section -->
         <div
           *ngIf="filteredUniversities.length > 0"
-          class="d-flex flex-column flex-sm-row align-items-center border-top justify-content-end gap-2 mt-4 pt-4"
+          class="d-flex flex-column flex-sm-row align-items-center border-top justify-content-between justify-content-sm-end gap-3 mt-4 pt-4 px-2 px-sm-0"
         >
-          <div class="d-flex align-items-center gap-3">
+          <div class="d-flex align-items-center gap-1">
             <button
               *ngFor="let page of [].constructor(totalPages); let i = index"
-              class="btn btn-link p-0 fw-bold"
+              class="btn btn-link p-0 px-2 py-1"
               [ngClass]="{
-                'fw-bold': currentPage === i + 1,
-                'fw-medium': currentPage !== i + 1
+                'fw-bold text-dark': currentPage === i + 1,
+                'fw-medium text-muted': currentPage !== i + 1
               }"
               (click)="goToPage(i + 1)"
             >
@@ -116,18 +122,20 @@
           </div>
           <div class="d-flex align-items-center gap-2">
             <button
-              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 custom-pagination-btn"
+              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-3 px-sm-4 py-2 custom-pagination-btn"
               (click)="previousPage()"
+              [disabled]="currentPage === 1"
             >
-              <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
-              <span>Previous</span>
+              <lucide-angular name="ArrowLeft" size="16"></lucide-angular>
+              <span class="d-none d-sm-inline">Previous</span>
             </button>
             <button
-              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 custom-pagination-btn"
+              class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-3 px-sm-4 py-2 custom-pagination-btn"
               (click)="nextPage()"
+              [disabled]="currentPage === totalPages"
             >
-              <span>Next</span>
-              <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
+              <span class="d-none d-sm-inline">Next</span>
+              <lucide-angular name="ArrowRight" size="16"></lucide-angular>
             </button>
           </div>
         </div>
@@ -153,11 +161,13 @@
   aria-labelledby="universityModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content p-2">
-      <div class="modal-header">
-        <h5 class="fw-bold custom-modal-title" id="universityModalLabel">
-          Add New University
+  <div
+    class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+  >
+    <div class="modal-content p-3">
+      <div class="modal-header border-0 pb-2">
+        <h5 class="fw-bold custom-modal-title m-0" id="universityModalLabel">
+          {{ isEditing ? "Edit" : "Add New" }} University
         </h5>
         <button
           (click)="resetForm()"
@@ -169,23 +179,38 @@
         ></button>
       </div>
 
-      <div class="modal-body">
-        <div class="row mb-4 custom-form-label">
-
-
-          
+      <div class="modal-body pt-0">
+        <!-- <div class="row mb-3 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label custom-form-label">University Name</label>
+            <label class="form-label mb-2">University Name</label>
             <select class="form-select" [(ngModel)]="newUniversity.name">
               <option [ngValue]="null" disabled>Select University Name</option>
-              <option *ngFor="let uniName of UniNames" [ngValue]="uniName.universityName">
+              <option
+                *ngFor="let uniName of UniNames"
+                [ngValue]="uniName.universityName"
+              >
+                {{ uniName.universityName }}
+              </option>
+            </select>
+          </div> -->
+
+        <div class="row mb-3 custom-form-label">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label mb-2">University Name</label>
+            <select
+              class="form-select"
+              [(ngModel)]="selectedUniversity"
+              (ngModelChange)="onUniversitySelect($event)"
+            >
+              <option [ngValue]="null" disabled>Select University Name</option>
+              <option *ngFor="let uniName of UniNames" [ngValue]="uniName">
                 {{ uniName.universityName }}
               </option>
             </select>
           </div>
 
           <div class="col-md-6">
-            <label class="form-label">Campus Name</label>
+            <label class="form-label mb-2">Campus Name</label>
             <input
               type="text"
               class="form-control"
@@ -195,9 +220,49 @@
           </div>
         </div>
 
-        <div class="row mb-4 custom-form-label">
-          <div class="col-md-4 mb-3 mb-md-0 mt-3">
-            <label class="form-label custom-form-label">City</label>
+        <div class="row mb-3 custom-form-label">
+          <div class="col-md-4">
+            <label class="form-label mb-2">Country</label>
+            <!-- <select class="form-select" (change)="onCountryChange($event)">
+              <option [ngValue]="null" disabled selected>Select Country</option>
+              <option *ngFor="let country of countries" [value]="country.countryID">
+                {{ country.countryName }}
+              </option>
+            </select> -->
+            <select
+              class="form-select"
+              [(ngModel)]="selectedCountryId"
+              (change)="onCountryChange($event)"
+            >
+              <option [ngValue]="null" disabled>Select Country</option>
+              <option
+                *ngFor="let country of countries"
+                [value]="country.countryID"
+              >
+                {{ country.countryName }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3 mb-md-0">
+            <label class="form-label mb-2">State</label>
+            <select
+              class="form-select"
+              [(ngModel)]="selectedProvinceId"
+              (change)="onProvinceChange($event)"
+            >
+              <option [ngValue]="null" disabled>Select State</option>
+              <option
+                *ngFor="let province of provinces"
+                [value]="province.provinceID"
+              >
+                {{ province.provinceName }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3 mb-md-0">
+            <label class="form-label mb-2">City</label>
             <select class="form-select" [(ngModel)]="newUniversity.city">
               <option [ngValue]="null" disabled>Select City</option>
               <option *ngFor="let city of cities" [ngValue]="city.cityID">
@@ -205,34 +270,20 @@
               </option>
             </select>
           </div>
-
-          <div class="col-md-4 mb-3 mb-md-0 mt-3">
-            <label class="form-label custom-form-label">State</label>
-            <select class="form-select" [(ngModel)]="newUniversity.city">
-              <option [ngValue]="null" disabled>Select State</option>
-            </select>
-          </div>
-
-          <div class="col-md-4 mb-3 mb-md-0 mt-3">
-            <label class="form-label custom-form-label">Country</label>
-            <select class="form-select" [(ngModel)]="newUniversity.city">
-              <option [ngValue]="null" disabled>Select Country</option>
-            </select>
-          </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
           <!-- University Logo Upload -->
           <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label custom-form-label">University Logo</label>
+            <label class="form-label mb-2">University Logo</label>
             <div
-              class="p-4 rounded text-center custom-dashed-border"
+              class="p-3 rounded text-center custom-dashed-border"
               (click)="triggerLogoUpload()"
             >
               <div *ngIf="!logoPreviewUrl" class="upload-placeholder">
-                <i class="bi bi-upload fs-1"></i>
-                <p class="fw-bold custom-upload-text">Upload Logo</p>
-                <p class="text-muted small">Supported Formats: Svg, Png, Jpg</p>
+                <i class="bi bi-cloud-upload fs-3 text-muted"></i>
+                <p class="fw-bold custom-upload-text mb-1">Upload Logo</p>
+                <p class="text-muted small m-0">SVG, PNG, JPG up to 2MB</p>
               </div>
 
               <!-- Logo preview -->
@@ -243,7 +294,7 @@
                   class="preview-image"
                 />
                 <div class="image-overlay">
-                  <i class="bi bi-arrow-repeat fs-4"></i>
+                  <i class="bi bi-arrow-repeat fs-5"></i>
                   <span class="small">Change Logo</span>
                 </div>
               </div>
@@ -260,15 +311,15 @@
 
           <!-- University Image Upload -->
           <div class="col-md-6">
-            <label class="form-label custom-form-label">University Image</label>
+            <label class="form-label mb-2">University Image</label>
             <div
-              class="p-4 rounded text-center custom-dashed-border"
+              class="p-3 rounded text-center custom-dashed-border"
               (click)="triggerImageUpload()"
             >
               <div *ngIf="!imagePreviewUrl" class="upload-placeholder">
-                <i class="bi bi-upload fs-1"></i>
-                <p class="fw-bold custom-upload-text">Upload Image</p>
-                <p class="text-muted small">Supported Formats: Svg, Png, Jpg</p>
+                <i class="bi bi-cloud-upload fs-3 text-muted"></i>
+                <p class="fw-bold custom-upload-text mb-1">Upload Image</p>
+                <p class="text-muted small m-0">SVG, PNG, JPG up to 2MB</p>
               </div>
 
               <!-- Image preview -->
@@ -279,7 +330,7 @@
                   class="preview-image"
                 />
                 <div class="image-overlay">
-                  <i class="bi bi-arrow-repeat fs-4"></i>
+                  <i class="bi bi-arrow-repeat fs-5"></i>
                   <span class="small">Change Image</span>
                 </div>
               </div>
@@ -295,9 +346,8 @@
           </div>
         </div>
 
-
-        <div class="mt-3">
-          <label class="form-label">Website URL</label>
+        <div class="mb-3">
+          <label class="form-label mb-2">Website URL</label>
           <input
             type="text"
             class="form-control"
@@ -306,75 +356,97 @@
           />
         </div>
 
-        <h5
-          class="mt-4 mb-4 fw-bold modal-title custom-modal-title"
-          id="universityModalLabel"
-        >
-          Add Contact Details
+        <h5 class="mt-4 mb-3 fw-bold modal-title custom-modal-title">
+          Contact Details
         </h5>
 
-        <div class="row mb-4 custom-form-label">
+        <div class="row mb-3 custom-form-label">
           <div class="col-md-4 mb-3 mb-md-0">
-            <label class="form-label">User Name</label>
-            <input type="text" class="form-control" placeholder="User Name" />
-          </div>
-          
-          
-          <div class="col-md-4 mb-3 mb-md-0">
-            <label class="form-label">User Role</label>
-            <select class="form-select">
-              <option [ngValue]="null" disabled>Select User Role</option>
-              <!-- <option *ngFor="let uniName of UniNames" [ngValue]="uniName.universityName"> -->
-              <option>
-                <!-- {{ uniName.universityName }} -->
-              </option>
-            </select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">WhatsApp Number</label>
+            <label class="form-label mb-2">User Name</label>
             <input
               type="text"
               class="form-control"
-              placeholder="WhatsApp  Number"
+              placeholder="User Name"
+              [(ngModel)]="newUniversity.employeeName"
+            />
+          </div>
+
+          <div class="col-md-4 mb-3 mb-md-0">
+            <label class="form-label mb-2">Designation</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Designation"
+              [(ngModel)]="newUniversity.designation"
+            />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label mb-2">WhatsApp Number</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="WhatsApp Number"
+              [(ngModel)]="newUniversity.whatsapp"
             />
           </div>
         </div>
 
-        <div class="row mb-4 custom-form-label">
+        <div class="row mb-3 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label">Contact</label>
+            <label class="form-label mb-2">Contact</label>
             <input
               type="text"
               class="form-control"
-              placeholder="User Contact"
+              placeholder="Contact Number"
+              [(ngModel)]="newUniversity.contact"
             />
           </div>
           <div class="col-md-6">
-            <label class="form-label">Email</label>
-            <input type="text" class="form-control" placeholder="Email" />
+            <label class="form-label mb-2">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Email Address"
+              [(ngModel)]="newUniversity.email"
+            />
           </div>
         </div>
       </div>
 
       <!-- Error message display -->
-      <div *ngIf="errorMessage" class="px-4 text-danger-2">
-        {{ errorMessage }}
+      <div *ngIf="errorMessage" class="px-4 text-danger-2 mb-3">
+        <i class="fas fa-exclamation-circle me-2"></i>{{ errorMessage }}
       </div>
 
-      <div class="modal-footer">
+      <div class="modal-footer border-0 pt-0">
         <button
           type="button"
-          class="btn btn-success w-100 custom-modal-footer-btn"
+          class="btn btn-success w-100 custom-modal-footer-btn py-2"
           (click)="addUniversity()"
+          [disabled]="isLoading"
         >
-          Add University
+          <span *ngIf="!isLoading"
+            >{{ isEditing ? "Update" : "Add" }} University</span
+          >
+          <span
+            *ngIf="isLoading"
+            class="d-flex align-items-center justify-content-center gap-2"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Processing...
+          </span>
         </button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
 <div
   class="modal fade"
   id="deleteConfirmationModal1"
@@ -425,7 +497,7 @@
         <div class="d-flex justify-content-center gap-3">
           <button
             type="button"
-            class="btn btn-light border px-4 py-2"
+            class="btn btn-outline-secondary px-4 py-2"
             data-bs-dismiss="modal"
           >
             Cancel
@@ -435,8 +507,20 @@
             class="btn btn-danger px-4 py-2"
             (click)="$event.stopPropagation(); deleteUniversity()"
             data-bs-dismiss="modal"
+            [disabled]="isDeleting"
           >
-            Delete
+            <span *ngIf="!isDeleting">Delete</span>
+            <span
+              *ngIf="isDeleting"
+              class="d-flex align-items-center justify-content-center gap-2"
+            >
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Deleting...
+            </span>
           </button>
         </div>
       </div>

@@ -1,3 +1,4 @@
+/* Improved spacing and typography */
 .custom-width-65 {
   width: 65%;
 }
@@ -7,11 +8,19 @@
 }
 
 .custom-modal-title {
-  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.btnAdd
+{
+  background-color: var(--dark-green);
+  color: white;
 }
 
 .custom-form-label {
-  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .custom-dark-green-text {
@@ -19,67 +28,69 @@
 }
 
 .custom-program-card {
-  position: relative;
   background-color: var(--light-gray);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.custom-action-buttons {
-  background-color: white;
-  border-radius: 50px;
-  padding: 8px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.custom-program-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .custom-pagination-btn {
   color: var(--subtitle);
+  min-width: 100px;
 }
 
 .title {
-  font-size: 14px;
+  font-size: 0.875rem;
+  line-height: 1.4;
 }
 
-/* Responsive Styles for Small Screens */
+.text-danger-2 {
+  color: #dc3545;
+  font-size: 0.875rem;
+}
+
+/* Responsive improvements */
 @media (max-width: 767.98px) {
-  .custom-width-65 {
-    width: 100%;
-  }
-
-  .input-group {
-    width: 100% !important;
-  }
-
-  .btn {
-    width: 100% !important;
-  }
-
   .custom-program-card {
     padding: 1rem;
   }
-
-  .custom-action-buttons {
-    position: static;
-    margin-top: 1rem;
-    justify-content: flex-end;
-  }
-
-  .custom-pagination-btn {
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-
-  .modal-dialog {
-    margin: 1rem;
-  }
-
-  .modal-content {
-    padding: 1rem;
-  }
-
-  .row-cols-lg-3>.col,
-  .row-cols-md-2>.col {
+  
+  .row-cols-lg-3 > .col,
+  .row-cols-md-2 > .col {
     flex: 0 0 100%;
     max-width: 100%;
+  }
+  
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .custom-pagination-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    padding: 1rem;
   }
 }
