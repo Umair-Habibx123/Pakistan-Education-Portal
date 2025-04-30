@@ -95,86 +95,8 @@
     </div>
   </div>
 
-  <!-- Password -->
-  <div class="col-12 col-sm-6">
-    <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">Password</label>
-      <input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="********"
-        class="form-control border-2 py-2 px-3 rounded"
-      />
-    </div>
-  </div>
-
-  <!-- Confirm Password -->
-  <div class="col-12 col-sm-6">
-    <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">Confirm Password</label>
-      <input
-        type="password"
-        [(ngModel)]="confirmPassword"
-        placeholder="********"
-        class="form-control border-2 py-2 px-3 rounded"
-      />
-    </div>
-  </div>
 </div>
 
-<div class="mt-4 row g-3">
-  <!-- Address -->
-  <div class="col-12 col-md-6">
-    <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">Address</label>
-      <textarea
-        [(ngModel)]="address"
-        placeholder="Enter your address"
-        class="form-control border-2 py-2 px-3 rounded custom-textarea"
-      ></textarea>
-    </div>
-  </div>
-
-  <!-- Profile Picture -->
-  <div class="col-12 col-md-6">
-    <label class="font-weight-medium pb-2">Profile Picture</label>
-
-    <div
-      class="d-flex flex-column custom-dashed-border position-relative"
-      (click)="triggerFileUpload()"
-    >
-      <div *ngIf="!previewImageUrl" class="upload-placeholder">
-        <div class="profile-pic-upload">
-          <div class="upload-text">
-            <span>
-              Drag & drop files or
-              <span class="browse-link">Browse</span>
-            </span>
-            <span class="supported-formats">Supported formats: JPEG, PNG</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Image preview (shown when image is selected) -->
-      <div *ngIf="previewImageUrl" class="image-preview-container">
-        <img [src]="previewImageUrl" alt="Preview" class="preview-image" />
-        <div class="image-overlay">
-          <i class="bi bi-arrow-repeat fs-4"></i>
-          <span class="small">Change Image</span>
-        </div>
-      </div>
-
-      <!-- Hidden file input -->
-      <input
-        type="file"
-        #fileInput
-        class="d-none form-control"
-        (change)="onFileSelected($event)"
-        accept=".svg, .png, .jpg"
-      />
-    </div>
-  </div>
-</div>
 
 <div class="mt-4 row g-3">
   <!-- Country -->
@@ -239,6 +161,111 @@
           {{ religion }}
         </option>
       </select>
+    </div>
+  </div>
+
+  <div class="mt-4 row g-3">
+    <!-- Address -->
+    <div class="col-12 col-md-6">
+      <div class="d-flex flex-column">
+        <label class="font-weight-medium pb-2">Address</label>
+        <textarea
+          [(ngModel)]="address"
+          placeholder="Enter your address"
+          class="form-control border-2 py-2 px-3 rounded custom-textarea"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4"
+>
+  <h3 class="h5 font-weight-semibold">Preview</h3>
+  <button class="btn custom-btn" (click)="goToNext()">Next</button>
+</div>
+
+<div class="container-fluid mb-5 p-0">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+    <div class="col">
+      <div
+        class="d-flex flex-column p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100"
+      >
+        <div class="d-flex justify-content-end gap-2 mt-auto">
+          <button
+            class="btn btn-icon p-1"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteConfirmationModal2"
+          >
+            <i class="text-danger fa-trash-alt fas small"></i>
+          </button>
+          <button
+            class="btn btn-icon p-1"
+            data-bs-toggle="modal"
+            data-bs-target="#programModal"
+          >
+            <i class="text-primary fa-edit fas small"></i>
+          </button>
+        </div>
+
+        <!-- Top Section -->
+        <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
+          <div class="flex-grow-1 pe-3">
+            <h5 class="fw-bold mb-1 title">Umair</h5>
+            <p class="m-0 text-muted small">Address here...</p>
+          </div>
+          <div class="text-dark">
+            <div class="d-flex align-items-center gap-1 mb-1">
+              <strong class="small">Country</strong>
+            </div>
+            <p class="m-0 text-muted small">Pakistan</p>
+          </div>
+        </div>
+
+        <!-- Middle Section -->
+        <div class="d-flex justify-content-between mb-3">
+          <div class="text-dark">
+            <div class="d-flex align-items-center gap-1 mb-1">
+              <strong class="small">Father Name</strong>
+            </div>
+            <p class="m-0 text-muted small">Father name</p>
+          </div>
+
+          <div class="text-dark px-3 border-start border-end">
+            <div class="d-flex align-items-center gap-1 mb-1">
+              <strong class="small">cnic</strong>
+            </div>
+            <p class="m-0 text-muted small">123-456-789-010</p>
+          </div>
+
+          <div class="text-dark px-3 border-end">
+            <div class="d-flex align-items-center gap-1 mb-1">
+              <strong class="small">Email</strong>
+            </div>
+            <p class="m-0 text-muted small">email@gmail.com</p>
+          </div>
+
+          <div class="text-dark px-3">
+            <div class="d-flex align-items-center gap-1 mb-1">
+              <strong class="small">Phone Number</strong>
+            </div>
+            <p class="m-0 text-muted small">123456789</p>
+          </div>
+        </div>
+
+        <div
+          class="d-flex position-absolute end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
+        >
+          <button class="btn btn-icon p-1">
+            <i class="text-danger fa-trash-alt fas small"></i>
+          </button>
+          <button class="btn btn-icon p-1">
+            <i class="text-primary fa-edit fas small"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

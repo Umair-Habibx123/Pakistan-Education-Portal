@@ -13,38 +13,38 @@ export class addprogramService {
 
   addprogram(programData: any): Observable<any> {
     return this.http.post(
-      `${this.apiUrl}school-api/Campus/saveCampusPrograms`,
+      `${this.apiUrl}Campus/saveCampusPrograms`,
       programData
     );
   }
 
   getPrograms(educationTypeID: number): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}school-api/Program/getAllPrograms?educationTypeID=${educationTypeID}`
+      `${this.apiUrl}Program/getAllPrograms?educationTypeID=${educationTypeID}`
     );
   }
 
   getProgramsForHome(educationTypeID: number): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}school-api/Program/getPrograms?educationTypeID=${educationTypeID}`
+      `${this.apiUrl}Program/getPrograms?educationTypeID=${educationTypeID}`
     );
   }
 
   getTeachingMode(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}school-api/Program/getTeachingMode`
+      `${this.apiUrl}Program/getTeachingMode`
     );
   }
 
   getCampusProgram(campusID: number): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}school-api/Program/getCampusProgram?campusID=${campusID}`
+      `${this.apiUrl}Program/getCampusProgram?campusID=${campusID}`
     );
   }
 
   getEducationType(): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}school-api/Program/getEducationType`
+      `${this.apiUrl}Program/getEducationType`
     );
   }
 }

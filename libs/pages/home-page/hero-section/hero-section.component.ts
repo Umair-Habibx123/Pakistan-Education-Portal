@@ -107,7 +107,7 @@ export class HeroSectionComponent implements OnInit {
     this.programService.getProgramsForHome(parseInt(educationTypeID)).subscribe(
       (response) => {
         this.subjects = response;
-        this.cities = response;
+        console.log(this.subjects);
         console.log(response);
       },
       (error) => {
@@ -119,50 +119,52 @@ export class HeroSectionComponent implements OnInit {
   onSubjectChange() {
     this.tempSelectedCity = null;
     this.cities = [];
-    console.log(this.tempSelectedCity);
-
 
     if (this.tempSelectedSubject) {
 
+      const selectedProgramId = parseInt(this.tempSelectedSubject);
+      this.cities = this.subjects
+        .filter((subject: any) => subject.programID === selectedProgramId)
+        .map((subject: any) => ({
+          cityID: subject.cityID,
+          cityName: subject.cityName
+        }));
+
+      this.cities = this.cities.filter(
+        (city: any, index: number, self: any[]) =>
+          index === self.findIndex((c) => c.cityID === city.cityID)
+      );
+
+      console.log('Filtered cities:', this.cities);
     }
   }
 
-  // getCities(programID: string) {
-  //   this.http.get(`${this.apiURL}school-api/university/getCity`).subscribe(
-  //     (response) => {
-  //       this.cities = response;
-  //       console.log(response);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+
 
   applyFilters() {
-    
+
     if (!this.tempSelectedStudyLevel || !this.tempSelectedSubject || !this.tempSelectedCity) {
       alert('Please select a Study Level, Subject, and City before searching.');
       return;
     }
-  
+
     const educationTypeID = parseInt(this.tempSelectedStudyLevel);
     const programID = parseInt(this.tempSelectedSubject);
     const cityID = parseInt(this.tempSelectedCity);
-  
-    
+
+
     this.selectedStudyLevel = this.studyLevels.find(
       (level: any) => level.educationTypeID === educationTypeID
     )?.educationTypeTitle || '';
-    
+
     this.selectedSubject = this.subjects.find(
       (subject: any) => subject.programID === programID
     )?.programName || '';
-    
+
     this.selectedCity = this.cities.find(
       (city: any) => city.cityID === cityID
     )?.cityName || '';
-  
+
     this.universityService.getUniversityForHero(educationTypeID, programID, cityID).subscribe(
       (response) => {
         this.filteredUniversities = response;

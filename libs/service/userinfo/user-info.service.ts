@@ -6,13 +6,12 @@ import { environment } from 'src/environments/environments';
 @Injectable({
   providedIn: 'root'
 })
-export class addcampusService {
-  private apiUrl = environment.apiUrl;
+export class UserInfoService {
+  private apiUrl = environment.apiUrl; 
 
   constructor(private http: HttpClient) { }
 
-      addcampus(addcampusData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}Campus/saveCampusPrograms`, addcampusData);
+  saveUserPersonalInfo(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}UserInformation/saveUserPeronalInfo`, data);
   }
-  
 }

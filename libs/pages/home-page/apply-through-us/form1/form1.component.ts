@@ -1,4 +1,6 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
+import { UserInfoService } from 'libs/service/userinfo/user-info.service';
 
 @Component({
   selector: 'app-form1',
@@ -12,8 +14,12 @@ export class Form1Component {
 
   previewImageUrl: string | ArrayBuffer | null = null;
 
+  constructor(private userInfoService: UserInfoService,
 
-  // declaration Form fields
+    private userSessionService: UserSessionService
+  ) { }
+
+
   fullName: string = '';
   fatherName: string = '';
   cnic: string = '';
@@ -31,8 +37,6 @@ export class Form1Component {
   filteredCities: string[] = [];
 
 
-
-  // Dropdown options
   countries: any[] = [
     { countryId: 'Pakistan', countryName: 'Pakistan' },
     { countryId: 'India', countryName: 'India' },
@@ -46,6 +50,10 @@ export class Form1Component {
   ];
 
 
+  languages: string[] = ['Urdu', 'English', 'Punjabi', 'Sindhi'];
+  religions: string[] = ['Islam', 'Christianity', 'Hinduism'];
+
+
   onCountryChange() {
     this.city = '';
     const selectedCountry = this.citiesData.find((item: any) => item.Id === this.country);
@@ -53,35 +61,26 @@ export class Form1Component {
   }
 
 
-
-  languages: string[] = ['Urdu', 'English', 'Punjabi', 'Sindhi'];
-  religions: string[] = ['Islam', 'Christianity', 'Hinduism'];
-
-
-  // CNIC formatting
   formatCNIC() {
-    let cnicValue = this.cnic.replace(/\D/g, ''); // Remove non-digits
+    let cnicValue = this.cnic.replace(/\D/g, '');
     if (cnicValue.length > 5) {
       cnicValue = cnicValue.slice(0, 5) + '-' + cnicValue.slice(5);
     }
     if (cnicValue.length > 13) {
       cnicValue = cnicValue.slice(0, 13) + '-' + cnicValue.slice(13);
     }
-    this.cnic = cnicValue.slice(0, 15); // Limit to 15 characters
+    this.cnic = cnicValue.slice(0, 15);
   }
 
-  // Phone number formatting
   formatPhoneNumber() {
-    let phoneValue = this.phoneNumber.replace(/\D/g, ''); // Remove non-digits
+    let phoneValue = this.phoneNumber.replace(/\D/g, '');
     if (phoneValue.length > 3) {
       phoneValue = phoneValue.slice(0, 3) + '-' + phoneValue.slice(3);
     }
-    this.phoneNumber = phoneValue.slice(0, 11); // Limit to 11 characters
+    this.phoneNumber = phoneValue.slice(0, 11);
   }
 
 
-
-  // Form validation
   validateForm(): boolean {
     if (this.fullName.length < 3) {
       alert('Name must be greater than 3 characters');
@@ -107,14 +106,7 @@ export class Form1Component {
       alert('Invalid Email Address');
       return false;
     }
-    if (this.password.length < 6) {
-      alert('Password must be at least 6 characters long');
-      return false;
-    }
-    if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match');
-      return false;
-    }
+
     if (this.address.length < 1) {
       alert('Please enter address');
       return false;
@@ -141,57 +133,43 @@ export class Form1Component {
 
 
   goToNext() {
-    // if (this.validateForm()) {
-        // Log the form data to the console
-    console.log({
-      fullName: this.fullName,
-      fatherName: this.fatherName,
-      cnic: this.cnic,
-      phoneNumber: this.phoneNumber,
-      dateOfBirth: this.dateOfBirth,
-      email: this.email,
-      password: this.password,
-      confirmPassword: this.confirmPassword,
-      address: this.address,
-      profilePicture: this.profilePicture,
-      country: this.country,
-      city: this.city,
-      language: this.language,
-      religion: this.religion
-    });
-    this.nextStep.emit();
-    // }
-  }
+    if (this.validateForm()) {
+      const currentUser = this.userSessionService.getUser();
+      const userId = currentUser?.userLoginId || 0;
 
-  
-    triggerFileUpload() {
-      this.fileInput.nativeElement.click(); // Open file dialog
-    }
-  
-  
-    onFileSelected(event: Event) {
-      const input = event.target as HTMLInputElement;
-  
-      if (input.files && input.files.length > 0) {
-        const file = input.files[0];
-  
-        // Validate file type
-        const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg'];
-        if (!validTypes.includes(file.type)) {
-          alert('Please select a valid image file (SVG, PNG, JPG)');
-          return;
+
+      const formData = {
+        userPersonalInfoID: 0,
+        fullname: this.fullName,
+        fatherName: this.fatherName,
+        city: this.city,
+        language: this.language,
+        religion: this.religion,
+        dateOfBirth: this.dateOfBirth,
+        cnic: this.cnic,
+        phoneNumber: this.phoneNumber,
+        address: this.address,
+        country: this.country,
+        userID: userId,
+        spType: 'insert',
+        eDoc: "",
+        eDocExt: "",
+        eDocPath: "",
+      };
+
+      console.log('Sending data:', formData);
+
+      this.userInfoService.saveUserPersonalInfo(formData).subscribe({
+        next: (response) => {
+          console.log('API response:', response);
+          this.nextStep.emit();
+        },
+        error: (error) => {
+          console.error('API error:', error);
+          alert('Error saving personal information. Please try again.');
         }
-  
-        // Create preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.previewImageUrl = e.target?.result as string;
-        };
-        reader.readAsDataURL(file);
-  
-        // You can emit the file or handle it as needed
-        console.log('Selected file:', file);
-      }
+      });
     }
+  }
 
 }

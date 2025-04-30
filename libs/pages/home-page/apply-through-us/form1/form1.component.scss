@@ -31,18 +31,12 @@
   height: 128px;
 }
 
-/* Profile Picture Upload Container Styles */
-// .profile-pic-upload {
-//   height: 128px;
-//   border: 2px dashed var(--gray);
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   padding: 8px 12px;
-//   border-radius: 12px;
-//   width: 100%;
-// }
+.custom-action-buttons {
+  background-color: white;
+  border-radius: 50px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  z-index: 1; 
+}
 
 .custom-dashed-border {
   height: 128px;

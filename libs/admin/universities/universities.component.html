@@ -12,9 +12,7 @@
             class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-3 custom-width-65"
           >
             <!-- Search Input -->
-            <div
-              class="input-group flex-grow-1 w-75 w-sm-auto custom-input-height"
-            >
+            <div class="input-group flex-grow-1 w-75 custom-input-height">
               <span class="input-group-text bg-light border-0 px-3">
                 <i class="text-muted fa-search fas"></i>
               </span>
@@ -47,7 +45,7 @@
               (click)="showUniversityDetail(university)"
             >
               <div
-                class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card"
+                class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card h-100"
               >
                 <div class="flex-shrink-0">
                   <img
@@ -56,7 +54,7 @@
                     class="rounded-circle custom-university-logo object-fit-cover"
                   />
                 </div>
-                <div class="flex-grow-1 min-width-0">
+                <div class="flex-grow-1 min-width-0 pe-3">
                   <h5 class="fw-bold mb-1 custom-university-name title">
                     {{ university.universityName }}
                   </h5>
@@ -180,20 +178,6 @@
       </div>
 
       <div class="modal-body pt-0">
-        <!-- <div class="row mb-3 custom-form-label">
-          <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label mb-2">University Name</label>
-            <select class="form-select" [(ngModel)]="newUniversity.name">
-              <option [ngValue]="null" disabled>Select University Name</option>
-              <option
-                *ngFor="let uniName of UniNames"
-                [ngValue]="uniName.universityName"
-              >
-                {{ uniName.universityName }}
-              </option>
-            </select>
-          </div> -->
-
         <div class="row mb-3 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label mb-2">University Name</label>
@@ -223,12 +207,6 @@
         <div class="row mb-3 custom-form-label">
           <div class="col-md-4">
             <label class="form-label mb-2">Country</label>
-            <!-- <select class="form-select" (change)="onCountryChange($event)">
-              <option [ngValue]="null" disabled selected>Select Country</option>
-              <option *ngFor="let country of countries" [value]="country.countryID">
-                {{ country.countryName }}
-              </option>
-            </select> -->
             <select
               class="form-select"
               [(ngModel)]="selectedCountryId"

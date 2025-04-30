@@ -1,3 +1,15 @@
+/* Sidebar Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1040;
+  transition: opacity 0.3s ease;
+}
+
 .sidebar {
   width: 265px;
   background-color: var(--white);
@@ -11,7 +23,8 @@
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s ease;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
 }
 
 .sidebar-link:hover {
@@ -45,6 +58,7 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-size: 0.9375rem;
 }
 
 .logout-button:hover {
@@ -55,20 +69,22 @@
 .main-content-nav {
   border-bottom: 1px solid var(--border-color);
   background-color: var(--white);
+  min-height: 72px;
 }
 
 .main-content-title {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 600;
-  margin-bottom: 0;
+  margin-bottom: 0.25rem;
   color: var(--black);
+  line-height: 1.3;
 }
 
 .main-content-subtitle {
   color: var(--subtitle);
-  margin-top: 0.25rem;
   font-size: 0.875rem;
   margin-bottom: 0;
+  line-height: 1.4;
 }
 
 .main-content-icon {
@@ -113,10 +129,11 @@
 }
 
 .main-content-area {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 72px);
   background-color: var(--dashBg);
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Responsive Styles */
@@ -142,10 +159,35 @@
   .main-content-area {
     padding: 1rem;
   }
+  
+  .main-content-nav {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @media (min-width: 992px) {
   .main-content-area {
-    padding: 1.5rem;
+    padding: 1.75rem;
+  }
+  
+  .main-content-nav {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .main-content-title {
+    font-size: 1.125rem;
+  }
+  
+  .main-content-area {
+    padding: 0.75rem;
+  }
+  
+  .main-content-nav {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
 }

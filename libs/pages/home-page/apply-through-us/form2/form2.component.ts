@@ -14,15 +14,23 @@ export class Form2Component {
   Degree: string = '';
   language: string = '';
   InstituteName: string = '';
-  campusName: String = '';
-  EducationType: String = '';
-  Duration: String = '';
+  campusName: string = '';
+  EducationType: string = '';
+  year: number = 0;
+  grading: string = '';
+  totalmarks: string = '';
+  obtainedmarks: string = '';
+
 
   // Dropdown options
   Universities = ['NUML', 'NUST', 'COMSATS'];
   City = ['Islamabad', 'Lahore', 'Karachi'];
   course = ['Computer Science', 'Business Administration', 'Economics'];
   eduType = ["matric" , "Inter"];
+  years = [2022 , 2023, 2024, 2025];
+  gradings = ["Annual"];
+
+
 
   validateForm(): boolean {
     // Validate University

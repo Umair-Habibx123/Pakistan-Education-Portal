@@ -1,4 +1,11 @@
 <div class="d-flex vh-100 overflow-hidden">
+  <!-- Sidebar Overlay (for mobile) -->
+  <div
+    *ngIf="isSidebarOpen && !isLargeScreen"
+    class="sidebar-overlay"
+    (click)="toggleSidebar()"
+  ></div>
+
   <!-- Sidebar -->
   <aside
     class="position-fixed top-0 bottom-0 p-3 border-end transform transition-transform duration-300 d-flex flex-column z-100 sidebar"
@@ -12,14 +19,14 @@
     <a [routerLink]="'/'">
       <img
         src="../../../../assets/logo.png"
-        class="w-100 h-auto mb-3 p-2"
+        class="w-100 h-auto mb-4 p-2"
         alt="Logo"
       />
     </a>
 
     <nav class="mt-2 flex-grow-1 overflow-auto">
       <a
-        class="sidebar-link mb-1"
+        class="sidebar-link mb-2"
         *ngFor="let item of menuItems"
         [ngClass]="{
           'sidebar-link-active': currentSection === item.id,
@@ -44,8 +51,8 @@
       <lucide-angular name="X" size="20"></lucide-angular>
     </button>
 
-    <div class="mt-auto pt-2">
-      <button class="logout-button py-2" (click)="logout()">
+    <div class="mt-auto pt-3">
+      <button class="logout-button py-2 px-3" (click)="logout()">
         <lucide-angular name="LogOut" class="me-2" size="18"></lucide-angular>
         <span class="font-medium">Logout</span>
       </button>
@@ -61,7 +68,7 @@
   >
     <nav class="main-content-nav border-bottom">
       <div
-        class="d-flex flex-wrap justify-content-between align-items-center px-3 py-2"
+        class="d-flex flex-wrap justify-content-between align-items-center px-3 px-md-4 py-3"
       >
         <button class="p-2 d-lg-none btn btn-icon" (click)="toggleSidebar()">
           <lucide-angular
@@ -72,7 +79,7 @@
         </button>
 
         <div class="flex-grow-1 min-width-0 me-3 ms-lg-3">
-          <h1 class="main-content-title text-truncate mb-0">
+          <h1 class="main-content-title text-truncate mb-1">
             {{ getTitle(currentSection) }}
           </h1>
           <p class="main-content-subtitle text-truncate mb-0 text-muted">
@@ -80,7 +87,7 @@
           </p>
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-3">
           <button class="btn btn-icon">
             <lucide-angular
               name="Bell"
@@ -89,7 +96,7 @@
             ></lucide-angular>
           </button>
         </div>
-
+        
         <!-- <div class="position-relative ms-3 d-flex align-items-center">
             <img
               src="../../../../assets/user.png"
@@ -105,7 +112,7 @@
     </nav>
 
     <!-- Dynamic Content Area -->
-    <div id="main-content" class="main-content-area p-3 p-lg-4">
+    <div id="main-content" class="main-content-area p-3 p-md-4">
       <ng-container [ngSwitch]="currentSection">
         <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>
         <app-registrations *ngSwitchCase="'registrations'"></app-registrations>

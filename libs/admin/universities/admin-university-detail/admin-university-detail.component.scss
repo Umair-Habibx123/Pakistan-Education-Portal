@@ -57,6 +57,13 @@
   min-width: 100px;
 }
 
+.custom-action-buttons {
+  background-color: white;
+  border-radius: 50px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  z-index: 1; 
+}
+
 .title {
   font-size: 0.875rem;
   line-height: 1.4;

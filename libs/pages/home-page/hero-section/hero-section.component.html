@@ -68,8 +68,8 @@
               class="custom-select"
             >
               <option [value]="null" disabled selected>City</option>
-              <option *ngFor="let subject of subjects" [value]="subject.cityID">
-                {{ subject.cityName }}
+              <option *ngFor="let city of cities" [value]="city.cityID">
+                {{ city.cityName }}
               </option>
             </select>
         

@@ -16,31 +16,28 @@ export class AdminUniversityDetailComponent implements OnInit {
   searchTerm: string = '';
   private readonly FEE_REGEX = /^\d+(\.\d{1,2})?$/;
   private readonly DURATION_REGEX = /^[1-9]\d*(\.\d{1,2})?$/;
-
   isEditing: boolean = false;
   isLoading: boolean = false;
   isDeleting: boolean = false;
-
   filteredPrograms: any[] = [];
   errorMessage: string = '';
   currentPage: number = 1;
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 9;
   totalPages: number = 0;
   educationType: any[] = [];
   teachingModes: any[] = [];
   availablePrograms: any[] = [];
   allPrograms: any[] = [];
   programToDelete: any = null;
-
   user = this.userSessionService.getUser();
   userId = this.user?.userLoginId;
-
+  
   newProgram = {
     degreeLevel: null,
     programID: null,
     fee: "",
     degreeFee: "",
-    duration: '123...',
+    duration: 0.0,
     campusProgramID: 0,
     teachingModeID: null,
   };
@@ -90,32 +87,33 @@ export class AdminUniversityDetailComponent implements OnInit {
     );
   }
 
-  onEducationTypeChange(id: any): void {
-    if (!this.newProgram.degreeLevel) {
-      this.availablePrograms = [];
-      return;
-    }
-
-    this.addprogramService.getPrograms(this.newProgram.degreeLevel).subscribe({
-      next: (response) => {
-        if (!response || response.length === 0) {
-          console.warn('No programs available for ', this.newProgram.degreeLevel, "response = ", response);
-        }
-        this.availablePrograms = response;
-        if (id !== 0) {
-          this.newProgram.programID = id;
-        } else {
-          this.newProgram.programID = null;
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching programs:', err);
+  // Modify onEducationTypeChange to return a Promise
+  onEducationTypeChange(id: any): Promise<void> {
+    return new Promise((resolve) => {
+      if (!this.newProgram.degreeLevel) {
         this.availablePrograms = [];
-        this.snackBar.open('Failed to load programs', 'Close', {
-          duration: 5000,
-          panelClass: ['error-snackbar'],
-        });
-      },
+        resolve();
+        return;
+      }
+
+      this.addprogramService.getPrograms(this.newProgram.degreeLevel).subscribe({
+        next: (response) => {
+          if (!response || response.length === 0) {
+            console.warn('No programs available for ', this.newProgram.degreeLevel, "response = ", response);
+          }
+          this.availablePrograms = response;
+          resolve();
+        },
+        error: (err) => {
+          console.error('Error fetching programs:', err);
+          this.availablePrograms = [];
+          this.snackBar.open('Failed to load programs', 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar'],
+          });
+          resolve();
+        },
+      });
     });
   }
 
@@ -127,6 +125,7 @@ export class AdminUniversityDetailComponent implements OnInit {
       (response) => {
         this.isLoading = false;
         this.filteredPrograms = response;
+        console.log(response);
         this.allPrograms = [...response];
 
         this.totalPages = Math.ceil(
@@ -198,6 +197,7 @@ export class AdminUniversityDetailComponent implements OnInit {
       return;
     }
 
+
     if (!this.newProgram.fee || !this.FEE_REGEX.test(this.newProgram.fee)) {
       this.isLoading = false;
 
@@ -213,10 +213,10 @@ export class AdminUniversityDetailComponent implements OnInit {
       return;
     }
 
-    if (!this.newProgram.duration || !this.DURATION_REGEX.test(this.newProgram.duration)) {
+    if (!this.newProgram.duration) {
       this.isLoading = false;
 
-      this.errorMessage = 'Please enter a valid duration (1 or higher)';
+      this.errorMessage = 'Please enter a valid duration - 1 or higher (in years)';
       return;
     }
 
@@ -224,7 +224,9 @@ export class AdminUniversityDetailComponent implements OnInit {
     const selectedProgram = this.availablePrograms.filter(
       (x) => (x.programID = this.newProgram.programID)
     );
-
+    // const selectedProgram = this.availablePrograms.filter(
+    //   (x) => x.programID === this.newProgram.programID
+    // );
 
     if (!selectedProgram) {
       alert('Invalid program selection');
@@ -287,19 +289,22 @@ export class AdminUniversityDetailComponent implements OnInit {
     );
   }
 
+  programsLoading = false;
+
   editProgram(item: any) {
     this.isEditing = true;
-
-    this.newProgram.campusProgramID = item.campusProgramID;
     this.newProgram.degreeLevel = item.educationTypeID;
-    this.newProgram.programID = item.programID;
-    this.onEducationTypeChange(item.programID);
-    this.newProgram.fee = item.tuitionFee;
-    this.newProgram.degreeFee = item.degreeFee;
-    this.newProgram.duration = item.duration;
-    this.newProgram.teachingModeID = item.teachingModeID;
-    console.log(this.newProgram);
+    this.onEducationTypeChange(item.programID).then(() => {
+      this.newProgram.campusProgramID = item.campusProgramID;
+      this.newProgram.programID = item.programID;
+      this.newProgram.fee = item.tuitionFee;
+      this.newProgram.degreeFee = item.degreeFee;
+      this.newProgram.duration = item.duration;
+      this.newProgram.teachingModeID = item.teachingModeID;
+    });
   }
+
+
 
   confirmDelete(program: any): void {
     this.programToDelete = program;
@@ -308,6 +313,7 @@ export class AdminUniversityDetailComponent implements OnInit {
   deleteProgram(): void {
     if (!this.programToDelete) return;
     this.isLoading = true;
+    this.isDeleting = true;
 
     const deleteData = {
       spType: 'delete',
@@ -324,7 +330,9 @@ export class AdminUniversityDetailComponent implements OnInit {
     this.addprogramService.addprogram(deleteData).subscribe(
       (response) => {
         this.isLoading = false;
-
+        this.isDeleting = false;
+        this.programToDelete = null;
+        document.getElementById('modalClose2')?.click();
         console.log('Program deleted successfully:', response);
         this.snackBar.open('Program deleted successfully!', 'Close', {
           duration: 5000,
@@ -334,7 +342,9 @@ export class AdminUniversityDetailComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
-
+        this.isDeleting = false;
+        this.programToDelete = null;
+        document.getElementById('modalClose2')?.click();
         console.error('Error deleting program:', error);
         this.snackBar.open('Failed to delete program.', 'Close', {
           duration: 5000,
@@ -348,7 +358,7 @@ export class AdminUniversityDetailComponent implements OnInit {
     this.newProgram.degreeLevel = null;
     this.newProgram.programID = null;
     this.newProgram.fee = "";
-    this.newProgram.duration = '';
+    this.newProgram.duration = 0.0;
     this.newProgram.degreeFee = "";
     this.newProgram.campusProgramID = 0;
     this.newProgram.teachingModeID = null;

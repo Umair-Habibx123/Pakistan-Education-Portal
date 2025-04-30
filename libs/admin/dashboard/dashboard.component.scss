@@ -1,102 +1,101 @@
-
 .custom-white-bg {
-    background-color: var(--white);
-  }
+  background-color: var(--white);
+}
 
+// Add to your component's SCSS file
+.spinner-border {
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+.custom-black-bg {
+  background: var(--black);
+  color: var(--white);
+  border-radius: 10px;
+  padding: 1.5rem;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.custom-icon-circle {
+  width: 40px;
+  height: 40px;
+  background: #333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-chart-container {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+
+.custom-chart-container-lg {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.custom-rounded-circle {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+}
+
+.custom-subtitle-color {
+  color: var(--subtitle);
+}
+
+.custom-black-icon {
+  color: var(--black);
+  font-size: 1rem;
+}
+
+.custom-blue-icon {
+  color: var(--blue);
+  font-size: 1rem;
+}
+
+.custom-red-icon {
+  color: var(--red);
+  font-size: 1rem;
+}
+
+.custom-pagination-btn {
+  color: var(--subtitle);
+}
+
+.hover-light:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
   .custom-black-bg {
-    background: var(--black);
-    color: var(--white);
-    border-radius: 10px;
-    padding: 20px;
-   
-    height: auto; /* Adjusted for small screens */
-    flex-shrink: 0;
-  }
-
-  .custom-icon-circle {
-    width: 40px;
-    height: 40px;
-    background: #333;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .custom-chart-container {
-    position: relative;
-    height: 200px;
     width: 100%;
-    margin-left: 0; /* Adjusted for small screens */
-    margin-top: 20px; /* Adjusted for small screens */
+    margin-bottom: 1rem;
   }
-
+  
+  .custom-chart-container,
   .custom-chart-container-lg {
-    position: relative;
-    height: 320px;
-    width: 100%;
-    margin-left: 0; /* Adjusted for small screens */
-    margin-top: 20px; /* Adjusted for small screens */
+    height: 250px;
   }
-
-  .custom-rounded-circle {
-    width: 37px;
-    height: 38px;
+  
+  .form-select {
+    font-size: 0.875rem;
   }
+}
 
-  .custom-subtitle-color {
-    color: var(--subtitle);
+@media (max-width: 575.98px) {
+  .custom-chart-container,
+  .custom-chart-container-lg {
+    height: 200px;
   }
-
-  .custom-black-icon {
-    color: var(--black);
-    font-size: 1rem;
+  
+  .table-responsive {
+    font-size: 0.875rem;
   }
-
-  .custom-blue-icon {
-    color: var(--blue);
-    font-size: 1rem;
-  }
-
-  .custom-red-icon {
-    color: var(--red);
-    font-size: 1rem;
-  }
-
-  .custom-pagination-btn {
-    color: var(--subtitle);
-  }
-
-  .custom-input-height {
-    height: 45px;
-  }
-
-  .custom-width-65 {
-    width: 65%;
-  }
-
-  .custom-padding-left {
-    padding-left: 14px;
-    padding-right: 0px;
-  }
-
-  .custom-padding-right {
-    padding-left: 0px;
-    padding-right: 14px;
-  }
-
-  @media (max-width: 767.98px) {
-    .custom-black-bg {
-      width: 100%; 
-      height: auto; 
-      margin-bottom: 20px;
-    }
-
-    .custom-chart-container,
-    .custom-chart-container-lg {
-      margin-left: 0; 
-      margin-top: 20px; 
-    }
-
-
-  }
+}

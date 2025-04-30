@@ -8,7 +8,7 @@ import { UserSessionService } from 'libs/service/userSession/userSession.service
     providedIn: 'root',
 })
 export class GetUserService {
-    private apiUrl = environment.apiUrl;
+    private apiUrlauth = environment.apiUrlauth;
 
     constructor(
         private http: HttpClient,
@@ -30,9 +30,9 @@ export class GetUserService {
 
     getUsers(): Observable<any> {
         const headers = this.getHeaders();
-        const url = `${this.apiUrl}user-api/User/getAllUser`;
+        const url = `${this.apiUrlauth}user-api/User/getAllUser`;
         console.log('Making request to:', url);
-        console.log('With headers:', headers); 
+        console.log('With headers:', headers);
         return this.http.get<any[]>(url, { headers });
     }
 }

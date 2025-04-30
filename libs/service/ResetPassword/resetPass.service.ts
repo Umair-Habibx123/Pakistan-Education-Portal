@@ -7,20 +7,20 @@ import { environment } from 'src/environments/environments';
     providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = environment.apiUrl;
+    private apiUrlauth = environment.apiUrlauth;
 
     constructor(private http: HttpClient) { }
 
     sendOTP(email: string): Observable<any> {
-        return this.http.post(`${this.apiUrl}auth-api/saveOTP`, { email });
+        return this.http.post(`${this.apiUrlauth}auth-api/saveOTP`, { email });
     }
 
     verifyOTP(otp: string): Observable<any> {
         const params = new HttpParams().set('otp', otp);
-        return this.http.get(`${this.apiUrl}auth-api/getOTP`, { params });
+        return this.http.get(`${this.apiUrlauth}auth-api/getOTP`, { params });
     }
     resetPassword(email: string, password: string): Observable<any> {
-        return this.http.post(`${this.apiUrl}user-api/forgetPassword`, { email, password });
+        return this.http.post(`${this.apiUrlauth}user-api/forgetPassword`, { email, password });
     }
 }
 

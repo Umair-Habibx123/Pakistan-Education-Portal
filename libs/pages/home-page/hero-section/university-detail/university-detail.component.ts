@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common'; // Import the Location service
 import { addprogramService } from "libs/service/addprogram/addProgram.service"
 import { UniversityService } from 'libs/service/addUniversity/university.service';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
 
 
 interface contactInfo {
@@ -34,6 +36,8 @@ export class UniversityDetailComponent {
   constructor(private location: Location,
     private universityService: UniversityService,
     private addprogramService: addprogramService,
+    private userSessionService: UserSessionService,
+    private router: Router
   ) {
   }
 
@@ -94,6 +98,14 @@ export class UniversityDetailComponent {
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+    }
+  }
+
+  onApplyThroughUs() {
+    if (this.userSessionService.isLoggedIn()) {
+      this.router.navigate(['/apply-through-us']);
+    } else {
+      this.router.navigate(['/auth/login']);
     }
   }
 }

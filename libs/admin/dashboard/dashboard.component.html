@@ -1,29 +1,28 @@
 <div class="d-flex flex-column">
   <!-- Scrollable Content -->
-  <div class="flex-grow-1 overflow-auto p-1">
-    <div class="p-3">
-      <div class="row">
+  <div class="flex-grow-1 overflow-auto p-2">
+    <div class="">
+      <div class="row g-3">
         <div
           *ngFor="let card of cards"
           class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"
         >
           <div
-            class="p-3 border border-2 rounded-3 d-flex flex-column flex-md-row align-items-center justify-content-between bg-white"
+            class="p-3 border border-2 rounded-3 d-flex flex-column flex-md-row align-items-center justify-content-between bg-white h-100"
           >
             <div class="w-100 text-center text-md-start">
-              <!-- Card Title in Black -->
-              <p class="fs-6 fs-md-5 font-weight-medium text-black">
+              <p class="fs-6 fw-medium text-black mb-2">
                 {{ card.title }}
               </p>
               <div
                 class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-md-3 align-items-center"
               >
-                <!-- Card Value in Black -->
-                <p class="fs-4 font-weight-bold text-black">{{ card.value }}</p>
-                <div class="d-flex flex-row align-items-center">
-                  <!-- Percentage and Trend Icon with Dynamic Colors -->
+                <p class="fs-4 text-black m-0">
+                    {{ card.value }}
+                </p>
+                <!-- <div class="d-flex flex-row align-items-center">
                   <p
-                    class="fs-4 font-weight-bold"
+                    class="fs-4 m-0"
                     [ngStyle]="{
                       color:
                         card.trend === 'up' ? 'var(--dark-green)' : 'var(--red)'
@@ -32,7 +31,7 @@
                     {{ card.percentage }}
                   </p>
                   <span
-                    class="fs-4 ml-1"
+                    class="fs-4 ms-1"
                     [ngStyle]="{
                       color:
                         card.trend === 'up' ? 'var(--dark-green)' : 'var(--red)'
@@ -40,7 +39,7 @@
                   >
                     {{ card.trend === "up" ? "↑" : "↓" }}
                   </span>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -49,15 +48,15 @@
     </div>
   </div>
 
-  <div class="flex-grow-1 p-1">
-    <div class="row">
-      <div class="col-12 col-md-9 custom-padding-left">
-        <div class="border border-2 rounded-3 m-2 p-3 custom-white-bg">
+  <div class="flex-grow-1 p-2">
+    <div class="row g-0">
+      <div class="col-12 col-md-9 pe-md-2">
+        <div class="border border-2 rounded-3 mb-3 p-3 custom-white-bg h-100">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="m-0">New Students</h4>
+            <h4 class="m-0 fw-bold">New Students</h4>
             <div class="dropdown">
               <select
-                class="form-select"
+                class="form-select form-select-sm"
                 (change)="onYearChangeBarChart1($event)"
               >
                 <option
@@ -74,9 +73,8 @@
           <div
             class="container-fluid d-flex flex-column flex-md-row align-items-center"
           >
-            <!-- Black Box (Card) -->
             <div
-              class="card-custom d-flex flex-column custom-black-bg mb-3 mb-md-0"
+              class="card-custom d-flex flex-column custom-black-bg mb-3 mb-md-0 me-md-3"
             >
               <div class="d-flex align-items-center mb-2">
                 <div class="icon-circle me-2 custom-icon-circle">
@@ -87,31 +85,30 @@
                   <strong>Students</strong>
                 </div>
               </div>
-              <h1 class="fw-bold">24,330</h1>
-              <p class="mb-0"><strong>143</strong> New Students this month</p>
+              <h1 class="fw-bold mb-2">{{ totalStudents }}</h1>
+
+              <p class="mb-0"><strong>{{currentMonthStudents}}</strong> New Students this month</p>
             </div>
 
-            <!-- Graph Container -->
-            <div class="chart-container custom-chart-container">
+            <div class="chart-container custom-chart-container flex-grow-1">
               <canvas id="barChart1"></canvas>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-12 col-md-3 custom-padding-right">
-        <div class="border border-2 rounded-3 m-2 p-3 custom-white-bg">
+      <div class="col-12 col-md-3 ps-md-2">
+        <div class="border border-2 rounded-3 mb-3 p-3 custom-white-bg h-100">
           <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-              <h5 style="font-weight: bold">Statics</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold m-0">Statics</h5>
               <div class="dropdown">
-                <select class="form-select">
+                <select class="form-select form-select-sm">
                   <option>This Month</option>
                 </select>
               </div>
             </div>
 
-            <!-- Graph Placeholder -->
             <canvas id="pieChart"></canvas>
           </div>
         </div>
@@ -119,15 +116,15 @@
     </div>
   </div>
 
-  <div class="flex-grow-1 p-1">
-    <div class="row">
-      <div class="col-12 col-md-9 custom-padding-left">
-        <div class="border border-2 rounded-3 m-2 p-3 custom-white-bg">
+  <div class="flex-grow-1 p-2">
+    <div class="row g-0">
+      <div class="col-12 col-md-9 pe-md-2">
+        <div class="border border-2 rounded-3 mb-3 p-3 custom-white-bg h-100">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="m-0">Top Five Universities</h4>
+            <h4 class="m-0 fw-bold">Top Five Universities</h4>
             <div class="dropdown">
               <select
-                class="form-select"
+                class="form-select form-select-sm"
                 (change)="onYearChangeBarChart2($event)"
               >
                 <option
@@ -141,38 +138,42 @@
             </div>
           </div>
 
-          <div class="container-fluid d-flex align-items-center">
-            <!-- Graph Container -->
-            <div class="chart-container custom-chart-container-lg">
+          <div class="container-fluid d-flex align-items-center h-100">
+            <div class="chart-container custom-chart-container-lg w-100">
               <canvas id="barChart2"></canvas>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-12 col-md-3 custom-padding-right">
-        <div class="border border-2 rounded-3 m-2 p-3 custom-white-bg">
-          <div class="container">
-            <div class="w-100 h-100">
-              <h2 class="h5 font-weight-bold mb-3">Traffic on website</h2>
+      <div class="col-12 col-md-3 ps-md-2">
+        <div class="border border-2 rounded-3 mb-3 p-3 custom-white-bg h-100">
+          <div class="container h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold m-0">Traffic on website</h5>
+              <div class="dropdown">
+                <select class="form-select form-select-sm">
+                  <option>This Month</option>
+                </select>
+              </div>
+            </div>
 
-              <div class="mb-3">
-                <div *ngFor="let item of topCourses" class="mb-3">
+            <div class="flex-grow-1">
+              <div *ngFor="let item of topCourses" class="mb-3">
+                <div
+                  class="d-flex justify-content-between small fw-medium py-1"
+                >
+                  <span>{{ item.name }}</span>
+                  <span>{{ item.percentage }}%</span>
+                </div>
+                <div class="w-100 bg-light rounded" style="height: 6px">
                   <div
-                    class="d-flex justify-content-between small font-weight-medium py-2"
-                  >
-                    <span>{{ item.name }}</span>
-                    <span>{{ item.percentage }}%</span>
-                  </div>
-                  <div class="w-100 bg-light rounded" style="height: 8px">
-                    <div
-                      class="h-100 rounded"
-                      [ngStyle]="{
-                        width: item.percentage + '%',
-                        'background-color': item.color
-                      }"
-                    ></div>
-                  </div>
+                    class="h-100 rounded"
+                    [ngStyle]="{
+                      width: item.percentage + '%',
+                      'background-color': item.color
+                    }"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -183,77 +184,79 @@
   </div>
 
   <div class="border border-2 rounded-3 m-3 p-3 overflow-auto custom-white-bg">
-    <!-- Header Section -->
-    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-4 py-4">
-      <h2 class="font-weight-bold h5 mb-0">Recent Registrations</h2>
+    <div
+      class="d-flex flex-column flex-sm-row align-items-center justify-content-between px-3 py-3 mb-3"
+    >
+      <h2 class="fw-bold h5 m-0">Recent Registrations</h2>
 
-      <div class="d-flex flex-column flex-sm-row align-items-center gap-3 custom-width-65">
-        <!-- Search Input -->
-        <div class="input-group w-75 w-sm-75 custom-input-height">
+      <div
+        class="d-flex flex-column flex-sm-row align-items-center gap-2 w-100 w-sm-auto mt-2 mt-sm-0"
+      >
+        <div class="input-group flex-grow-1 me-sm-2">
           <span class="input-group-text bg-light border-0">
             <i class="text-muted fa-search fas"></i>
           </span>
           <input
             type="text"
-            class="form-control bg-light border-0"
+            class="form-control bg-light border-0 py-2"
             placeholder="Search here..."
           />
         </div>
-       
-        <button
-          class="btn border border-2 rounded-5 w-25 w-sm-auto px-3 py-2 mt-2 mt-sm-0"
-        >
-        Today
-          <lucide-angular name="CalendarDays" class="s-2"></lucide-angular>
+
+        <button class="btn border border-2 rounded-5 px-3 py-2 flex-shrink-0">
+          Today
+          <lucide-angular name="CalendarDays" class="ms-1"></lucide-angular>
         </button>
       </div>
     </div>
 
-
-    
-
-    <table class="table w-100 text-left">
-      <thead>
-        <tr class="border-bottom small custom-subtitle-color">
-          <th class="p-3">Name</th>
-          <th class="p-3">Email</th>
-          <th class="p-3">Contact</th>
-          <th class="p-3">Cities</th>
-          <th class="p-3">University</th>
-          <th class="p-3">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of filteredUsers" class="border-bottom small hover-light">
-          <td class="p-3 d-flex align-items-center">
-            <img
-              [src]="user.image"
-              class="rounded-circle custom-rounded-circle"
-            />
-            <span class="ml-2">{{ user.name }}</span>
-          </td>
-          <td class="p-3 custom-subtitle-color">
-            {{ user.email }}
-          </td>
-          <td class="p-3 custom-subtitle-color">
-            {{ user.contact }}
-          </td>
-          <td class="p-3 custom-subtitle-color">
-            {{ user.cities }}
-          </td>
-          <td class="p-3 custom-subtitle-color">
-            {{ user.university }}
-          </td>
-          <td class="p-3">
-            <div class="d-flex align-items-center gap-2">
-              <i class="cursor-pointer fa-eye fas custom-black-icon"></i>
-              <i class="cursor-pointer fas fa-download custom-blue-icon"></i>
-              <i class="cursor-pointer fa-trash-alt fas custom-red-icon"></i>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table w-100 text-left m-0">
+        <thead>
+          <tr class="border-bottom small custom-subtitle-color">
+            <th class="p-2">Name</th>
+            <th class="p-2">Email</th>
+            <th class="p-2">Contact</th>
+            <th class="p-2">Cities</th>
+            <th class="p-2">University</th>
+            <th class="p-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let user of filteredUsers"
+            class="border-bottom small hover-light"
+          >
+            <td class="p-2 d-flex align-items-center">
+              <img
+                [src]="user.image"
+                class="rounded-circle custom-rounded-circle me-2"
+              />
+              <span>{{ user.name }}</span>
+            </td>
+            <td class="p-2 custom-subtitle-color">
+              {{ user.email }}
+            </td>
+            <td class="p-2 custom-subtitle-color">
+              {{ user.contact }}
+            </td>
+            <td class="p-2 custom-subtitle-color">
+              {{ user.cities }}
+            </td>
+            <td class="p-2 custom-subtitle-color">
+              {{ user.university }}
+            </td>
+            <td class="p-2">
+              <div class="d-flex align-items-center gap-1">
+                <i class="cursor-pointer fa-eye fas custom-black-icon"></i>
+                <i class="cursor-pointer fas fa-download custom-blue-icon"></i>
+                <i class="cursor-pointer fa-trash-alt fas custom-red-icon"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Pagination Section -->
     <div

@@ -15,25 +15,24 @@ export class UniversityService {
 
   getUniversity(uniID: number): Observable<any> {
     return this.http.get<any[]>(
-      `${this.apiUrl}school-api/University/getUniversity?uniID=${uniID}`
+      `${this.apiUrl}University/getUniversity?uniID=${uniID}`
     );
   }
 
   getUniversityPerson(uniID: number): Observable<any> {
     return this.http.get<any[]>(
-      `${this.apiUrl}school-api/University/getUniversityPerson?uniID=${uniID}`
+      `${this.apiUrl}University/getUniversityPerson?uniID=${uniID}`
     );
   }
 
-
   getUniversityNames(): Observable<any> {
     return this.http.get<any[]>(
-      `${this.apiUrl}school-api/University/getAllUniversity`
+      `${this.apiUrl}University/getAllUniversity`
     );
   }
 
   getUniversityForHero(educationTypeID: number, programID: number | null, cityID: number | null): Observable<any> {
-    let url = `${this.apiUrl}school-api/University/getUniversityCampusProgram?educationTypeID=${educationTypeID}`;
+    let url = `${this.apiUrl}University/getUniversityCampusProgram?educationTypeID=${educationTypeID}`;
 
     if (programID) {
       url += `&programID=${programID}`;
@@ -47,30 +46,23 @@ export class UniversityService {
   }
 
 
-
-  getDistinctUniversities(): Observable<any> {
-    return this.http.get<any>(
-      `${this.apiUrl}school-api/University/getDistinctUniversities`
-    );
-  }
-
   saveUniversity(universityData: any): Observable<any> {
     return this.http.post(
-      `${this.apiUrl}school-api/University/saveUniversity`,
+      `${this.apiUrl}University/saveUniversity`,
       universityData
     );
   }
 
 
   getCountries(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}school-api/University/getCountry`);
+    return this.http.get<any>(`${this.apiUrl}University/getCountry`);
   }
 
   getStatesByCountry(countryId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}school-api/University/getProvince?CountryID=${countryId}`);
+    return this.http.get<any>(`${this.apiUrl}University/getProvince?CountryID=${countryId}`);
   }
 
   getCitiesByState(provinceId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}school-api/University/getCity?ProvinceID=${provinceId}`);
+    return this.http.get<any[]>(`${this.apiUrl}University/getCity?ProvinceID=${provinceId}`);
   }
 }
