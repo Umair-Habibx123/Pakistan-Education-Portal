@@ -386,7 +386,7 @@ export class UniversitiesComponent implements OnInit {
               Array.isArray(response) &&
               response[0] === 'University already exists'
             ) {
-              this.errorMessage = 'A university with this name already exists';
+              this.errorMessage = 'A university with this name/campus name already exists';
               this.snackBar.open('University already exists!', 'Close', {
                 duration: 5000,
                 panelClass: ['error-snackbar'],

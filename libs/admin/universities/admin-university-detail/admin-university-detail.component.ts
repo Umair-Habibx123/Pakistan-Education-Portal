@@ -261,7 +261,7 @@ export class AdminUniversityDetailComponent implements OnInit {
         duration: this.newProgram.duration,
         campusID: this.university.campusID,
         userID: this.user.userId,
-        tuitionFee: this.newProgram.fee,
+        tuitionFee: this.newProgram.fee.toString(),
         TeachingModeID: Number(this.newProgram.teachingModeID),
       };
     }
