@@ -461,6 +461,7 @@ export class UniversitiesComponent implements OnInit {
   }
 
   goBack() {
+    this.loadUniversities();
     this.showDetailView = false;
     this.selectedUniversity = null;
   }

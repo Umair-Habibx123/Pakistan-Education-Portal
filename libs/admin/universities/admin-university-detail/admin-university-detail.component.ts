@@ -14,8 +14,8 @@ export class AdminUniversityDetailComponent implements OnInit {
   @Output() goBack = new EventEmitter<void>();
 
   searchTerm: string = '';
-  private readonly FEE_REGEX = /^\d+(\.\d{1,2})?$/;
-  private readonly DURATION_REGEX = /^[1-9]\d*(\.\d{1,2})?$/;
+  private readonly FEE_REGEX = /^[1-9]\d*$/; // Only integers > 0
+  private readonly DURATION_REGEX = /^([1-9]\d*(\.\d)?|0\.[1-9]\d*)$/;
   isEditing: boolean = false;
   isLoading: boolean = false;
   isDeleting: boolean = false;
@@ -31,7 +31,7 @@ export class AdminUniversityDetailComponent implements OnInit {
   programToDelete: any = null;
   user = this.userSessionService.getUser();
   userId = this.user?.userLoginId;
-  
+
   newProgram = {
     degreeLevel: null,
     programID: null,
@@ -192,34 +192,45 @@ export class AdminUniversityDetailComponent implements OnInit {
 
     if (!this.newProgram.programID) {
       this.isLoading = false;
-
-      alert('Please select a program');
+      this.errorMessage = 'Please select a program';
       return;
     }
 
-
-    if (!this.newProgram.fee || !this.FEE_REGEX.test(this.newProgram.fee)) {
+    if (!this.newProgram.teachingModeID) {
       this.isLoading = false;
-
-      this.errorMessage = 'Please enter a valid application fee';
-
+      this.errorMessage = 'Please select a teaching mode';
       return;
     }
 
-    if (!this.newProgram.degreeFee || !this.FEE_REGEX.test(this.newProgram.degreeFee)) {
+
+    if (!this.newProgram.duration || !this.DURATION_REGEX.test(this.newProgram.duration.toString())) {
       this.isLoading = false;
-
-      this.errorMessage = 'Please enter a valid degree fee';
+      this.errorMessage = 'Please enter a valid duration (e.g., 0.5, 1, 1.5)';
       return;
     }
 
-    if (!this.newProgram.duration) {
+    if (!this.newProgram.fee || !this.FEE_REGEX.test(this.newProgram.fee.toString())) {
+      this.errorMessage = 'Fee must be a whole number greater than 0';
       this.isLoading = false;
-
-      this.errorMessage = 'Please enter a valid duration - 1 or higher (in years)';
       return;
     }
 
+    if (!this.newProgram.degreeFee || !this.FEE_REGEX.test(this.newProgram.degreeFee.toString())) {
+      this.errorMessage = 'Fee must be a whole number greater than 0';
+      this.isLoading = false;
+      return;
+    }
+
+    // Validate Duration (>0, max 1 decimal)
+    if (
+      !this.newProgram.duration ||
+      !this.DURATION_REGEX.test(this.newProgram.duration.toString()) ||
+      parseFloat(this.newProgram.duration.toString()) <= 0
+    ) {
+      this.errorMessage = 'Duration must be > 0 with max 1 decimal (e.g., 0.5, 1.6)';
+      this.isLoading = false;
+      return;
+    }
 
     const selectedProgram = this.availablePrograms.filter(
       (x) => (x.programID = this.newProgram.programID)
@@ -229,7 +240,8 @@ export class AdminUniversityDetailComponent implements OnInit {
     // );
 
     if (!selectedProgram) {
-      alert('Invalid program selection');
+      this.errorMessage = 'Invalid program selection';
+
       this.isLoading = false;
 
       return;
@@ -270,6 +282,7 @@ export class AdminUniversityDetailComponent implements OnInit {
       (response) => {
         this.isLoading = false;
         document.getElementById('modalClose')?.click();
+        console.log('dtat:', programData);
         console.log('Program saved successfully:', response);
         this.snackBar.open('Program added successfully!', 'Close', {
           duration: 5000,
