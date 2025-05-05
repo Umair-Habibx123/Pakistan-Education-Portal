@@ -133,10 +133,10 @@ export class Form1Component {
 
 
   goToNext() {
-    if (this.validateForm()) {
+    // if (this.validateForm()) {
+    
       const currentUser = this.userSessionService.getUser();
       const userId = currentUser?.userLoginId || 0;
-
 
       const formData = {
         userPersonalInfoID: 0,
@@ -159,17 +159,17 @@ export class Form1Component {
 
       console.log('Sending data:', formData);
 
-      this.userInfoService.saveUserPersonalInfo(formData).subscribe({
-        next: (response) => {
-          console.log('API response:', response);
+      // this.userInfoService.saveUserPersonalInfo(formData).subscribe({
+      //   next: (response) => {
+      //     console.log('API response:', response);
           this.nextStep.emit();
-        },
-        error: (error) => {
-          console.error('API error:', error);
-          alert('Error saving personal information. Please try again.');
-        }
-      });
-    }
+      //   },
+      //   error: (error) => {
+      //     console.error('API error:', error);
+      //     alert('Error saving personal information. Please try again.');
+      //   }
+      // });
+    // }
   }
 
 }

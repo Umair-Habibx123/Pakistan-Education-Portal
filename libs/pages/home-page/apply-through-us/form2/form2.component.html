@@ -10,15 +10,15 @@
 
 <div class="row g-3">
   <!-- University -->
-
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Degree</label>
       <select
       class="form-select border-2 py-2 px-3 rounded"
-      [(ngModel)]="EducationType"
+      [(ngModel)]="Degree"
+      required
     >
-      <option value="null" disabled>Select Degree</option>
+      <option value="" disabled selected>Select Degree</option>
       <option *ngFor="let eduType of eduType" [value]="eduType">{{ eduType }}</option>
     </select>
     </div>
@@ -44,8 +44,9 @@
       <select
       class="form-select border-2 py-2 px-3 rounded"
       [(ngModel)]="year"
+      required
     >
-      <option value="null" disabled>Select Year</option>
+      <option value="" disabled selected>Select Year</option>
       <option *ngFor="let years of years" [value]="years">{{ years }}</option>
     </select>
     </div>
@@ -57,8 +58,9 @@
       <select
       class="form-select border-2 py-2 px-3 rounded"
       [(ngModel)]="grading"
+      required
     >
-      <option value="null" disabled>Select Grading</option>
+      <option value="" disabled selected>Select Grading</option>
       <option *ngFor="let gradings of gradings" [value]="gradings">{{ gradings }}</option>
     </select>
     </div>
@@ -69,7 +71,7 @@
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Total Marks</label>
       <input
-        type="text"
+        type="number"
         [(ngModel)]="totalmarks"
         required
         placeholder="Enter Total Marks (1100)"
@@ -78,12 +80,11 @@
     </div>
   </div>
 
- 
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Obtained Marks</label>
       <input
-        type="text"
+        type="number"
         [(ngModel)]="obtainedmarks"
         required
         placeholder="Enter Obtained Marks (890)"
@@ -103,13 +104,22 @@
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Marksheets</label>
-      <div class="upload-container">
+      <div class="upload-container" (click)="fileInputMarksheet.click()">
+        <input #fileInputMarksheet type="file" hidden (change)="onFileSelected($event, 'marksheet')" accept=".jpg,.jpeg,.png">
         <div>
           <span>
             Drag & drop files or
             <span class="browse-link">Browse</span>
           </span>
           <span class="supported-formats">Supported formats: JPEG, PNG</span>
+        </div>
+      </div>
+      <div *ngIf="marksheetFile" class="preview-container mt-2">
+        <div class="preview-item">
+          <span>{{ marksheetFile.name }}</span>
+          <button class="btn btn-sm btn-danger ms-2" (click)="removeFile('marksheet')">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -119,7 +129,8 @@
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Degree Transcript</label>
-      <div class="upload-container">
+      <div class="upload-container" (click)="fileInputTranscript.click()">
+        <input #fileInputTranscript type="file" hidden (change)="onFileSelected($event, 'transcript')" accept=".jpg,.jpeg,.png">
         <div>
           <span>
             Drag & drop files or
@@ -128,15 +139,19 @@
           <span class="supported-formats">Supported formats: JPEG, PNG</span>
         </div>
       </div>
+      <div *ngIf="transcriptFile" class="preview-container mt-2">
+        <div class="preview-item">
+          <span>{{ transcriptFile.name }}</span>
+          <button class="btn btn-sm btn-danger ms-2" (click)="removeFile('transcript')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-
-
-<div
-  class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4"
->
+<div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-4 mb-4">
   <h3 class="h5 font-weight-semibold">Preview</h3>
   <button class="btn custom-btn" (click)="goToNext()">Next</button>
 </div>
@@ -144,80 +159,47 @@
 <div class="container-fluid mb-5 p-0">
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
     <div class="col">
-      <div
-        class="d-flex flex-column p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100"
-      >
+      <div class="d-flex flex-column p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100">
         <div class="d-flex justify-content-end gap-2 mt-auto">
-          <button
-            class="btn btn-icon p-1"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteConfirmationModal2"
-          >
+          <button class="btn btn-icon p-1" (click)="clearForm()">
             <i class="text-danger fa-trash-alt fas small"></i>
           </button>
-          <button
-            class="btn btn-icon p-1"
-            data-bs-toggle="modal"
-            data-bs-target="#programModal"
-          >
-            <i class="text-primary fa-edit fas small"></i>
-          </button>
         </div>
 
-        <!-- Top Section -->
-        <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
-          <div class="flex-grow-1 pe-3">
-            <h5 class="fw-bold mb-1 title">Umair</h5>
-            <p class="m-0 text-muted small">Address here...</p>
-          </div>
-          <div class="text-dark">
-            <div class="d-flex align-items-center gap-1 mb-1">
-              <strong class="small">Country</strong>
+        <!-- Education Preview -->
+        <div class="border-bottom pb-3 mb-3">
+          <h5 class="fw-bold mb-3">Education Details</h5>
+          <div class="row">
+            <div class="col-6">
+              <p class="m-0"><strong>Degree:</strong> {{ Degree || 'Not provided' }}</p>
             </div>
-            <p class="m-0 text-muted small">Pakistan</p>
-          </div>
-        </div>
-
-        <!-- Middle Section -->
-        <div class="d-flex justify-content-between mb-3">
-          <div class="text-dark">
-            <div class="d-flex align-items-center gap-1 mb-1">
-              <strong class="small">Father Name</strong>
+            <div class="col-6">
+              <p class="m-0"><strong>Institute:</strong> {{ InstituteName || 'Not provided' }}</p>
             </div>
-            <p class="m-0 text-muted small">Father name</p>
-          </div>
-
-          <div class="text-dark px-3 border-start border-end">
-            <div class="d-flex align-items-center gap-1 mb-1">
-              <strong class="small">cnic</strong>
+            <div class="col-6 mt-2">
+              <p class="m-0"><strong>Year:</strong> {{ year || 'Not provided' }}</p>
             </div>
-            <p class="m-0 text-muted small">123-456-789-010</p>
-          </div>
-
-          <div class="text-dark px-3 border-end">
-            <div class="d-flex align-items-center gap-1 mb-1">
-              <strong class="small">Email</strong>
+            <div class="col-6 mt-2">
+              <p class="m-0"><strong>Grading:</strong> {{ grading || 'Not provided' }}</p>
             </div>
-            <p class="m-0 text-muted small">email@gmail.com</p>
-          </div>
-
-          <div class="text-dark px-3">
-            <div class="d-flex align-items-center gap-1 mb-1">
-              <strong class="small">Phone Number</strong>
+            <div class="col-6 mt-2">
+              <p class="m-0"><strong>Marks:</strong> {{ obtainedmarks || '0' }}/{{ totalmarks || '0' }}</p>
             </div>
-            <p class="m-0 text-muted small">123456789</p>
           </div>
         </div>
 
-        <div
-          class="d-flex position-absolute end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
-        >
-          <button class="btn btn-icon p-1">
-            <i class="text-danger fa-trash-alt fas small"></i>
-          </button>
-          <button class="btn btn-icon p-1">
-            <i class="text-primary fa-edit fas small"></i>
-          </button>
+        <!-- Documents Preview -->
+        <div>
+          <h5 class="fw-bold mb-3">Documents</h5>
+          <div *ngIf="marksheetFile" class="preview-item mb-2">
+            <span><strong>Marksheet:</strong> {{ marksheetFile.name }}</span>
+          </div>
+          <div *ngIf="transcriptFile" class="preview-item">
+            <span><strong>Transcript:</strong> {{ transcriptFile.name }}</span>
+          </div>
+          <div *ngIf="!marksheetFile && !transcriptFile">
+            <p>No documents uploaded</p>
+          </div>
         </div>
       </div>
     </div>

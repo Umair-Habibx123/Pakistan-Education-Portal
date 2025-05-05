@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environments';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService {
+export class ResetPassService {
     private apiUrlauth = environment.apiUrlauth;
 
     constructor(private http: HttpClient) { }

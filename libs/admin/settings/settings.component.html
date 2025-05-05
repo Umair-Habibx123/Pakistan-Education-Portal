@@ -1,9 +1,17 @@
 <div class="d-flex flex-column">
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
   <!-- Scrollable Content -->
   <div class="flex-grow-1 overflow-auto p-1 p-sm-1 p-md-2">
     <div class="border border-2 rounded-3 m-2 p-3 p-sm-4 custom-white-bg">
       <!-- Header Section -->
-      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center p-2 border-bottom">
+      <div
+        class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center p-2 border-bottom"
+      >
         <div>
           <h1 class="h4 h3-sm font-weight-bold">General Details</h1>
           <p class="mt-1 small custom-subtitle-color">
@@ -11,7 +19,12 @@
           </p>
         </div>
         <div class="mt-4 mt-sm-0">
-          <button class="btn w-100 w-sm-auto px-5 rounded font-weight-medium custom-dark-green-bg">
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            [disabled]="settingsForm.invalid || isLoading"
+            class="btn w-100 w-sm-auto px-5 rounded font-weight-medium custom-dark-green-bg"
+          >
             Save
           </button>
         </div>
@@ -19,70 +32,163 @@
 
       <div class="my-4">
         <div class="mt-6 px-4 px-sm-8 row">
+          <!-- Success Message -->
+          <div
+            *ngIf="passwordUpdateSuccess"
+            class="alert alert-success alert-dismissible fade show mx-4 mx-sm-8 mt-3"
+            role="alert"
+          >
+            {{ passwordUpdateMessage }}
+            <button
+              type="button"
+              class="btn-close"
+              (click)="dismissAlert()"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <!-- Error Message -->
+          <div
+            *ngIf="!passwordUpdateSuccess && passwordUpdateMessage"
+            class="alert alert-danger alert-dismissible fade show mx-4 mx-sm-8 mt-3"
+            role="alert"
+          >
+            {{ passwordUpdateMessage }}
+            <button
+              type="button"
+              class="btn-close"
+              (click)="dismissAlert()"
+              aria-label="Close"
+            ></button>
+          </div>
+
           <!-- Profile Picture Section -->
-          <div class="col-12 col-sm-3 d-flex flex-column text-left font-weight-medium pr-4">
+          <div
+            class="col-12 col-sm-3 d-flex flex-column text-left font-weight-medium pr-4"
+          >
             <label for="name" class="fw-medium">Profile Picture</label>
           </div>
           <div class="col-12 col-sm-9 d-flex flex-column mt-6">
-            <img src="../../../../../assets/profilepic.png" class="rounded-circle border custom-profile-pic" />
+            <img
+              src="../../../../../assets/profilepic.png"
+              class="rounded-circle border custom-profile-pic"
+            />
             <p class="mt-2 fw-medium text-decoration-underline">
               Upload Profile Picture
             </p>
-            <p class="small custom-dark-green-text">
-              Allowed Formats jpg, png
-            </p>
+            <p class="small custom-dark-green-text">Allowed Formats jpg, png</p>
           </div>
         </div>
 
-        <!-- Name of User -->
-        <div class="mt-6 px-4 px-sm-8 py-2 row">
-          <div class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4">
-            <label for="name" class="fw-medium">Name of User</label>
+        <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+          <!-- Name -->
+          <div class="mt-6 px-4 px-sm-8 py-2 row">
+            <div
+              class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4"
+            >
+              <label for="name" class="fw-medium">Name of User</label>
+            </div>
+            <div class="col-12 col-sm-6 d-flex flex-column">
+              <input
+                id="name"
+                type="text"
+                class="form-control w-100 p-2 border rounded"
+                placeholder="Name"
+                formControlName="name"
+              />
+            </div>
           </div>
-          <div class="col-12 col-sm-6 d-flex flex-column">
-            <input id="name" type="text" class="form-control w-100 p-2 border rounded" placeholder="Name" />
-          </div>
-        </div>
 
-        <!-- Email -->
-        <div class="mt-6 px-4 px-sm-8 py-2 row">
-          <div class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4">
-            <label for="email" class="fw-medium">Email</label>
+          <!-- Email -->
+          <div class="mt-6 px-4 px-sm-8 py-2 row">
+            <div
+              class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4"
+            >
+              <label for="email" class="fw-medium">Email</label>
+            </div>
+            <div class="col-12 col-sm-6 d-flex flex-column">
+              <input
+                id="email"
+                type="email"
+                placeholder="user123@gmail.com"
+                class="form-control w-100 p-2 border rounded"
+                formControlName="email"
+              />
+            </div>
           </div>
-          <div class="col-12 col-sm-6 d-flex flex-column">
-            <input id="email" type="email" placeholder="user123@gmail.com" class="form-control w-100 p-2 border rounded" value="" />
-          </div>
-        </div>
 
-        <!-- Password -->
-        <div class="mt-6 px-4 px-sm-8 py-2 row">
-          <div class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4">
-            <label for="password" class="fw-medium">Password</label>
+          <!-- New Password -->
+          <div class="mt-6 px-4 px-sm-8 py-2 row">
+            <div
+              class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4"
+            >
+              <label for="new-password" class="fw-medium">New Password</label>
+            </div>
+            <div class="col-12 col-sm-6 d-flex flex-column">
+              <input
+                id="new-password"
+                type="password"
+                class="form-control w-100 p-2 border rounded"
+                formControlName="newPassword"
+              />
+              <div
+                *ngIf="
+                settingsForm.get('newPassword')?.touched &&
+                settingsForm.get('newPassword')?.errors?.['required']
+              "
+                class="text-danger"
+              >
+                New password is required
+              </div>
+              <div
+                *ngIf="
+    settingsForm.get('newPassword')?.touched &&
+    settingsForm.get('newPassword')?.errors?.['minlength']
+  "
+                class="text-danger"
+              >
+                Password must be at least 6 characters
+              </div>
+            </div>
           </div>
-          <div class="col-12 col-sm-6 d-flex flex-column">
-            <input id="password" type="password" class="form-control w-100 p-2 border rounded" value="********" />
-          </div>
-        </div>
 
-        <!-- New Password -->
-        <div class="mt-6 px-4 px-sm-8 py-2 row">
-          <div class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4">
-            <label for="new-password" class="fw-medium">New Password</label>
+          <!-- Confirm New Password -->
+          <div class="mt-6 px-4 px-sm-8 py-2 row pb-8">
+            <div
+              class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4"
+            >
+              <label for="confirm-password" class="fw-medium"
+                >Confirm New Password</label
+              >
+            </div>
+            <div class="col-12 col-sm-6 d-flex flex-column">
+              <input
+                id="confirm-password"
+                type="password"
+                class="form-control w-100 p-2 border rounded"
+                formControlName="confirmPassword"
+              />
+              <div
+                *ngIf="
+                settingsForm.get('confirmPassword')?.touched &&
+                settingsForm.get('confirmPassword')?.errors?.['required']
+              "
+                class="text-danger"
+              >
+                Please confirm your password
+              </div>
+              <div
+                *ngIf="
+                  settingsForm.hasError('mismatch') &&
+                  settingsForm.get('confirmPassword')?.touched
+                "
+                class="text-danger"
+              >
+                Passwords do not match
+              </div>
+            </div>
           </div>
-          <div class="col-12 col-sm-6 d-flex flex-column">
-            <input id="new-password" type="password" class="form-control w-100 p-2 border rounded" value="********" />
-          </div>
-        </div>
-
-        <!-- Confirm New Password -->
-        <div class="mt-6 px-4 px-sm-8 py-2 row pb-8">
-          <div class="col-12 col-sm-3 d-flex flex-column justify-content-center text-left font-weight-medium pr-4">
-            <label for="confirm-password" class="fw-medium">Confirm New Password</label>
-          </div>
-          <div class="col-12 col-sm-6 d-flex flex-column">
-            <input id="confirm-password" type="password" class="form-control w-100 p-2 border rounded" value="********" />
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

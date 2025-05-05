@@ -117,7 +117,7 @@ export class UserManagementComponent implements OnInit {
           if (user.userRoles && typeof user.userRoles === 'string') {
             try {
               const roles = JSON.parse(user.userRoles);
-              return Array.isArray(roles) && roles.some((role: any) => role.roleID === 1);
+              return Array.isArray(roles) && roles.some((role: any) => role.roleID === 2);
             } catch (e) {
               console.error('Error parsing userRoles:', e);
               return false;
@@ -264,19 +264,7 @@ export class UserManagementComponent implements OnInit {
       campus: this.currentEditingUser.campus
     };
 
-    this.authService.updateUser(updateData).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        document.getElementById('closeModal')?.click();
-        this.fetchUsers();
-        this.resetForm();
-      },
-      error: (error: any) => {
-        this.isLoading = false;
-        this.errorMessage = 'Failed to update user. Please try again.';
-        console.error('Error updating user:', error);
-      }
-    });
+    console.log(updateData);
   }
 
   private validateUserForm(): boolean {

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-
 import { HomePageComponent } from 'libs/pages/home-page/home-page.component';
 import { UniversitiesPageComponent } from 'libs/pages/universities-page/universities-page.component';
 import { AboutUsPageComponent } from 'libs/pages/about-us-page/about-us-page.component';
@@ -24,12 +23,15 @@ const routes: Routes = [
   { path: 'aboutUs', component: AboutUsPageComponent },
   { path: 'contactUs', component: ContactUSPageComponent },
   { path: 'apply-through-us', component: ApplyThroughUSComponent },
-  { path: 'admin-dashboard', component: AdminComponent }, 
+  { path: 'admin-dashboard', component: AdminComponent },
   { path: 'university-details/:id', component: AdminUniversityDetailComponent },
   {
     path: 'auth', component: AuthComponent, children: [
       { path: 'signup', component: SignupComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'forgotPassword', component: AdminForgotComponent },
+      { path: 'resetPassword', component: AdminResetPasswordComponent },
+      { path: 'enterCode', component: AdminEnterCodeComponent },
       { path: '', redirectTo: '/', pathMatch: 'full' },
     ]
   },
@@ -42,8 +44,8 @@ const routes: Routes = [
       { path: '', redirectTo: '/', pathMatch: 'full' },
     ]
   },
-  
-   { path: '**', redirectTo: '', pathMatch: 'full' },
+
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

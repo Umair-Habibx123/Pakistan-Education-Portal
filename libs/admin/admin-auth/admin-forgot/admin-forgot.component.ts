@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'libs/service/ResetPassword/resetPass.service';
+import { ResetPassService } from 'libs/service/ResetPassword/resetPass.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -14,7 +14,7 @@ export class AdminForgotComponent {
   errorMessage = '';
 
   constructor(
-    private authService: AuthService,
+    private resetPassService: ResetPassService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -35,17 +35,22 @@ export class AdminForgotComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.authService.sendOTP(this.forgotForm.value.email).subscribe({
+    this.resetPassService.sendOTP(this.forgotForm.value.email).subscribe({
       next: (response) => {
         this.isLoading = false;
         // Navigate to enter code page with email as state
-        this.router.navigate(['/adminAuth/adminEnterCode'], {
+        this.router.navigate(['/auth/enterCode'], {
           state: { email: this.forgotForm.value.email }
         });
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error.error?.message || 'Failed to send OTP. Please try again.';
+        if (error.error?.message === "Please enter valid email address") {
+          this.errorMessage = 'Email not exists... please Create A Account';
+        }
+        else {
+          this.errorMessage = 'Failed to send OTP. Please try again.';
+        }
       }
     });
   }

@@ -47,13 +47,17 @@
               <div
                 class="d-flex align-items-center border p-3 position-relative rounded-3 shadow-sm gap-3 custom-university-card h-100"
               >
-                <div class="flex-shrink-0">
+                <div
+                  class="flex-shrink-0"
+                  style="align-self: flex-start; margin-top: 4px"
+                >
                   <img
                     [src]="productUrl + university.logoEDocPath"
                     alt="Logo"
                     class="rounded-circle custom-university-logo object-fit-cover"
                   />
                 </div>
+
                 <div class="flex-grow-1 min-width-0 pe-3">
                   <h5 class="fw-bold mb-1 custom-university-name title">
                     {{ university.universityName }}

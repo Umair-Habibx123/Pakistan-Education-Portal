@@ -36,7 +36,7 @@
           </div>
 
           <!-- Mobile Field -->
-          <div class="mb-4">
+          <!-- <div class="mb-4">
             <div class="input-group input-group-custom">
               <input
                 type="text"
@@ -51,6 +51,24 @@
             </div>
             <small *ngIf="registerForm.get('mobile')?.invalid && registerForm.get('mobile')?.touched" class="text-danger">
               Please enter a valid 10-digit mobile number
+            </small>
+          </div> -->
+
+          <div class="mb-4">
+            <div class="input-group input-group-custom">
+              <input
+                type="text"
+                formControlName="username"
+                class="form-control bg-light border border-secondary"
+                placeholder="Username"
+                [ngClass]="{ 'is-invalid': registerForm.get('username')?.invalid && registerForm.get('username')?.touched }"
+              />
+              <span class="input-group-text border border-secondary input-group-text-custom">
+                <i class="bi bi-phone"></i>
+              </span>
+            </div>
+            <small *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-danger">
+              Please enter a valid Username 3-20 digits
             </small>
           </div>
 

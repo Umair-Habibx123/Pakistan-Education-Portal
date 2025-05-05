@@ -26,6 +26,6 @@ export class AppComponent implements OnInit {
   }
 
   isHidden(): boolean {
-    return ['/adminAuth/adminEnterCode', '/adminAuth/adminForgotPassword', '/admin-dashboard', '/auth/signup', '/adminAuth/adminLogin', '/adminAuth/adminResetPassword', '/auth/login'].includes(this.router.url);
+    return ['/adminAuth/adminEnterCode', '/adminAuth/adminForgotPassword', '/admin-dashboard', '/auth/signup', '/adminAuth/adminLogin', '/adminAuth/adminResetPassword', '/auth/login' , '/auth/enterCode', '/auth/forgotPassword', '/auth/resetPassword'].includes(this.router.url);
   }
 }

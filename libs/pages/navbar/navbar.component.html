@@ -103,7 +103,7 @@
               </div>
             </div>
             <div
-              *ngIf="sessionService.getUser()?.roleId === 1"
+              *ngIf="sessionService.getUser()?.roleId === 1 || sessionService.getUser()?.roleId === 2"
               class="dropdown-item"
               (click)="goToDashboard()"
             >

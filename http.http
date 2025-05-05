@@ -1,24 +1,9 @@
-@baseUrl = http://95.217.205.57:13500/school-api/
+# @baseUrl = http://95.217.205.57:13500/school-api/
+@baseUrl = http://localhost:13502/
 
-### Add new program (insert)
-POST {{baseUrl}}Campus/saveCampusPrograms
-Content-Type: application/json
-
-{
-  "spType": "insert",
-  "uniID": 1,
-  "eduationType": "Bachelor",
-  "programID": 101,
-  "programName": "Computer Science",
-  "applicationFee": 100,
-  "duration": 4,
-  "campusID": 1,
-  "userID": 1,
-  "tuitionFee": "5000"
-}
 ###
 
-GET {{baseUrl}}Program/getCampusProgram?campusID=31
+GET {{baseUrl}}Program/getCampusProgram?campusID=101
 
 
 ###
@@ -30,4 +15,8 @@ GET {{baseUrl}}University/getProvince?CountryID=1
 
 ###
 GET {{baseUrl}}University/getCity?ProvinceID=1
+
+
+###
+GET {{baseUrl}}UserInformation/getStudentInformation?userID=10
 

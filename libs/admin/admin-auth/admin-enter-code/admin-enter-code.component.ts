@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'libs/service/ResetPassword/resetPass.service';
+import { ResetPassService } from 'libs/service/ResetPassword/resetPass.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -15,7 +15,7 @@ export class AdminEnterCodeComponent {
   otp: string = '';
 
   constructor(
-    private authService: AuthService,
+    private resetPassService: ResetPassService,
     private router: Router,
     private location: Location
   ) {
@@ -89,11 +89,11 @@ export class AdminEnterCodeComponent {
     this.isLoading = true;
     this.errorMessage = '';
   
-    this.authService.verifyOTP(this.otp).subscribe({
+    this.resetPassService.verifyOTP(this.otp).subscribe({
       next: (response) => {
         this.isLoading = false;
         if (response && response.length > 0) {
-          this.router.navigate(['/adminAuth/adminResetPassword'], {
+          this.router.navigate(['/auth/resetPassword'], {
             state: { email: this.email }
           });
         } else {
@@ -129,7 +129,7 @@ export class AdminEnterCodeComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.authService.sendOTP(this.email).subscribe({
+    this.resetPassService.sendOTP(this.email).subscribe({
       next: (response) => {
         this.isLoading = false;
         // Clear all inputs

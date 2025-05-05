@@ -21,7 +21,7 @@ export class LoginComponent {
 
   constructor(
     private userService: AuthService,
-    private sessionService: UserSessionService, 
+    private sessionService: UserSessionService,
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router
@@ -64,9 +64,16 @@ export class LoginComponent {
             this.sessionService.saveUserSession(response);
             this.successMessage = 'Login successful! Redirecting...';
             this.showSuccess = true;
-            setTimeout(() => {
-              this.router.navigate(['/']);
-            }, 1500);
+            if (response.roleId === 1 || response.roleId === 2) {
+              setTimeout(() => {
+                this.router.navigate(['/admin-dashboard']);
+              }, 1500);
+            }
+            else {
+              setTimeout(() => {
+                this.router.navigate(['/']);
+              }, 1500);
+            }
           } else {
             this.errorMessage = response.message || 'Login failed. Please try again.';
             this.showError = true;

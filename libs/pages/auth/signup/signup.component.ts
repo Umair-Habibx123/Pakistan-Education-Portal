@@ -26,7 +26,12 @@ export class SignupComponent {
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      mobile: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+      username: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20),
+        Validators.pattern(/^[a-zA-Z0-9_]+$/) // Allows letters, numbers and underscores
+      ]],
       password: ['', [
         Validators.required,
         Validators.minLength(8),
@@ -35,6 +40,7 @@ export class SignupComponent {
       confirmPassword: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
   }
+
 
   passwordMatchValidator(form: FormGroup) {
     return form.get('password')?.value === form.get('confirmPassword')?.value
@@ -59,14 +65,13 @@ export class SignupComponent {
 
     const registrationData = {
       newUserID: 0,
-      firstName: "",
+      firstName: this.registerForm.value.username,
       userCNIC: "",
       userID: 0,
       spType: "insert",
       email: this.registerForm.value.email,
-      mobile: this.registerForm.value.mobile,
       password: this.registerForm.value.password,
-      roleID: 3   //user
+      roleID: 3
     };
 
     this.userService.signup(registrationData)
@@ -79,7 +84,7 @@ export class SignupComponent {
             this.errorMessage = response;
           }
         },
-        error: (error :any) => {
+        error: (error: any) => {
           this.isLoading = false;
           this.errorMessage = error.error || 'Registration failed. Please try again.';
         }

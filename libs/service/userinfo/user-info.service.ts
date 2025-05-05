@@ -14,4 +14,8 @@ export class UserInfoService {
   saveUserPersonalInfo(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}UserInformation/saveUserPeronalInfo`, data);
   }
+
+  saveUserEducationalInfo(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}UserEducation/saveUserEducation`, data);
+  }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'libs/service/ResetPassword/resetPass.service';
+import { ResetPassService } from 'libs/service/ResetPassword/resetPass.service';
 import { Router } from '@angular/router';
 import { UserSessionService } from 'libs/service/userSession/userSession.service';
 
@@ -18,7 +18,7 @@ export class AdminResetPasswordComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private resetPassword: ResetPassService,
     private router: Router,
     private sessionService: UserSessionService
   ) {
@@ -28,7 +28,7 @@ export class AdminResetPasswordComponent {
     
     // If no email, redirect back
     if (!this.email) {
-      this.router.navigate(['/adminAuth/adminLogin']);
+      this.router.navigate(['/auth/login']);
     }
 
     this.resetForm = this.fb.group({
@@ -62,7 +62,7 @@ export class AdminResetPasswordComponent {
 
     const { password } = this.resetForm.value;
 
-    this.authService.resetPassword(this.email, password).subscribe({
+    this.resetPassword.resetPassword(this.email, password).subscribe({
       next: (response) => {
         this.isLoading = false;
         

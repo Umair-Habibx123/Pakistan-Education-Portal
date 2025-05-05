@@ -11,18 +11,19 @@ export class AdminComponent implements OnInit {
   isSidebarOpen = false;
   isLargeScreen = window.innerWidth >= 992;
   currentSection: string = 'dashboard';
+  roleId: number | null = 1; // Default to admin role
 
-  menuItems = [
+  allMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
     { id: 'registrations', label: 'Registrations', icon: 'NotebookTabs' },
     { id: 'userManage', label: 'User Management', icon: 'UserRoundPlus' },
     { id: 'sliders', label: 'Sliders', icon: 'Images' },
     { id: 'universities', label: 'Universities', icon: 'University' },
-    // { id: 'aboutUs', label: 'About Us', icon: 'FileText' },
     { id: 'privacy', label: 'Privacy Policy', icon: 'CircleAlert' },
     { id: 'settings', label: 'Settings', icon: 'Settings' },
   ];
 
+  menuItems: any[] = [];
 
   constructor(
     private router: Router,
@@ -32,15 +33,32 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    const roleId = this.userSessionService.getRoleId();
-    if (roleId !== 1) {
+    this.roleId = this.userSessionService.getRoleId();
+
+    if (this.roleId !== 1 && this.roleId !== 2) {
       this.router.navigate(['/']);
       return;
     }
 
+    this.filterMenuItems();
+
     const savedSection = localStorage.getItem('selectedSidebarTab');
     if (savedSection && this.menuItems.some(item => item.id === savedSection)) {
       this.currentSection = savedSection;
+    } else {
+      this.currentSection = this.menuItems[0]?.id || 'dashboard';
+    }
+  }
+
+  filterMenuItems() {
+    if (this.roleId === 1) {
+      this.menuItems = [...this.allMenuItems];
+    } else if (this.roleId === 2) {
+      this.menuItems = this.allMenuItems.slice(-3);
+
+      if (!this.menuItems.some(item => item.id === this.currentSection)) {
+        this.currentSection = this.menuItems[0]?.id || 'dashboard';
+      }
     }
   }
 
