@@ -48,68 +48,81 @@
         </div>
       </div>
 
-      <!-- Users Table -->
-      <table class="table w-100 text-left">
-        <thead>
-          <tr class="border-bottom small custom-subtitle-color">
-            <th class="p-3">Name</th>
-            <th class="p-3">Designation</th>
-            <th class="p-3">Email</th>
-            <th class="p-3">Contact</th>
-            <th class="p-3">University</th>
-            <th class="p-3">Campus</th>
-            <th class="p-3">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let user of paginatedUsers"
-            class="border-bottom small hover-light"
-          >
-            <td class="p-3 custom-subtitle-color">
-              {{ user.firstName }}
-            </td>
-            <td class="p-3 custom-subtitle-color">
-              {{ user.designation }}
-            </td>
-            <td class="p-3 custom-subtitle-color">
-              {{ user.email }}
-            </td>
-            <td class="p-3 custom-subtitle-color">
-              {{ user.mobile }}
-            </td>
-            <td class="p-3 custom-subtitle-color">
-              {{ user.university }}
-            </td>
-            <td class="p-3 custom-subtitle-color">
-              {{ user.campus }}
-            </td>
-            <td class="p-3">
-              <div class="d-flex align-items-center gap-2">
-                <i
-                  class="cursor-pointer fa-eye fas custom-icon"
-                  data-bs-toggle="modal"
-                  data-bs-target="#userDetailsModal"
-                  (click)="viewUserDetails(user)"
-                ></i>
-                <i
-                  class="text-danger cursor-pointer fa-trash-alt fas custom-icon"
-                ></i>
-                <i
-                  class="text-primary cursor-pointer fa-edit fas custom-icon"
-                  data-bs-toggle="modal"
-                  data-bs-target="#userManageModal"
-                  (click)="editUser(user)"
-                ></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Table Section -->
+      <div class="table-responsive px-3 px-sm-4">
+        <table class="table w-100 text-left">
+          <thead>
+            <tr class="border-bottom small custom-subtitle-color">
+              <th class="p-2 p-sm-3">Name</th>
+              <th class="p-2 p-sm-3">Designation</th>
+              <th class="p-2 p-sm-3 d-none d-md-table-cell">Email</th>
+              <th class="p-2 p-sm-3">Contact</th>
+              <th class="p-2 p-sm-3 d-none d-lg-table-cell">University</th>
+              <th class="p-2 p-sm-3 d-none d-lg-table-cell">Campus</th>
+              <th class="p-2 p-sm-3">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let user of paginatedUsers"
+              class="border-bottom small hover-light"
+            >
+              <td class="p-2 p-sm-3 custom-subtitle-color fw-medium">
+                {{ user.firstName }}
+              </td>
+              <td class="p-2 p-sm-3 custom-subtitle-color">
+                {{ user.designation }}
+              </td>
+              <td
+                class="p-2 p-sm-3 custom-subtitle-color d-none d-md-table-cell"
+              >
+                {{ user.email }}
+              </td>
+              <td class="p-2 p-sm-3 custom-subtitle-color">
+                {{ user.mobile }}
+              </td>
+              <td
+                class="p-2 p-sm-3 custom-subtitle-color d-none d-lg-table-cell"
+              >
+                <div *ngIf="user.university?.length">
+                  <span *ngFor="let uni of user.university; let last = last">
+                    {{ uni }}<span *ngIf="!last">, </span>
+                  </span>
+                </div>
+                <div *ngIf="!user.university?.length">-</div>
+              </td>
+              <td
+                class="p-2 p-sm-3 custom-subtitle-color d-none d-lg-table-cell"
+              >
+                {{ user.campus || "-" }}
+              </td>
+              <td class="p-2 p-sm-3">
+                <div class="d-flex align-items-center gap-3">
+                  <i
+                    class="cursor-pointer fa-eye fas custom-icon"
+                    data-bs-toggle="modal"
+                    data-bs-target="#userDetailsModal"
+                    (click)="viewUserDetails(user)"
+                  ></i>
+                  <i
+                    class="text-danger cursor-pointer fa-trash-alt fas custom-icon"
+                  ></i>
+                  <i
+                    class="text-primary cursor-pointer fa-edit fas custom-icon"
+                    data-bs-toggle="modal"
+                    data-bs-target="#userManageModal"
+                    (click)="editUser(user)"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- No Results Message -->
-      <div *ngIf="filteredUsers.length === 0" class="text-center py-4">
-        <p>No users found matching your search criteria.</p>
+      <div *ngIf="filteredUsers.length === 0" class="text-center py-5 px-3">
+        <p class="mb-0">No users found matching your search criteria.</p>
       </div>
 
       <!-- Pagination Section -->
@@ -226,7 +239,10 @@
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">University Name</label>
             <div class="dropdown" ngbDropdown>
-              <button class="form-control text-start dropdown-toggle" ngbDropdownToggle>
+              <button
+                class="form-control text-start dropdown-toggle"
+                ngbDropdownToggle
+              >
                 {{
                   selectedUniversityIds.length > 0
                     ? getSelectedUniversityNames()
@@ -268,7 +284,12 @@
         <div class="row mt-4 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">Password</label>
-            <input type="text" class="form-control" placeholder="Password"   [(ngModel)]="currentEditingUser.password" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Password"
+              [(ngModel)]="currentEditingUser.password"
+            />
           </div>
           <div class="col-md-6">
             <label class="form-label">Confirm Password</label>

@@ -4,12 +4,19 @@ import { AuthService } from 'libs/service/userSignUp/userAuth.service';
 import { UniversityService } from 'libs/service/addUniversity/university.service';
 import { Location } from '@angular/common';
 
+interface University {
+  uniID: number;
+  universityName: string;
+  campusID: number;
+  campusName: string;
+}
+
 interface User {
   firstName: string;
   designation: string;
   email: string;
   mobile: string;
-  university: string;
+  university: University[] | null;
   campus: string;
   password: string;
 }
@@ -37,7 +44,7 @@ export class UserManagementComponent implements OnInit {
     designation: '',
     email: '',
     mobile: '',
-    university: '',
+    university: [],
     campus: '',
     password: ''
   };
@@ -95,7 +102,10 @@ export class UserManagementComponent implements OnInit {
 
 
     if (this.currentEditingUser) {
-      this.currentEditingUser.university = this.selectedUniversityIds.join(',');
+      this.currentEditingUser.university = this.selectedUniversityIds.map(id => {
+        const uni = this.universities.find(u => u.uniID === id);
+        return uni ? uni.universityName : '';
+      });
     }
   }
 
@@ -107,36 +117,64 @@ export class UserManagementComponent implements OnInit {
 
 
   fetchUsers(): void {
-    this.isLoading = true;
-    this.userService.getUsers().subscribe({
-      next: (response) => {
-        const allUsers = response.data || response;
-        console.log(allUsers);
+  this.isLoading = true;
+  this.userService.getUsers().subscribe({
+    next: (response) => {
+      const allUsers = response.data || response;
+      console.log(allUsers);
 
-        this.users = allUsers.filter((user: any) => {
-          if (user.userRoles && typeof user.userRoles === 'string') {
-            try {
-              const roles = JSON.parse(user.userRoles);
-              return Array.isArray(roles) && roles.some((role: any) => role.roleID === 2);
-            } catch (e) {
-              console.error('Error parsing userRoles:', e);
-              return false;
-            }
+      this.users = allUsers.filter((user: any) => {
+        if (user.userRoles && typeof user.userRoles === 'string') {
+          try {
+            const roles = JSON.parse(user.userRoles);
+            return Array.isArray(roles) && roles.some((role: any) => role.roleID === 2);
+          } catch (e) {
+            console.error('Error parsing userRoles:', e);
+            return false;
           }
-          return false;
+        }
+        return false;
+      }).map((user: any) => {
+        // Parse university data if it exists
+        let universities: University[] = [];
+        if (user.university && typeof user.university === 'string') {
+          try {
+            universities = JSON.parse(user.university);
+          } catch (e) {
+            console.error('Error parsing university data:', e);
+          }
+        }
+        
+        // Get unique university names
+        const uniqueUnis = [...new Set(universities.map(u => u.universityName))];
+        
+        // Get all campus names grouped by university
+        const campusesByUni = uniqueUnis.map(uni => {
+          const campuses = universities
+            .filter(u => u.universityName === uni)
+            .map(u => u.campusName);
+          return campuses.join(', ');
         });
+        
+        return {
+          ...user,
+          university: uniqueUnis,
+          campus: campusesByUni.join('; ') // Separate different university campuses with semicolon
+        };
+      });
 
-        this.filteredUsers = [...this.users];
-        this.isLoading = false;
-        console.log('Filtered users (roleId=1):', this.users);
-      },
-      error: (error) => {
-        this.errorMessage = 'Failed to load users. Please try again later.';
-        console.error('Error fetching users:', error);
-        this.isLoading = false;
-      }
-    });
-  }
+      this.filteredUsers = [...this.users];
+      this.isLoading = false;
+      console.log('Filtered users (roleId=3):', this.users);
+    },
+    error: (error) => {
+      this.errorMessage = 'Failed to load users. Please try again later.';
+      console.error('Error fetching users:', error);
+      this.isLoading = false;
+    }
+  });
+}
+
 
 
   onSearch(event: Event): void {
@@ -152,7 +190,7 @@ export class UserManagementComponent implements OnInit {
         (user.email?.toLowerCase() ?? '').includes(term) ||
         (user.designation?.toLowerCase() ?? '').includes(term) ||
         (user.mobile?.toString() ?? '').includes(term) ||
-        (user.university?.toLowerCase() ?? '').includes(term) ||
+        (user.university?.some(uni => uni.universityName.toLowerCase().includes(term)) ?? false) ||
         (user.campus?.toLowerCase() ?? '').includes(term);
     });
   }
@@ -205,7 +243,7 @@ export class UserManagementComponent implements OnInit {
     this.currentEditingUser.campus = "";
     this.currentEditingUser.designation = "";
     this.currentEditingUser.mobile = "";
-    this.currentEditingUser.university = "";
+    this.currentEditingUser.university = [];
 
   }
 
@@ -218,12 +256,13 @@ export class UserManagementComponent implements OnInit {
 
     const registrationData = {
       sptype: "insert",
+      roleId: 2,
       firstName: this.currentEditingUser.firstName,
       designation: this.currentEditingUser.designation,
       email: this.currentEditingUser.email,
       mobile: this.currentEditingUser.mobile,
       password: this.currentEditingUser.password,
-      userRoles: JSON.stringify([{ roleId: 1 }]),
+      userRoles: "[{\"roleId\":2}]",
       universityIDs: "[" + this.selectedUniversityIds.join(',') + "]",
       // universityIDs: JSON.stringify(this.selectedUniversityIds.map(id => ({ universityIDs: id }))),
       campus: this.currentEditingUser.campus

@@ -52,29 +52,51 @@
 
   <!-- Program Cards Section -->
   <div class="container-fluid my-3 my-sm-4">
-    <div class="g-3 g-sm-4 row row-cols-1 row-cols-md-2 row-cols-lg-3">
+    <div *ngIf="allPrograms.length === 0 && !isLoading" class="text-center py-5">
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <h4 class="fw-medium text-dark mb-2">No Programs Available</h4>
+        <p class="text-muted mb-4">
+          There are currently no programs to display for this university.
+        </p>
+      </div>
+    </div>
+
+    <div
+      *ngIf="allPrograms.length > 0 && filteredPrograms.length === 0 && !isLoading" 
+      class="text-center py-5"
+    >
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <h4 class="fw-medium text-dark mb-2">No Matching Programs Found</h4>
+        <p class="text-muted mb-4">
+          We couldn't find any programs matching "{{ searchTerm }}".
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="filteredPrograms.length > 0" class="g-3 g-sm-4 row row-cols-1 row-cols-md-2 row-cols-lg-3">
       <div class="col" *ngFor="let program of getPaginatedPrograms()">
         <!-- Program Card Content -->
         <div
-          class="d-flex flex-column justify-content-center p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100 position-relative"
+          class="d-flex flex-column justify-content-center p-3 p-sm-4 rounded-3 shadow-custom-program border custom-program-card h-100 position-relative"
         >
+
           <!-- Top Section -->
-          <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
-            <div class="flex-grow-1 pe-3">
+          <div class="d-flex border-bottom pb-3 mb-3 ">
+            <div class="pe-3 flex-fill shadow-none">
               <h5 class="fw-bold mb-1 title">{{ program.programName }}</h5>
               <p class="m-0 text-muted small">
                 {{ program.educationTypeTitle }}
               </p>
             </div>
-            <div class="ps-3 border-start">
+            <div class="ps-3 border-start flex-fill shadow-none">
               <h5 class="fw-bold small mb-1">Teaching Mode</h5>
               <p class="m-0 text-muted small">{{ program.teachingMode }}</p>
             </div>
           </div>
 
           <!-- Middle Section -->
-          <div class="d-flex justify-content-between">
-            <div class="text-dark">
+          <div class="d-flex  shadow-none">
+            <div class="text-dark flex-fill">
               <div class="d-flex align-items-center gap-1 mb-1">
                 <i class="fa-tag fas small"></i>
                 <strong class="small"
@@ -84,7 +106,7 @@
               <p class="m-0 text-muted small">Application Fee</p>
             </div>
 
-            <div class="text-dark px-3 border-start border-end">
+            <div class="text-dark px-3 border-start border-end flex-fill">
               <div class="d-flex align-items-center gap-1 mb-1">
                 <i class="fa-hourglass-half fas small"></i>
                 <strong class="small">{{ program.duration }} Years</strong>
@@ -92,7 +114,7 @@
               <p class="m-0 text-muted small">Duration</p>
             </div>
 
-            <div class="text-dark ps-3">
+            <div class="text-dark ps-3 flex-fill">
               <div class="d-flex align-items-center gap-1 mb-1">
                 <i class="fa-certificate fas small"></i>
                 <strong class="small"
@@ -102,6 +124,7 @@
               <p class="m-0 text-muted small">Degree Fee</p>
             </div>
           </div>
+
           <div
             class="d-flex position-absolute end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
           >

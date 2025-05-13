@@ -3,6 +3,11 @@
   padding: 3rem 4rem;
 }
 
+.shadow-custom-program {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}
+
 .custom-back-button {
   cursor: pointer;
 }
@@ -53,6 +58,10 @@
   padding: 2px 4px;
 }
 
+.custom-apply-button:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .custom-apply-icon {
   width: 30px;
   height: 30px;
@@ -78,7 +87,7 @@
   display: flex;
   flex-direction: column;
   padding: 0.5rem 1rem;
-  border-right: 1px solid rgba(255,255,255,0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .custom-contact-column:last-child {
@@ -107,7 +116,7 @@
 
 .custom-program-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .custom-pagination-btn {
@@ -118,12 +127,12 @@
   .custom-container-padding {
     padding: 2rem;
   }
-  
+
   .custom-university-logo {
     width: 90px;
     height: 90px;
   }
-  
+
   .custom-university-name {
     font-size: 1.25rem;
   }
@@ -133,30 +142,30 @@
   .custom-container-padding {
     padding: 1.5rem;
   }
-  
+
   .custom-contact-info {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
   }
-  
+
   .custom-contact-column {
     border-right: none;
     padding: 0;
     width: 100%;
   }
-  
+
   .custom-university-logo {
     width: 80px;
     height: 80px;
   }
-  
-  .row-cols-md-2 > .col,
-  .row-cols-lg-3 > .col {
+
+  .row-cols-md-2>.col,
+  .row-cols-lg-3>.col {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  
+
   .custom-program-card {
     padding: 1.5rem;
   }
@@ -166,12 +175,12 @@
   .custom-container-padding {
     padding: 1rem;
   }
-  
+
   .custom-university-logo {
     width: 70px;
     height: 70px;
   }
-  
+
   .custom-university-name {
     font-size: 1.1rem;
   }

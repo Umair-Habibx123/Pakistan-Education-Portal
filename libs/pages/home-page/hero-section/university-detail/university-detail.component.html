@@ -70,7 +70,7 @@
       </div>
 
       <!-- Right Side (40%) -->
-      <div class="col-12 col-md-3 text-center mt-3 mt-md-0">
+      <div class="col-12 col-md-3 text-center mt-3 mt-md-0 custom-apply-shadow">
         <div 
         class="d-inline-flex align-items-center justify-content-center px-3 py-2 custom-apply-button"
         (click)="onApplyThroughUs()">
@@ -131,44 +131,41 @@
       </div>
     </div>
 
-    <!-- Programs Section -->
     <div class="mb-4">
-      <h2 class="h4 fw-semibold mb-4 text-dark">Programs</h2>
+      <h2 class="h4 fw-semibold mb-3 text-dark">Programs</h2>
     </div>
 
-    <div class="container-fluid mb-5 p-0">
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="container-fluid mb-4 mb-md-5 p-0">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-md-4">
         <div class="col" *ngFor="let program of getPaginatedPrograms()">
-          <!-- Program Card Content -->
-          <div
-          class="d-flex flex-column p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100"
-        >
-
-          <!-- Top Section -->
-          <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
-            <div class="flex-grow-1 pe-3">
+          <div class="d-flex flex-column p-3 p-md-4 rounded-3 shadow-custom-program border custom-program-card h-100">
+              <!-- Top Section -->
+          <div class="d-flex border-bottom pb-3 mb-3">
+            <div class="pe-3 flex-fill">
               <h5 class="fw-bold mb-1 title">{{ program.programName }}</h5>
               <p class="m-0 text-muted small">
                 {{ program.educationTypeTitle }}
               </p>
             </div>
-            <div class="ps-3 border-start">
+            <div class="ps-3 border-start flex-fill">
               <h5 class="fw-bold small mb-1">Teaching Mode</h5>
               <p class="m-0 text-muted small">{{ program.teachingMode }}</p>
             </div>
           </div>
 
           <!-- Middle Section -->
-          <div class="d-flex justify-content-between mb-3">
-            <div class="text-dark">
+          <div class="d-flex">
+            <div class="text-dark flex-fill">
               <div class="d-flex align-items-center gap-1 mb-1">
                 <i class="fa-tag fas small"></i>
-                <strong class="small">{{ program.tuitionFee | number:'1.0-0' }} PKR</strong>
+                <strong class="small"
+                  >{{ program.tuitionFee | number : "1.0-0" }} PKR</strong
+                >
               </div>
               <p class="m-0 text-muted small">Application Fee</p>
             </div>
 
-            <div class="text-dark px-3 border-start border-end">
+            <div class="text-dark px-3 border-start border-end flex-fill">
               <div class="d-flex align-items-center gap-1 mb-1">
                 <i class="fa-hourglass-half fas small"></i>
                 <strong class="small">{{ program.duration }} Years</strong>
@@ -176,15 +173,18 @@
               <p class="m-0 text-muted small">Duration</p>
             </div>
 
-            <div class="text-dark ps-3">
+            <div class="text-dark ps-3 flex-fill">
               <div class="d-flex align-items-center gap-1 mb-1">
                 <i class="fa-certificate fas small"></i>
-                <strong class="small">{{ program.degreeFee | number:'1.0-0' }} PKR</strong>
+                <strong class="small"
+                  >{{ program.degreeFee | number : "1.0-0" }} PKR</strong
+                >
               </div>
               <p class="m-0 text-muted small">Degree Fee</p>
             </div>
           </div>
-        </div>
+
+          </div>
         </div>
       </div>
     </div>

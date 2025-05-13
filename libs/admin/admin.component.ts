@@ -97,6 +97,7 @@ export class AdminComponent implements OnInit {
   logout(): void {
     this.userSessionService.clearSession();
     this.router.navigate(['/']);
+    localStorage.clear();
     window.location.reload();
   }
 }

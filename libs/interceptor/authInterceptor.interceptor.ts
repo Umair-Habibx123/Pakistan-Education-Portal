@@ -37,10 +37,10 @@ export class AuthInterceptor implements HttpInterceptor {
                 error: (err: any) => {
                     if (err instanceof HttpErrorResponse) {
                         if (err.status === 401) {
-                            // this.router.navigate(['/login']);
-
                             // Clear user session
                             this.userSessionService.clearSession();
+
+                            // this.router.navigate(['/auth/login']);
                         }
                     }
                 }

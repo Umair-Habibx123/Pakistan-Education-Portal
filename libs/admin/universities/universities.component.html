@@ -38,7 +38,36 @@
 
         <!-- Grid Section -->
         <div class="container-fluid my-3 my-sm-4">
-          <div class="g-3 g-sm-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
+          <div *ngIf="universities.length === 0 && !isLoading" class="text-center py-5">
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+            >
+              <h4 class="fw-medium text-dark mb-2">
+                No Universities Available
+              </h4>
+              <p class="text-muted mb-4">
+                There are currently no universities to display.
+              </p>
+            </div>
+          </div>
+
+          <div
+            *ngIf="universities.length > 0 && filteredUniversities.length === 0 && !isLoading"
+            class="text-center py-5"
+          >
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+            >
+              <h4 class="fw-medium text-dark mb-2">
+                No Matching University Found
+              </h4>
+              <p class="text-muted mb-4">
+                We couldn't find any University matching "{{ searchTerm }}".
+              </p>
+            </div>
+          </div>
+
+          <div  *ngIf="filteredUniversities.length > 0" class="g-3 g-sm-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
             <div
               class="col"
               *ngFor="let university of filteredUniversities"

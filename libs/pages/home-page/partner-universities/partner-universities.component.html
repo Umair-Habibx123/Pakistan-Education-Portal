@@ -44,7 +44,7 @@
           <!-- Additional details if route is /universities -->
           <div *ngIf="isUniversityPage">
             <p class="university-details">
-              {{ university.location }} • {{ university.programs }} Programmes
+              {{ university.cityName }} • {{ university.noOfPrograms }} Programmes
             </p>
             <!-- <p class="university-details">
               Tuition Fee: {{ university.tuitionFee }} / year
@@ -84,31 +84,44 @@
       </div>
     </div>
 
-    <!-- Pagination - Only show on universities page -->
+
+
+    
     <div
-      *ngIf="isUniversityPage && totalPages > 1"
-      class="pagination-container"
+    *ngIf="filteredUniversities.length > 0 && isUniversityPage && totalPages > 1"
+      class="d-flex flex-column flex-sm-row align-items-center justify-content-end gap-2 mt-4 pt-4 pagination-container"
     >
-      <div class="pagination-buttons">
+      <div class="d-flex align-items-center gap-3">
         <button
           *ngFor="let page of [].constructor(totalPages); let i = index"
-          class="pagination-button"
-          [ngClass]="{ 'active-page': currentPage === i + 1 }"
+          class="btn btn-link p-0 fw-bold"
+          [class.text-primary]="currentPage === i + 1"
           (click)="goToPage(i + 1)"
         >
           {{ i + 1 }}
         </button>
       </div>
-      <div class="pagination-navigation">
-        <button class="pagination-nav-button" (click)="previousPage()">
+      <div class="d-flex align-items-center gap-2">
+        <button
+          class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 w-100 w-sm-auto custom-pagination-btn"
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+        >
           <span><lucide-angular name="ArrowLeft"></lucide-angular></span>
           <span>Previous</span>
         </button>
-        <button class="pagination-nav-button" (click)="nextPage()">
+        <button
+          class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 w-100 w-sm-auto custom-pagination-btn"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
           <span>Next</span>
           <span><lucide-angular name="ArrowRight"></lucide-angular></span>
         </button>
       </div>
     </div>
+
+
+
   </div>
 </div>

@@ -10,6 +10,8 @@
 
 <div class="row g-3">
   <!-- University -->
+
+  
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Degree</label>
@@ -17,9 +19,9 @@
       class="form-select border-2 py-2 px-3 rounded"
       [(ngModel)]="Degree"
       required
+      placeholder="Enter Degree Name"
     >
-      <option value="" disabled selected>Select Degree</option>
-      <option *ngFor="let eduType of eduType" [value]="eduType">{{ eduType }}</option>
+      <option *ngFor="let type of educationType" [value]="type.educationTypeID">{{ type.educationTypeTitle }}</option>
     </select>
     </div>
   </div>

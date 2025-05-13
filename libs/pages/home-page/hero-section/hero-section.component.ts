@@ -168,7 +168,7 @@ export class HeroSectionComponent implements OnInit {
     this.universityService.getUniversityForHero(educationTypeID, programID, cityID).subscribe(
       (response) => {
         this.filteredUniversities = response;
-        console.log(response);
+        console.log("response = " ,response);
         this.hasSearched = true;
         this.filtersApplied.emit(this.filteredUniversities.length > 0);
         this.currentPage = 1;
