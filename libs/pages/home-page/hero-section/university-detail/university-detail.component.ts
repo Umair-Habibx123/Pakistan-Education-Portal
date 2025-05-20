@@ -101,9 +101,22 @@ export class UniversityDetailComponent {
     }
   }
 
+  // onApplyThroughUs() {
+  //   if (this.userSessionService.isLoggedIn()) {
+  //     this.router.navigate(['/apply-through-us']);
+  //   } else {
+  //     this.router.navigate(['/auth/login']);
+  //   }
+  // }
+
   onApplyThroughUs() {
     if (this.userSessionService.isLoggedIn()) {
-      this.router.navigate(['/apply-through-us']);
+      this.router.navigate(['/apply-through-us'], {
+        state: {
+          campusName: this.university.campusName,
+          courseName: this.filteredPrograms[0]?.name
+        }
+      });
     } else {
       this.router.navigate(['/auth/login']);
     }

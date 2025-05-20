@@ -4,6 +4,7 @@ import { UniversityService } from "libs/service/addUniversity/university.service
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { addprogramService } from 'libs/service/addprogram/addProgram.service';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
 
 interface University {
   universityName: string;
@@ -68,7 +69,8 @@ export class HeroSectionComponent implements OnInit {
     private router: Router,
     private universityService: UniversityService,
     private http: HttpClient,
-    private programService: addprogramService
+    private programService: addprogramService,
+    private userSessionService : UserSessionService
   ) {
     this.isUniversityPage = this.router.url === '/universities';
     this.apiURL = environment.apiUrl;
@@ -168,7 +170,7 @@ export class HeroSectionComponent implements OnInit {
     this.universityService.getUniversityForHero(educationTypeID, programID, cityID).subscribe(
       (response) => {
         this.filteredUniversities = response;
-        console.log("response = " ,response);
+        console.log("response = ", response);
         this.hasSearched = true;
         this.filtersApplied.emit(this.filteredUniversities.length > 0);
         this.currentPage = 1;
@@ -182,8 +184,12 @@ export class HeroSectionComponent implements OnInit {
   }
 
   showUniversityDetail(university: any) {
-    this.selectedUniversity = university;
-    this.showDetailView = true;
+    if (this.userSessionService.isLoggedIn()) {
+      this.selectedUniversity = university;
+      this.showDetailView = true;
+    } else {
+      this.router.navigate(['/auth/login']);
+    }
   }
 
   goBack() {

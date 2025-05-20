@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UniversityService } from 'libs/service/addUniversity/university.service';
 import { environment } from 'src/environments/environments';
+import { UserSessionService } from 'libs/service/userSession/userSession.service';
 
 @Component({
   selector: 'app-partner-universities',
@@ -14,15 +15,17 @@ export class PartnerUniversitiesComponent implements OnInit {
   public productUrl = environment.productUrl;
   isUniversityPage: boolean = false;
   
-  
   currentPage: number = 1;
   itemsPerPage: number = 12; 
   totalPages: number = 1;
   totalItems: number = 0;
+  selectedUniversity: any = null;
+  showDetailView: boolean = false;
 
   constructor(
     private router: Router,
     private universityService: UniversityService,
+    private userSessionService: UserSessionService
   ) {
     this.isUniversityPage = this.router.url === '/universities';
     this.itemsPerPage = this.isUniversityPage ? 12 : 8;
@@ -52,7 +55,6 @@ export class PartnerUniversitiesComponent implements OnInit {
     this.filteredUniversities = this.universities.slice(startIndex, endIndex);
   }
 
-  
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
@@ -72,5 +74,19 @@ export class PartnerUniversitiesComponent implements OnInit {
       this.currentPage++;
       this.updateFilteredUniversities();
     }
+  }
+
+  showUniversityDetail(university: any): void {
+    if (this.userSessionService.isLoggedIn()) {
+      this.selectedUniversity = university;
+      this.showDetailView = true;
+    } else {
+      this.router.navigate(['/auth/login']);
+    }
+  }
+
+  goBackToList(): void {
+    this.showDetailView = false;
+    this.selectedUniversity = null;
   }
 }

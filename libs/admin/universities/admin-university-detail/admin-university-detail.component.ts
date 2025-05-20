@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./admin-university-detail.component.scss'],
 })
 
+
 export class AdminUniversityDetailComponent implements OnInit {
   @Input() university: any;
   @Output() goBack = new EventEmitter<void>();

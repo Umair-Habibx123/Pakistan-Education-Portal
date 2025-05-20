@@ -54,9 +54,7 @@
           <thead>
             <tr class="border-bottom small custom-subtitle-color">
               <th class="p-2 p-sm-3">Name</th>
-              <th class="p-2 p-sm-3">Designation</th>
               <th class="p-2 p-sm-3 d-none d-md-table-cell">Email</th>
-              <th class="p-2 p-sm-3">Contact</th>
               <th class="p-2 p-sm-3 d-none d-lg-table-cell">University</th>
               <th class="p-2 p-sm-3 d-none d-lg-table-cell">Campus</th>
               <th class="p-2 p-sm-3">Action</th>
@@ -70,16 +68,10 @@
               <td class="p-2 p-sm-3 custom-subtitle-color fw-medium">
                 {{ user.firstName }}
               </td>
-              <td class="p-2 p-sm-3 custom-subtitle-color">
-                {{ user.designation }}
-              </td>
               <td
                 class="p-2 p-sm-3 custom-subtitle-color d-none d-md-table-cell"
               >
                 {{ user.email }}
-              </td>
-              <td class="p-2 p-sm-3 custom-subtitle-color">
-                {{ user.mobile }}
               </td>
               <td
                 class="p-2 p-sm-3 custom-subtitle-color d-none d-lg-table-cell"
@@ -200,19 +192,6 @@
               *ngIf="currentEditingUser"
             />
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Designation</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Designation"
-              [(ngModel)]="currentEditingUser.designation"
-              *ngIf="currentEditingUser"
-            />
-          </div>
-        </div>
-
-        <div class="row mt-4 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">Email</label>
             <input
@@ -223,61 +202,37 @@
               *ngIf="currentEditingUser"
             />
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Contact</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Contact"
-              [(ngModel)]="currentEditingUser.mobile"
-              *ngIf="currentEditingUser"
-            />
-          </div>
         </div>
 
         <div class="row mt-4 custom-form-label">
           <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label">University Name</label>
-            <div class="dropdown" ngbDropdown>
-              <button
-                class="form-control text-start dropdown-toggle"
-                ngbDropdownToggle
-              >
-                {{
-                  selectedUniversityIds.length > 0
-                    ? getSelectedUniversityNames()
-                    : "Select Universities"
-                }}
-              </button>
-              <div class="dropdown-menu p-2" ngbDropdownMenu>
-                <div class="form-check" *ngFor="let university of universities">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    [id]="'university-' + university.uniID"
-                    [value]="university.uniID"
-                    [checked]="isUniversitySelected(university.uniID)"
-                    (change)="onUniversityChange($event, university)"
-                  />
-                  <label
-                    class="form-check-label"
-                    [for]="'university-' + university.uniID"
-                  >
-                    {{ university.universityName }}
-                  </label>
-                </div>
-              </div>
-            </div>
+            <label class="form-label">Select University</label>
+            <select class="form-select" (change)="onUniversitySelect($event)">
+              <option value="">Select University</option>
+              <option *ngFor="let uni of universities" [value]="uni.uniID">
+                {{ uni.universityName }}
+              </option>
+            </select>
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Campus</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Campus Name"
-              [(ngModel)]="currentEditingUser.campus"
-              *ngIf="currentEditingUser"
-            />
+          <div class="col-md-6" *ngIf="campuses.length > 0">
+            <label class="form-label">Select Campus</label>
+            <select class="form-select" [(ngModel)]="selectedCampus">
+              <option value="">Select Campus</option>
+              <option
+                *ngFor="let campus of campuses"
+                [value]="campus.campusName"
+              >
+                {{ campus.campusName }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mt-3" *ngIf="selectedUniversityId && selectedCampus">
+          <div class="col-12">
+            <button class="btn btn-primary" (click)="addUniversityAssignment()">
+              Add University Assignment
+            </button>
           </div>
         </div>
 
@@ -299,6 +254,35 @@
               placeholder="Confirm Password"
             />
           </div>
+
+          <div class="row mt-3" *ngIf="assignedUniversities.length > 0">
+            <div class="col-12">
+              <h6>Assigned Universities</h6>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>University</th>
+                    <th>Campus</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let uni of assignedUniversities; let i = index">
+                    <td>{{ uni.universityName }}</td>
+                    <td>{{ uni.campusName }}</td>
+                    <td>
+                      <button
+                        class="btn btn-sm btn-danger"
+                        (click)="removeUniversityAssignment(i)"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -319,8 +303,7 @@
   </div>
 </div>
 
-<!-- Modal 2-->
-
+<!-- Modal 2 -->
 <div
   class="modal fade"
   id="userDetailsModal"
@@ -347,59 +330,45 @@
       <div class="modal-body" *ngIf="selectedUser">
         <div class="row">
           <div class="col-md-6">
-            <p><strong>First Name:</strong> {{ selectedUser.firstName }}</p>
-            <p><strong>Email:</strong> {{ selectedUser.email }}</p>
-            <p><strong>Contact:</strong> {{ selectedUser.mobile }}</p>
+            <p>
+              <strong>First Name:</strong> {{ selectedUser.firstName || "-" }}
+            </p>
+            <p><strong>Email:</strong> {{ selectedUser.email || "-" }}</p>
           </div>
 
           <div class="col-md-6">
-            <p><strong>Designation:</strong> {{ selectedUser.designation }}</p>
-            <p><strong>University:</strong> {{ selectedUser.university }}</p>
-            <p><strong>Campus:</strong> {{ selectedUser.campus }}</p>
+            <p>
+              <strong>University:</strong> {{ selectedUser.university || "-" }}
+            </p>
+            <p><strong>Campus:</strong> {{ selectedUser.campus || "-" }}</p>
           </div>
         </div>
 
         <!-- Documents Section -->
         <h5 class="fw-bold mt-4 heading fs-6">Assigned Universities</h5>
 
+        <!-- Keep the existing modal structure, but update the table part: -->
         <table
           class="table table-striped table-bordered rounded-2 mt-3 mat-elevation-z3"
           style="border-collapse: separate; border-spacing: 0"
+          *ngIf="selectedUser.universityData?.length"
         >
           <thead class="bg-light sticky-top">
             <tr>
               <th class="text-center">University</th>
               <th class="text-center">Campus</th>
-              <th class="text-center">Location</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>NUML</td>
-              <td>Islamabad</td>
-              <td>
-                COMSATS University Islamabad, Park Road, Tarlai Kalan, Islamabad
-                45550, Pakistan
-              </td>
-            </tr>
-            <tr>
-              <td>NUML</td>
-              <td>Islamabad</td>
-              <td>
-                COMSATS University Islamabad, Park Road, Tarlai Kalan, Islamabad
-                45550, Pakistan
-              </td>
-            </tr>
-            <tr>
-              <td>COMSATS</td>
-              <td>Islamabad</td>
-              <td>
-                COMSATS University Islamabad, Park Road, Tarlai Kalan, Islamabad
-                45550, Pakistan
-              </td>
+            <tr *ngFor="let uni of selectedUser.universityData">
+              <td>{{ uni.universityName || "-" }}</td>
+              <td>{{ uni.campusName || "-" }}</td>
             </tr>
           </tbody>
         </table>
+        <div *ngIf="!selectedUser.universityData" class="text-center py-3">
+          <p>No university data available</p>
+        </div>
       </div>
     </div>
   </div>

@@ -1,28 +1,35 @@
-<div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4">
+<div
+  class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4"
+>
   <h3 class="h5 font-weight-semibold">Educational Details</h3>
-  <button
-    class="btn custom-btn"
-    (click)="goToNext()"
-  >
-    Save & Next
+  <button class="btn custom-btn" (click)="goToNext()">
+    {{ hasExistingData && !isEditing ? "Next" : "Save & Next" }}
   </button>
+</div>
+
+<div *ngIf="!hasExistingData" class="alert alert-warning">
+  Please enter your educational information before proceeding.
 </div>
 
 <div class="row g-3">
   <!-- University -->
 
-  
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Degree</label>
       <select
-      class="form-select border-2 py-2 px-3 rounded"
-      [(ngModel)]="Degree"
-      required
-      placeholder="Enter Degree Name"
-    >
-      <option *ngFor="let type of educationType" [value]="type.educationTypeID">{{ type.educationTypeTitle }}</option>
-    </select>
+        class="form-select border-2 py-2 px-3 rounded"
+        [(ngModel)]="Degree"
+        required
+      >
+        <option [ngValue]="0" disabled selected>Select Degree</option>
+        <option
+          *ngFor="let type of educationType"
+          [ngValue]="type.educationTypeID"
+        >
+          {{ type.educationTypeTitle }}
+        </option>
+      </select>
     </div>
   </div>
 
@@ -30,12 +37,12 @@
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Institute Name</label>
       <input
-      type="text"
-      [(ngModel)]="InstituteName"
-      required
-      placeholder="Enter Institute Name"
-      class="form-control border-2 py-2 px-3 rounded"
-    />
+        type="text"
+        [(ngModel)]="institutionName"
+        required
+        placeholder="Enter Institute Name"
+        class="form-control border-2 py-2 px-3 rounded"
+      />
     </div>
   </div>
 
@@ -44,13 +51,15 @@
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Passing Year</label>
       <select
-      class="form-select border-2 py-2 px-3 rounded"
-      [(ngModel)]="year"
-      required
-    >
-      <option value="" disabled selected>Select Year</option>
-      <option *ngFor="let years of years" [value]="years">{{ years }}</option>
-    </select>
+        class="form-select border-2 py-2 px-3 rounded"
+        [(ngModel)]="passingYear"
+        required
+      >
+        <option value="" disabled selected>Select passingYear</option>
+        <option *ngFor="let passingYear of passingYears" [value]="passingYear">
+          {{ passingYear }}
+        </option>
+      </select>
     </div>
   </div>
 
@@ -58,13 +67,15 @@
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Grading</label>
       <select
-      class="form-select border-2 py-2 px-3 rounded"
-      [(ngModel)]="grading"
-      required
-    >
-      <option value="" disabled selected>Select Grading</option>
-      <option *ngFor="let gradings of gradings" [value]="gradings">{{ gradings }}</option>
-    </select>
+        class="form-select border-2 py-2 px-3 rounded"
+        [(ngModel)]="grading"
+        required
+      >
+        <option value="" disabled selected>Select Grading</option>
+        <option *ngFor="let gradings of gradings" [value]="gradings">
+          {{ gradings }}
+        </option>
+      </select>
     </div>
   </div>
 
@@ -74,7 +85,7 @@
       <label class="font-weight-medium pb-2">Total Marks</label>
       <input
         type="number"
-        [(ngModel)]="totalmarks"
+        [(ngModel)]="totalMarks"
         required
         placeholder="Enter Total Marks (1100)"
         class="form-control border-2 py-2 px-3 rounded"
@@ -87,7 +98,7 @@
       <label class="font-weight-medium pb-2">Obtained Marks</label>
       <input
         type="number"
-        [(ngModel)]="obtainedmarks"
+        [(ngModel)]="obtainMarks"
         required
         placeholder="Enter Obtained Marks (890)"
         class="form-control border-2 py-2 px-3 rounded"
@@ -97,7 +108,9 @@
 </div>
 
 <!-- Upload Documents Section -->
-<div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-4 mb-4">
+<div
+  class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-4 mb-4"
+>
   <h3 class="h5 font-weight-semibold">Upload Documents</h3>
 </div>
 
@@ -107,19 +120,33 @@
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Marksheets</label>
       <div class="upload-container" (click)="fileInputMarksheet.click()">
-        <input #fileInputMarksheet type="file" hidden (change)="onFileSelected($event, 'marksheet')" accept=".jpg,.jpeg,.png">
+        <input
+          #fileInputMarksheet
+          type="file"
+          hidden
+          (change)="onFileSelected($event, 'marksheet')"
+          accept=".jpg,.jpeg,.png,.pdf"
+        />
         <div>
           <span>
             Drag & drop files or
             <span class="browse-link">Browse</span>
           </span>
-          <span class="supported-formats">Supported formats: JPEG, PNG</span>
+          <span class="supported-formats"
+            >Supported formats: JPEG, PNG, PDF</span
+          >
         </div>
       </div>
-      <div *ngIf="marksheetFile" class="preview-container mt-2">
+      <div
+        *ngIf="marksheetFile || existingMarksheet"
+        class="preview-container mt-2"
+      >
         <div class="preview-item">
-          <span>{{ marksheetFile.name }}</span>
-          <button class="btn btn-sm btn-danger ms-2" (click)="removeFile('marksheet')">
+          <span>{{ marksheetFile?.name || existingMarksheet?.fileName }}</span>
+          <button
+            class="btn btn-sm btn-danger ms-2"
+            (click)="removeFile('marksheet')"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -132,19 +159,35 @@
     <div class="d-flex flex-column">
       <label class="font-weight-medium pb-2">Degree Transcript</label>
       <div class="upload-container" (click)="fileInputTranscript.click()">
-        <input #fileInputTranscript type="file" hidden (change)="onFileSelected($event, 'transcript')" accept=".jpg,.jpeg,.png">
+        <input
+          #fileInputTranscript
+          type="file"
+          hidden
+          (change)="onFileSelected($event, 'transcript')"
+          accept=".jpg,.jpeg,.png,.pdf"
+        />
         <div>
           <span>
             Drag & drop files or
             <span class="browse-link">Browse</span>
           </span>
-          <span class="supported-formats">Supported formats: JPEG, PNG</span>
+          <span class="supported-formats"
+            >Supported formats: JPEG, PNG, PDF</span
+          >
         </div>
       </div>
-      <div *ngIf="transcriptFile" class="preview-container mt-2">
+      <div
+        *ngIf="transcriptFile || existingTranscript"
+        class="preview-container mt-2"
+      >
         <div class="preview-item">
-          <span>{{ transcriptFile.name }}</span>
-          <button class="btn btn-sm btn-danger ms-2" (click)="removeFile('transcript')">
+          <span>{{
+            transcriptFile?.name || existingTranscript?.fileName
+          }}</span>
+          <button
+            class="btn btn-sm btn-danger ms-2"
+            (click)="removeFile('transcript')"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -153,39 +196,60 @@
   </div>
 </div>
 
-<div class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-4 mb-4">
+<div
+  class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-4 mb-4"
+>
   <h3 class="h5 font-weight-semibold">Preview</h3>
-  <button class="btn custom-btn" (click)="goToNext()">Next</button>
+  <button *ngIf="hasExistingData" class="btn custom-btn" (click)="goToNext()">
+    Next
+  </button>
 </div>
 
 <div class="container-fluid mb-5 p-0">
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
     <div class="col">
-      <div class="d-flex flex-column p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100">
+      <div
+        *ngIf="hasExistingData"
+        class="d-flex flex-column p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100"
+      >
         <div class="d-flex justify-content-end gap-2 mt-auto">
-          <button class="btn btn-icon p-1" (click)="clearForm()">
+          <button class="btn btn-icon p-1" (click)="deleteEducationInfo()">
             <i class="text-danger fa-trash-alt fas small"></i>
+          </button>
+          <button class="btn btn-icon p-1" (click)="enableEditing()">
+            <i class="text-primary fa-edit fas small"></i>
           </button>
         </div>
 
-        <!-- Education Preview -->
         <div class="border-bottom pb-3 mb-3">
           <h5 class="fw-bold mb-3">Education Details</h5>
           <div class="row">
             <div class="col-6">
-              <p class="m-0"><strong>Degree:</strong> {{ Degree || 'Not provided' }}</p>
+              <p class="m-0">
+                <strong>Degree:</strong> {{ previewData.degree }}
+              </p>
             </div>
             <div class="col-6">
-              <p class="m-0"><strong>Institute:</strong> {{ InstituteName || 'Not provided' }}</p>
+              <p class="m-0">
+                <strong>Institute:</strong> {{ previewData.institutionName }}
+              </p>
             </div>
             <div class="col-6 mt-2">
-              <p class="m-0"><strong>Year:</strong> {{ year || 'Not provided' }}</p>
+              <p class="m-0">
+                <strong>passingYear:</strong> {{ previewData.passingYear }}
+              </p>
             </div>
             <div class="col-6 mt-2">
-              <p class="m-0"><strong>Grading:</strong> {{ grading || 'Not provided' }}</p>
+              <p class="m-0">
+                <strong>Grading:</strong> {{ previewData.grading }}
+              </p>
             </div>
             <div class="col-6 mt-2">
-              <p class="m-0"><strong>Marks:</strong> {{ obtainedmarks || '0' }}/{{ totalmarks || '0' }}</p>
+              <p class="m-0">
+                <strong>Marks:</strong> {{ previewData.obtainMarks }}/{{
+                  previewData.totalMarks
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -193,17 +257,46 @@
         <!-- Documents Preview -->
         <div>
           <h5 class="fw-bold mb-3">Documents</h5>
-          <div *ngIf="marksheetFile" class="preview-item mb-2">
-            <span><strong>Marksheet:</strong> {{ marksheetFile.name }}</span>
+          <div *ngIf="existingMarksheet" class="preview-item mb-2">
+            <span
+              ><strong>Marksheet:</strong>
+              {{ existingMarksheet.fileName }}</span
+            >
+            <a
+              [href]="getDocumentUrl(existingMarksheet.filePath)"
+              target="_blank"
+              class="ms-2"
+            >
+              <i class="fas fa-eye text-primary"></i> View
+            </a>
           </div>
-          <div *ngIf="transcriptFile" class="preview-item">
-            <span><strong>Transcript:</strong> {{ transcriptFile.name }}</span>
+          <div *ngIf="existingTranscript" class="preview-item">
+            <span
+              ><strong>Transcript:</strong>
+              {{ existingTranscript.fileName }}</span
+            >
+            <a
+              [href]="getDocumentUrl(existingTranscript.filePath)"
+              target="_blank"
+              class="ms-2"
+            >
+              <i class="fas fa-eye text-primary"></i> View
+            </a>
           </div>
-          <div *ngIf="!marksheetFile && !transcriptFile">
+          <div *ngIf="!existingMarksheet && !existingTranscript">
             <p>No documents uploaded</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div
+  *ngIf="!hasExistingData"
+  class="d-flex justify-content-center align-items-center text-center"
+>
+  <div class="p-2 bg-white">
+    <h2 class="text-muted">No info exists... please enter</h2>
   </div>
 </div>

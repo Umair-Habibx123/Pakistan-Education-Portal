@@ -71,16 +71,25 @@ export class UniversitiesComponent implements OnInit {
     private userSessionService: UserSessionService
   ) { }
 
+  
   ngOnInit(): void {
+  const user = this.userSessionService.getUser();
+  if (user?.roleId === 1) {
     this.loadUniversities();
-    this.updateFilteredUniversities();
     this.loadCountries();
     this.loadUniversityNames();
-    console.log(this.userId);
   }
+  console.log(this.userId);
+}
+
 
   loadUniversities(): void {
-    this.isLoading = true;
+  this.isLoading = true;
+  
+  const user = this.userSessionService.getUser();
+  
+  // If user is admin (roleId = 1), load all universities
+  if (user?.roleId === 1) {
     this.adduniversityService.getUniversity(0).subscribe(
       (response) => {
         this.isLoading = false;
@@ -95,7 +104,13 @@ export class UniversitiesComponent implements OnInit {
         console.error('Error fetching universities:', error);
       }
     );
+  } else {
+    this.isLoading = false;
+    this.universities = [];
+    this.searchTerm = '';
+    this.updateFilteredUniversities();
   }
+}
 
   loadCountries(): void {
     this.isLoading = true;
@@ -788,3 +803,4 @@ export class UniversitiesComponent implements OnInit {
     }
   }
 }
+

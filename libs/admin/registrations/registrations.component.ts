@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { GetUserService } from 'libs/service/getUsers/getUser.service';
 import { Location } from '@angular/common';
 import { ResetPassService } from 'libs/service/ResetPassword/resetPass.service';
+import { UserInfoService } from 'libs/service/userinfo/user-info.service';
 
 
 interface University {
@@ -12,6 +13,7 @@ interface University {
 }
 
 interface User {
+  userID: string;
   firstName: string;
   designation: string;
   email: string;
@@ -34,10 +36,17 @@ export class RegistrationsComponent {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   selectedUser: any = null;
-  searchTerm: string = '';
+  searchTerm: string = ''
+  isModalLoading: boolean = false; // Add this for modal loading state
+  modalError: string = ''; // Add this for modal errors
+  
+  // Add these for user details
+  userPersonalInfo: any = null;
+  userEducationalInfo: any = null;
 
   isEditMode: boolean = false;
   currentEditingUser: User = {
+    userID: '',
     firstName: '',
     designation: '',
     email: '',
@@ -51,7 +60,8 @@ export class RegistrationsComponent {
   constructor(
     private userService: GetUserService,
     private resetPassService: ResetPassService,
-    private location: Location
+    private location: Location,
+    private userInfoService: UserInfoService,
   ) { }
 
   ngOnInit(): void {
@@ -118,6 +128,51 @@ export class RegistrationsComponent {
 }
 
 
+viewUserDetails(user: User): void {
+  this.isModalLoading = true;
+  this.modalError = '';
+  this.selectedUser = user;
+  
+  // Reset previous data
+  this.userPersonalInfo = null;
+  this.userEducationalInfo = null;
+
+  // Fetch personal info
+  this.userInfoService.getUserPersonalInfo(user.userID).subscribe({
+    next: (personalInfo) => {
+      // Take first item if array
+      this.userPersonalInfo = Array.isArray(personalInfo) ? personalInfo[0] : personalInfo;
+      
+      // Fetch educational info after personal info is loaded
+      this.userInfoService.getUserEducationalInfo(user.userID).subscribe({
+        next: (educationalInfo) => {
+          // Take first item if array
+          this.userEducationalInfo = Array.isArray(educationalInfo) ? educationalInfo[0] : educationalInfo;
+          this.isModalLoading = false;
+          
+          // Show the modal after all data is loaded
+          const modalElement = document.getElementById('studentModal');
+          if (modalElement) {
+            const modal = new (window as any).bootstrap.Modal(modalElement);
+            modal.show();
+          }
+        },
+        error: (eduError) => {
+          this.modalError = 'Failed to load educational information';
+          this.isModalLoading = false;
+          console.error('Error fetching educational info:', eduError);
+        }
+      });
+    },
+    error: (personalError) => {
+      this.modalError = 'Failed to load personal information';
+      this.isModalLoading = false;
+      console.error('Error fetching personal info:', personalError);
+    }
+  });
+}
+
+
   onSearch(event: Event): void {
     const searchTerm = (event.target as HTMLInputElement).value;
     if (!searchTerm) {
@@ -134,10 +189,6 @@ export class RegistrationsComponent {
         (user.university?.some(uni => uni.universityName.toLowerCase().includes(term)) ?? false) ||
         (user.campus?.toLowerCase() ?? '').includes(term);
     });
-  }
-
-  viewUserDetails(user: any) {
-    this.selectedUser = user;
   }
 
 

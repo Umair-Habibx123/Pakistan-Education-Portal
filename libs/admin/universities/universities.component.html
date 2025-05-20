@@ -26,6 +26,7 @@
             </div>
             <!-- Add University Button -->
             <button
+              *ngIf="user?.roleId === 1"
               data-bs-toggle="modal"
               data-bs-target="#universityModal"
               class="btn addBtn border-0 rounded-5 w-auto px-3 py-2 mt-0"
@@ -38,7 +39,10 @@
 
         <!-- Grid Section -->
         <div class="container-fluid my-3 my-sm-4">
-          <div *ngIf="universities.length === 0 && !isLoading" class="text-center py-5">
+          <div
+            *ngIf="universities.length === 0 && !isLoading"
+            class="text-center py-5"
+          >
             <div
               class="d-flex flex-column align-items-center justify-content-center"
             >
@@ -52,7 +56,11 @@
           </div>
 
           <div
-            *ngIf="universities.length > 0 && filteredUniversities.length === 0 && !isLoading"
+            *ngIf="
+              universities.length > 0 &&
+              filteredUniversities.length === 0 &&
+              !isLoading
+            "
             class="text-center py-5"
           >
             <div
@@ -67,7 +75,10 @@
             </div>
           </div>
 
-          <div  *ngIf="filteredUniversities.length > 0" class="g-3 g-sm-4 row row-cols-1 row-cols-md-2 row-cols-xl-3">
+          <div
+            *ngIf="filteredUniversities.length > 0"
+            class="g-3 g-sm-4 row row-cols-1 row-cols-md-2 row-cols-xl-3"
+          >
             <div
               class="col"
               *ngFor="let university of filteredUniversities"
@@ -170,6 +181,11 @@
             </button>
           </div>
         </div>
+      </div>
+
+      <div *ngIf="user?.roleId !== 1" class="alert alert-info">
+        You don't have permission to view all universities. Please contact your
+        administrator.
       </div>
 
       <!-- Detailed View -->

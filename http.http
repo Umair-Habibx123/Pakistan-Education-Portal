@@ -1,5 +1,5 @@
-@baseUrl = http://95.217.205.57:13500/school-api/
-# @baseUrl = http://localhost:13502/
+# @baseUrl = http://95.217.205.57:13500/school-api/
+@baseUrl = http://localhost:13502/
 
 ###
 
@@ -24,4 +24,12 @@ GET {{baseUrl}}University/getUniversityCampusProgram?educationTypeID=3&programID
 GET {{baseUrl}}Program/getEducationType
 
 ###
-GET  https://api.nuget.org/v3/index.json
+GET  {{baseUrl}}UserInformation/getStudentInformation?userID=10
+
+
+###
+GET  {{baseUrl}}UserEducation/getStudentEducationInfo?userID=10
+
+###
+
+POST {{baseUrl}}UserEducation/saveUserEducation

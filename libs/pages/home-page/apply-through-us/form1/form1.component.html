@@ -2,7 +2,14 @@
   class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4"
 >
   <h3 class="h5 font-weight-semibold">Personal Details</h3>
-  <button class="btn custom-btn" (click)="goToNext()">Save & Next</button>
+  <button class="btn custom-btn" (click)="goToNext()">
+  {{ hasExistingData && !isEditing ? 'Next' : 'Save & Next' }}
+</button>
+</div>
+
+
+<div *ngIf="!hasExistingData" class="alert alert-warning">
+  Please enter your personal information before proceeding.
 </div>
 
 <div class="row g-3">
@@ -36,16 +43,18 @@
   <!-- CNIC -->
   <div class="col-12 col-sm-6">
     <div class="d-flex flex-column">
-      <label class="font-weight-medium pb-2">CNIC</label>
-      <input
-        type="text"
-        [(ngModel)]="cnic"
-        (input)="formatCNIC()"
-        placeholder="00000-0000000-0"
-        class="form-control border-2 py-2 px-3 rounded"
-        maxlength="15"
-      />
-    </div>
+  <label class="font-weight-medium pb-2">CNIC</label>
+  <input
+    type="text"
+    [(ngModel)]="cnic"
+    (input)="formatCNIC()"
+    placeholder="00000-0000000-0"
+    class="form-control border-2 py-2 px-3 rounded"
+    maxlength="15"
+    [disabled]="isEditing"
+  />
+</div>
+
   </div>
 
   <!-- Phone Number -->
@@ -94,9 +103,7 @@
       />
     </div>
   </div>
-
 </div>
-
 
 <div class="mt-4 row g-3">
   <!-- Country -->
@@ -179,33 +186,27 @@
   </div>
 </div>
 
-
 <div
   class="d-flex w-100 justify-content-between align-items-center pb-3 border-bottom border-3 mt-2 mb-4"
 >
   <h3 class="h5 font-weight-semibold">Preview</h3>
-  <button class="btn custom-btn" (click)="goToNext()">Next</button>
+  <button 
+  *ngIf="hasExistingData"
+  class="btn custom-btn" (click)="goToNext()">Next</button>
 </div>
 
 <div class="container-fluid mb-5 p-0">
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
     <div class="col">
       <div
+      *ngIf="hasExistingData"
         class="d-flex flex-column p-3 p-sm-4 rounded-3 shadow-sm border custom-program-card h-100"
       >
         <div class="d-flex justify-content-end gap-2 mt-auto">
-          <button
-            class="btn btn-icon p-1"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteConfirmationModal2"
-          >
+          <button class="btn btn-icon p-1" (click)="deletePersonalInfo()">
             <i class="text-danger fa-trash-alt fas small"></i>
           </button>
-          <button
-            class="btn btn-icon p-1"
-            data-bs-toggle="modal"
-            data-bs-target="#programModal"
-          >
+          <button class="btn btn-icon p-1" (click)="enableEditing()">
             <i class="text-primary fa-edit fas small"></i>
           </button>
         </div>
@@ -213,14 +214,14 @@
         <!-- Top Section -->
         <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
           <div class="flex-grow-1 pe-3">
-            <h5 class="fw-bold mb-1 title">Umair</h5>
-            <p class="m-0 text-muted small">Address here...</p>
+            <h5 class="fw-bold mb-1 title">{{ previewData.fullName }}</h5>
+            <p class="m-0 text-muted small">{{ previewData.address }}</p>
           </div>
           <div class="text-dark">
             <div class="d-flex align-items-center gap-1 mb-1">
               <strong class="small">Country</strong>
             </div>
-            <p class="m-0 text-muted small">Pakistan</p>
+            <p class="m-0 text-muted small">{{ previewData.country }}</p>
           </div>
         </div>
 
@@ -230,42 +231,40 @@
             <div class="d-flex align-items-center gap-1 mb-1">
               <strong class="small">Father Name</strong>
             </div>
-            <p class="m-0 text-muted small">Father name</p>
+            <p class="m-0 text-muted small">{{ previewData.fatherName }}</p>
           </div>
 
           <div class="text-dark px-3 border-start border-end">
             <div class="d-flex align-items-center gap-1 mb-1">
-              <strong class="small">cnic</strong>
+              <strong class="small">CNIC</strong>
             </div>
-            <p class="m-0 text-muted small">123-456-789-010</p>
+            <p class="m-0 text-muted small">{{ previewData.cnic }}</p>
           </div>
 
           <div class="text-dark px-3 border-end">
             <div class="d-flex align-items-center gap-1 mb-1">
               <strong class="small">Email</strong>
             </div>
-            <p class="m-0 text-muted small">email@gmail.com</p>
+            <p class="m-0 text-muted small">{{ previewData.email }}</p>
           </div>
 
           <div class="text-dark px-3">
             <div class="d-flex align-items-center gap-1 mb-1">
               <strong class="small">Phone Number</strong>
             </div>
-            <p class="m-0 text-muted small">123456789</p>
+            <p class="m-0 text-muted small">{{ previewData.phoneNumber }}</p>
           </div>
-        </div>
-
-        <div
-          class="d-flex position-absolute end-0 gap-2 me-2 mt-2 px-2 py-1 top-0 custom-action-buttons"
-        >
-          <button class="btn btn-icon p-1">
-            <i class="text-danger fa-trash-alt fas small"></i>
-          </button>
-          <button class="btn btn-icon p-1">
-            <i class="text-primary fa-edit fas small"></i>
-          </button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div 
+  *ngIf="!hasExistingData" 
+  class="d-flex justify-content-center align-items-center text-center"
+>
+  <div class="p-2 bg-white">
+    <h2 class="text-muted">No info exists... please enter</h2>
   </div>
 </div>

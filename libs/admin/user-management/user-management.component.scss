@@ -88,38 +88,89 @@
   padding-right: 14px;
 }
 
+
+/* Responsive adjustments */
 @media (max-width: 767.98px) {
-  .custom-black-bg {
+  /* Header adjustments */
+  .custom-width-65 {
     width: 100%;
-    height: auto;
-    margin-bottom: 20px;
+    flex-direction: column !important;
+  }
+  
+  .custom-width-65 .input-group {
+    width: 100% !important;
+  }
+  
+  .custom-width-65 button {
+    width: 100% !important;
+    margin-top: 10px;
   }
 
-  .custom-chart-container,
-  .custom-chart-container-lg {
-    margin-left: 0;
-    margin-top: 20px;
+  /* Table adjustments */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .table th, .table td {
+    padding: 8px 4px;
+    white-space: nowrap;
+  }
+  
+  .custom-icon {
+    font-size: 1.2rem; /* Larger touch targets */
+    padding: 5px;
   }
 
+  /* Pagination adjustments */
+  .d-flex.flex-sm-row {
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+  
+  .custom-pagination-btn {
+    width: 100% !important;
+    justify-content: center;
+  }
 
+  /* Modal adjustments */
+  .modal-body .row > div {
+    margin-bottom: 15px;
+  }
+  
+  .modal-body .col-md-6 {
+    width: 100% !important;
+  }
+  
+  .assigned-universities-table {
+    font-size: 0.85rem;
+  }
 }
 
-.custom-modal-title {
-  font-weight: bold;
-  padding-top: 8px;
-  font-size: 20px;
+@media (min-width: 768px) and (max-width: 991.98px) {
+  /* Medium screen adjustments */
+  .d-lg-table-cell {
+    display: none !important;
+  }
+  
+  .custom-width-65 {
+    width: 75%;
+  }
 }
 
-.dropdown-menu {
-  max-height: 300px;
-  overflow-y: auto;
+/* Ensure modals are always properly sized */
+.modal-dialog {
+  max-width: 95%;
+  margin: 1rem auto;
 }
 
-.form-check {
-  padding: 5px 15px;
+/* Better touch targets for mobile */
+.btn, .form-control, .form-select {
+  min-height: 44px; /* Recommended minimum touch target size */
 }
 
-.dropdown-toggle::after {
-  float: right;
-  margin-top: 10px;
+/* Action icons spacing */
+.custom-icon {
+  margin: 0 5px;
+  padding: 5px;
 }

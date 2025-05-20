@@ -71,12 +71,11 @@
 
       <!-- Right Side (40%) -->
       <div class="col-12 col-md-3 text-center mt-3 mt-md-0 custom-apply-shadow">
-        <div 
-        class="d-inline-flex align-items-center justify-content-center px-3 py-2 custom-apply-button"
-        (click)="onApplyThroughUs()">
-        <span class="custom-apply-link">
-          Apply through us
-        </span>
+        <div
+          class="d-inline-flex align-items-center justify-content-center px-3 py-2 custom-apply-button"
+          (click)="onApplyThroughUs()"
+        >
+          <span class="custom-apply-link"> Apply through us </span>
           <div class="custom-apply-icon">
             <svg
               width="20"
@@ -138,53 +137,68 @@
     <div class="container-fluid mb-4 mb-md-5 p-0">
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-md-4">
         <div class="col" *ngFor="let program of getPaginatedPrograms()">
-          <div class="d-flex flex-column p-3 p-md-4 rounded-3 shadow-custom-program border custom-program-card h-100">
-              <!-- Top Section -->
-          <div class="d-flex border-bottom pb-3 mb-3">
-            <div class="pe-3 flex-fill">
-              <h5 class="fw-bold mb-1 title">{{ program.programName }}</h5>
-              <p class="m-0 text-muted small">
-                {{ program.educationTypeTitle }}
-              </p>
+          <div
+            class="d-flex flex-column p-3 p-md-4 rounded-3 shadow-custom-program border custom-program-card h-100"
+          >
+            <!-- Top Section -->
+            <div class="d-flex border-bottom pb-3 mb-3">
+              <div class="pe-3 flex-fill">
+                <h5 class="fw-bold mb-1 title">{{ program.programName }}</h5>
+                <p class="m-0 text-muted small">
+                  {{ program.educationTypeTitle }}
+                </p>
+              </div>
+              <div class="ps-3 border-start flex-fill">
+                <h5 class="fw-bold small mb-1">Teaching Mode</h5>
+                <p class="m-0 text-muted small">{{ program.teachingMode }}</p>
+              </div>
             </div>
-            <div class="ps-3 border-start flex-fill">
-              <h5 class="fw-bold small mb-1">Teaching Mode</h5>
-              <p class="m-0 text-muted small">{{ program.teachingMode }}</p>
+
+            <!-- Middle Section -->
+            <div class="d-flex">
+              <div class="text-dark flex-fill">
+                <div class="d-flex align-items-center gap-1 mb-1">
+                  <i class="fa-tag fas small"></i>
+                  <strong class="small"
+                    >{{ program.tuitionFee | number : "1.0-0" }} PKR</strong
+                  >
+                </div>
+                <p class="m-0 text-muted small">Application Fee</p>
+              </div>
+
+              <div class="text-dark px-3 border-start border-end flex-fill">
+                <div class="d-flex align-items-center gap-1 mb-1">
+                  <i class="fa-hourglass-half fas small"></i>
+                  <strong class="small">{{ program.duration }} Years</strong>
+                </div>
+                <p class="m-0 text-muted small">Duration</p>
+              </div>
+
+              <div class="text-dark ps-3 flex-fill">
+                <div class="d-flex align-items-center gap-1 mb-1">
+                  <i class="fa-certificate fas small"></i>
+                  <strong class="small"
+                    >{{ program.degreeFee | number : "1.0-0" }} PKR</strong
+                  >
+                </div>
+                <p class="m-0 text-muted small">Degree Fee</p>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- Middle Section -->
-          <div class="d-flex">
-            <div class="text-dark flex-fill">
-              <div class="d-flex align-items-center gap-1 mb-1">
-                <i class="fa-tag fas small"></i>
-                <strong class="small"
-                  >{{ program.tuitionFee | number : "1.0-0" }} PKR</strong
-                >
-              </div>
-              <p class="m-0 text-muted small">Application Fee</p>
-            </div>
-
-            <div class="text-dark px-3 border-start border-end flex-fill">
-              <div class="d-flex align-items-center gap-1 mb-1">
-                <i class="fa-hourglass-half fas small"></i>
-                <strong class="small">{{ program.duration }} Years</strong>
-              </div>
-              <p class="m-0 text-muted small">Duration</p>
-            </div>
-
-            <div class="text-dark ps-3 flex-fill">
-              <div class="d-flex align-items-center gap-1 mb-1">
-                <i class="fa-certificate fas small"></i>
-                <strong class="small"
-                  >{{ program.degreeFee | number : "1.0-0" }} PKR</strong
-                >
-              </div>
-              <p class="m-0 text-muted small">Degree Fee</p>
-            </div>
+      <div class="card border-0" *ngIf="filteredPrograms.length < 1">
+        <div class="card-body text-center py-5">
+          <div class="mb-4">
+            <i class="fas fa-book-open fa-4x text-secondary opacity-50"></i>
           </div>
-
-          </div>
+          <h4 class="card-title fw-semibold text-dark mb-3">
+            No Programs Available
+          </h4>
+          <p class="card-text text-muted mb-0">
+            Currently there are no programs offered at this campus.
+          </p>
         </div>
       </div>
     </div>
