@@ -30,7 +30,7 @@ export class SignupComponent {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
-        Validators.pattern(/^[a-zA-Z0-9_]+$/) // Allows letters, numbers and underscores
+        Validators.pattern(/^[a-zA-Z0-9_ ]+$/)
       ]],
       password: ['', [
         Validators.required,
@@ -63,18 +63,19 @@ export class SignupComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    const registrationData = {
+     const registrationData = {
       newUserID: 0,
-      firstName: this.registerForm.value.username,
+      firstName: this.registerForm.value.username.trim(),
       userCNIC: "",
       userID: 0,
       spType: "insert",
-      email: this.registerForm.value.email,
-      password: this.registerForm.value.password,
+      email: this.registerForm.value.email.trim(),
+      password: this.registerForm.value.password.trim(),
       roleID: 3
     };
 
-    this.userService.signup(registrationData)
+
+     this.userService.signup(registrationData)
       .subscribe({
         next: (response: any) => {
           this.isLoading = false;

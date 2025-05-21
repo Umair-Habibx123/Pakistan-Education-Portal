@@ -157,20 +157,3 @@
     width: 75%;
   }
 }
-
-/* Ensure modals are always properly sized */
-.modal-dialog {
-  max-width: 95%;
-  margin: 1rem auto;
-}
-
-/* Better touch targets for mobile */
-.btn, .form-control, .form-select {
-  min-height: 44px; /* Recommended minimum touch target size */
-}
-
-/* Action icons spacing */
-.custom-icon {
-  margin: 0 5px;
-  padding: 5px;
-}

@@ -51,6 +51,11 @@
   border-radius: 16px;
   overflow: hidden;
   position: relative;
+  transition: transform 0.3s ease;
+
+  .clickable &:hover {
+    transform: scale(1.03);
+  }
 }
 
 .university-image {
@@ -214,3 +219,10 @@
       width: 100% !important; 
     }
   }
+
+
+
+  .clickable {
+  cursor: pointer;
+}
+

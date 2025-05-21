@@ -4,6 +4,7 @@ import { AuthService } from 'libs/service/userSignUp/userAuth.service';
 import { UniversityService } from 'libs/service/addUniversity/university.service';
 import { Location } from '@angular/common';
 
+
 interface University {
   uniID: number;
   universityName: string;
@@ -12,14 +13,18 @@ interface University {
 }
 
 interface User {
+  userID: number;
   firstName: string;
   designation: string;
   email: string;
   mobile: string;
-  university: University[] | null;
+  university?: University[];
   campus: string;
-  password: string;
+  password?: string;
+  universityIDs?: number[];
+  userRoles?: any;
 }
+
 
 @Component({
   selector: 'app-user-management',
@@ -42,9 +47,14 @@ export class UserManagementComponent implements OnInit {
   selectedCampus: string = '';
   assignedUniversities: any[] = []; // To track multiple university assignments
 
+  modalError: string = '';
+  userToDelete: User | null = null;
+  isDeleting: boolean = false;
 
   isEditMode: boolean = false;
+
   currentEditingUser: User = {
+    userID: 0,
     firstName: '',
     designation: '',
     email: '',
@@ -64,7 +74,6 @@ export class UserManagementComponent implements OnInit {
   ngOnInit(): void {
     this.fetchUsers();
     this.loadUniversities();
-
   }
 
 
@@ -204,6 +213,27 @@ export class UserManagementComponent implements OnInit {
   editUser(user: User): void {
     this.isEditMode = true;
     this.currentEditingUser = { ...user };
+
+    // Reset and populate assigned universities
+    this.assignedUniversities = [];
+    this.selectedUniversityIds = [];
+
+    // Parse existing university data if available
+    if (user.university && typeof user.university === 'string') {
+      try {
+        const uniData: University[] = JSON.parse(user.university);
+        uniData.forEach(uni => {
+          this.assignedUniversities.push({
+            uniID: uni.uniID,
+            universityName: uni.universityName,
+            campusName: uni.campusName
+          });
+          this.selectedUniversityIds.push(uni.uniID);
+        });
+      } catch (e) {
+        console.error('Error parsing university data:', e);
+      }
+    }
   }
 
   goToPage(page: number): void {
@@ -306,132 +336,134 @@ export class UserManagementComponent implements OnInit {
     this.assignedUniversities.splice(index, 1);
   }
 
-  // addUser(): void {
-  
-  //   this.isLoading = true;
 
-  //   const registrationData = {
-  //     sptype: "insert",
-  //     roleID: 2,
-  //     firstName: this.currentEditingUser.firstName,
-  //     designation: this.currentEditingUser.designation,
-  //     email: this.currentEditingUser.email,
-  //     mobile: this.currentEditingUser.mobile,
-  //     password: this.currentEditingUser.password,
-  //     universityIDs: JSON.stringify(this.assignedUniversities),
-  //     campus: '' // Now handled in university assignments
-  //   };
-
-  //   console.log("user data : ", registrationData)
-
-  //   this.authService.signup(registrationData).subscribe({
-  //     next: (response) => {
-  //       this.isLoading = false;
-  //       document.getElementById('closeModal')?.click();
-  //       this.fetchUsers();
-  //       this.resetForm();
-  //     },
-  //     error: (error) => {
-  //       this.isLoading = false;
-  //       this.errorMessage = 'Failed to add user. Please try again.';
-  //       console.error('Error adding user:', error);
-  //     }
-  //   });
-  // }
 
   addUser(): void {
-  this.isLoading = true;
-
-  // Format the university data correctly for the backend
-  const universityData = this.assignedUniversities.map(uni => ({
-    uniID: uni.uniID,
-    campusID: uni.campusID // Make sure you're including campusID if needed
-  }));
-
-  const registrationData = {
-    sptype: "insert",
-    roleID: 2,
-    firstName: this.currentEditingUser.firstName,
-    designation: this.currentEditingUser.designation,
-    email: this.currentEditingUser.email,
-    mobile: this.currentEditingUser.mobile,
-    password: this.currentEditingUser.password,
-    universityIDs: JSON.stringify(universityData), // This will create the correct format
-    campus: '' // Now handled in university assignments
-  };
-
-  console.log("user data : ", registrationData);
-
-  this.authService.signup(registrationData).subscribe({
-    next: (response) => {
-      this.isLoading = false;
-      document.getElementById('closeModal')?.click();
-      this.fetchUsers();
-      this.resetForm();
-      this.assignedUniversities = []; // Clear assigned universities
-    },
-    error: (error) => {
-      this.isLoading = false;
-      this.errorMessage = 'Failed to add user. Please try again.';
-      console.error('Error adding user:', error);
-    }
-  });
-}
-
-  updateUser(): void {
-    // if (!this.validateUserForm()) {
-    //   return;
-    // }
-
     this.isLoading = true;
 
-    const updateData = {
-      userId: 0,
+
+    const universityIds = this.assignedUniversities.map(uni => uni.uniID);
+
+    // Format the university IDs in the specific backend format "[{121,66,99}]"
+    const universityIDsString = `[${universityIds.join(',')}]`;
+
+    const registrationData = {
+      sptype: "insert",
+      roleID: 2,
       firstName: this.currentEditingUser.firstName,
       designation: this.currentEditingUser.designation,
       email: this.currentEditingUser.email,
       mobile: this.currentEditingUser.mobile,
-      university: this.selectedUniversityIds.join(','),
-      campus: this.currentEditingUser.campus
+      password: this.currentEditingUser.password,
+      universityIDs: universityIDsString,
+      campus: '' // Now handled in university assignments
     };
 
-    console.log(updateData);
+    console.log("user data : ", registrationData);
+
+    this.authService.signup(registrationData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        document.getElementById('closeModal')?.click();
+        this.fetchUsers();
+        this.resetForm();
+        this.assignedUniversities = []; // Clear assigned universities
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Failed to add user. Please try again.';
+        console.error('Error adding user:', error);
+      }
+    });
   }
 
-  // private validateUserForm(): boolean {
-  //   if (!this.currentEditingUser.firstName ||
-  //     !this.currentEditingUser.email ||
-  //     !this.currentEditingUser.mobile ||
-  //     this.selectedUniversityIds.length === 0) {
-  //     this.errorMessage = 'Please fill all required fields';
-  //     return false;
-  //   }
 
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   if (!emailRegex.test(this.currentEditingUser.email)) {
-  //     this.errorMessage = 'Please enter a valid email address';
-  //     return false;
-  //   }
+  updateUser(): void {
+    this.isLoading = true;
 
-  //   this.errorMessage = '';
-  //   return true;
-  // }
+    // Prepare university data in the required format
+    const universityData = this.assignedUniversities.map(uni => ({
+      uniID: uni.uniID,
+      universityName: uni.universityName,
+      campusID: 0, // Add if you have campusID
+      campusName: uni.campusName
+    }));
+
+    const updateData = {
+      sptype: "update",
+      userID: this.currentEditingUser.userID,
+      firstName: this.currentEditingUser.firstName,
+      designation: this.currentEditingUser.designation,
+      email: this.currentEditingUser.email,
+      mobile: this.currentEditingUser.mobile,
+      university: JSON.stringify(universityData),
+      campus: ''
+    };
+
+    console.log("Update data:", updateData);
+
+    this.authService.signup(updateData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        document.getElementById('closeModal')?.click();
+        this.fetchUsers();
+        this.resetForm();
+        this.assignedUniversities = [];
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Failed to update user. Please try again.';
+        console.error('Error updating user:', error);
+      }
+    });
+  }
+
+
+   deleteUser(user: User): void {
+    this.userToDelete = user;
+    // Show the modal
+    const modalElement = document.getElementById('deleteConfirmationModal');
+    if (modalElement) {
+      const modal = new (window as any).bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+
+  confirmDelete(): void {
+    if (!this.userToDelete) return;
+
+    this.isDeleting = true;
+
+
+
+    const deleteData = {
+      sptype: "delete",
+      userID: this.userToDelete.userID,
+      roleID: 2,
+      firstName: '',
+      designation: '',
+      email: '',
+      mobile: '',
+      universityIDs: '[]',
+      campus: '',
+    };
+
+    console.log("Delete data:", deleteData);
+
+    this.authService.signup(deleteData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.fetchUsers(); // Refresh the user list
+        this.errorMessage = '';
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Failed to delete user. Please try again.';
+        console.error('Error deleting user:', error);
+      }
+    });
+  }
+
+
 }
-
-
-// fetchUsers(): void {
-//   this.isLoading = true;
-//   this.userService.getUsers().subscribe({
-//     next: (response) => {
-//       this.users = response.data || response;
-//       this.filteredUsers = [...this.users];
-//       this.isLoading = false;
-//       console.log(response);
-//     },
-//     error: (error) => {
-//       this.errorMessage = 'Failed to load users. Please try again later.';
-//       console.error('Error fetching users:', error);
-//       this.isLoading = false;
-//     }
-//   });
-// }

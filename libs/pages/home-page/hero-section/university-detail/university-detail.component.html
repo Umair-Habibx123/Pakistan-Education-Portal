@@ -98,11 +98,13 @@
     </div>
 
     <!-- Contact Information -->
-    <div class="mb-4">
+    <div class="mb-4" *ngIf="filteredPrograms.length > 0">
       <h2 class="h4 fw-semibold mb-4 text-dark">Contact Information</h2>
     </div>
 
-    <div class="container-fluid mb-5 p-0">
+    <div class="container-fluid mb-5 p-0"
+     *ngIf="filteredPrograms.length > 0"
+     >
       <div
         *ngFor="let contact of contactInfo"
         class="custom-contact-info rounded-3 p-4 mb-3"

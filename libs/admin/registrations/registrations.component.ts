@@ -3,6 +3,9 @@ import { GetUserService } from 'libs/service/getUsers/getUser.service';
 import { Location } from '@angular/common';
 import { ResetPassService } from 'libs/service/ResetPassword/resetPass.service';
 import { UserInfoService } from 'libs/service/userinfo/user-info.service';
+import { AuthService } from 'libs/service/userSignUp/userAuth.service';
+
+
 
 
 interface University {
@@ -37,10 +40,13 @@ export class RegistrationsComponent {
   itemsPerPage: number = 10;
   selectedUser: any = null;
   searchTerm: string = ''
-  isModalLoading: boolean = false; // Add this for modal loading state
-  modalError: string = ''; // Add this for modal errors
+  isModalLoading: boolean = false;
+  modalError: string = ''; 
+
+  userToDelete: User | null = null;
+  isDeleting: boolean = false;
+
   
-  // Add these for user details
   userPersonalInfo: any = null;
   userEducationalInfo: any = null;
 
@@ -61,6 +67,7 @@ export class RegistrationsComponent {
     private userService: GetUserService,
     private resetPassService: ResetPassService,
     private location: Location,
+    private authService: AuthService,
     private userInfoService: UserInfoService,
   ) { }
 
@@ -226,4 +233,54 @@ viewUserDetails(user: User): void {
     this.isEditMode = true;
     this.currentEditingUser = { ...user };
   }
+
+    deleteUser(user: User): void {
+    this.userToDelete = user;
+    // Show the modal
+    const modalElement = document.getElementById('deleteConfirmationModal');
+    if (modalElement) {
+      const modal = new (window as any).bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+
+  confirmDelete(): void {
+    if (!this.userToDelete) return;
+
+    this.isDeleting = true;
+
+
+
+    const deleteData = {
+      sptype: "delete",
+      userID: this.userToDelete.userID,
+      roleID: 2,
+      firstName: '',
+      designation: '',
+      email: '',
+      mobile: '',
+      universityIDs: '[]',
+      campus: '',
+    };
+
+    console.log("Delete data:", deleteData);
+
+    this.authService.signup(deleteData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.fetchUsers(); // Refresh the user list
+        this.errorMessage = '';
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Failed to delete user. Please try again.';
+        console.error('Error deleting user:', error);
+      }
+    });
+  }
+
+
+
+
 }

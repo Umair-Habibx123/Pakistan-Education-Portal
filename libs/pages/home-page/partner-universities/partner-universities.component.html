@@ -1,5 +1,5 @@
 <div *ngIf="!showDetailView" class="container-fluid partner-section">
-  <div  class="row justify-content-center gap-2">
+  <div class="row justify-content-center gap-2">
     <div class="row justify-content-center gap-2">
       <div class="col-12 text-center mt-1 mb-4">
         <!-- Badge -->
@@ -28,8 +28,8 @@
           <div
             *ngFor="let university of filteredUniversities"
             class="col-6 col-md-3 mb-4"
-            (click)="showUniversityDetail(university)"
-            style="cursor: pointer"
+            [class.clickable]="isUniversityPage"
+            (click)="isUniversityPage ? showUniversityDetail(university) : null"
           >
             <div class="university-card">
               <img
@@ -51,15 +51,11 @@
                 {{ university.cityName }} •
                 {{ university.noOfPrograms }} Programmes
               </p>
-              <!-- <p class="university-details">
-              Tuition Fee: {{ university.tuitionFee }} / year
-            </p> -->
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Button - Only show on home page -->
       <div *ngIf="!isUniversityPage" class="col-12 text-center">
         <div class="view-button">
           <a

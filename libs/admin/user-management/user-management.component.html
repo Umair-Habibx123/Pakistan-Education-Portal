@@ -98,6 +98,8 @@
                   ></i>
                   <i
                     class="text-danger cursor-pointer fa-trash-alt fas custom-icon"
+                    (click)="deleteUser(user)"
+                    title="Delete User"
                   ></i>
                   <i
                     class="text-primary cursor-pointer fa-edit fas custom-icon"
@@ -164,10 +166,10 @@
   aria-labelledby="userManageModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title custom-modal-title" id="userManageModalLabel">
+        <h5 class="modal-title fw-bold heading fs-6" id="userManageModalLabel">
           {{ isEditMode ? "Edit User" : "Add New User" }}
         </h5>
         <button
@@ -236,7 +238,8 @@
           </div>
         </div>
 
-        <div class="row mt-4 custom-form-label">
+        <!-- Password Fields (only show when not in edit mode) -->
+        <div class="row mt-4 custom-form-label" *ngIf="!isEditMode">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">Password</label>
             <input
@@ -304,6 +307,7 @@
 </div>
 
 <!-- Modal 2 -->
+
 <div
   class="modal fade"
   id="userDetailsModal"
@@ -311,7 +315,7 @@
   aria-labelledby="userDetailsModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content p-4">
       <!-- Modal Header -->
       <div class="modal-header border-0">
@@ -328,46 +332,163 @@
 
       <!-- Modal Body -->
       <div class="modal-body" *ngIf="selectedUser">
-        <div class="row">
+        <div class="row mb-4">
           <div class="col-md-6">
-            <p>
-              <strong>First Name:</strong> {{ selectedUser.firstName || "-" }}
-            </p>
-            <p><strong>Email:</strong> {{ selectedUser.email || "-" }}</p>
+            <div class="mb-3">
+              <strong class="d-block text-muted small">Name</strong>
+              <span>{{ selectedUser.firstName || "-" }}</span>
+            </div>
+            <div class="mb-3">
+              <strong class="d-block text-muted small">Email</strong>
+              <span>{{ selectedUser.email || "-" }}</span>
+            </div>
           </div>
-
           <div class="col-md-6">
-            <p>
-              <strong>University:</strong> {{ selectedUser.university || "-" }}
-            </p>
-            <p><strong>Campus:</strong> {{ selectedUser.campus || "-" }}</p>
+            <div class="mb-3">
+              <strong class="d-block text-muted small">Designation</strong>
+              <span>{{ selectedUser.designation || "-" }}</span>
+            </div>
+            <div class="mb-3">
+              <strong class="d-block text-muted small">Mobile</strong>
+              <span>{{ selectedUser.mobile || "-" }}</span>
+            </div>
           </div>
         </div>
 
-        <!-- Documents Section -->
-        <h5 class="fw-bold mt-4 heading fs-6">Assigned Universities</h5>
+        <!-- Universities Section -->
+        <h5 class="fw-bold mt-4 heading fs-6 border-top pt-3">
+          University Assignments
+        </h5>
 
-        <!-- Keep the existing modal structure, but update the table part: -->
-        <table
-          class="table table-striped table-bordered rounded-2 mt-3 mat-elevation-z3"
-          style="border-collapse: separate; border-spacing: 0"
-          *ngIf="selectedUser.universityData?.length"
-        >
-          <thead class="bg-light sticky-top">
-            <tr>
-              <th class="text-center">University</th>
-              <th class="text-center">Campus</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let uni of selectedUser.universityData">
-              <td>{{ uni.universityName || "-" }}</td>
-              <td>{{ uni.campusName || "-" }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div *ngIf="!selectedUser.universityData" class="text-center py-3">
-          <p>No university data available</p>
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered mt-3">
+            <thead class="bg-light">
+              <tr>
+                <th class="text-center">University</th>
+                <th class="text-center">Campus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Handle parsed university data -->
+              <ng-container *ngIf="selectedUser.universityData?.length">
+                <tr *ngFor="let uni of selectedUser.universityData">
+                  <td>{{ uni.universityName || "-" }}</td>
+                  <td>{{ uni.campusName || "-" }}</td>
+                </tr>
+              </ng-container>
+
+              <!-- Fallback for string format -->
+              <ng-container
+                *ngIf="
+                  !selectedUser.universityData?.length &&
+                  selectedUser.university
+                "
+              >
+                <tr
+                  *ngIf="
+                    selectedUser.university && selectedUser.university.length
+                  "
+                >
+                  <td colspan="2">
+                    <div *ngFor="let uni of selectedUser.university">
+                      {{ uni }}
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="!selectedUser.university?.length">
+                  <td colspan="2">No university assignments</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div
+  class="modal fade"
+  id="deleteConfirmationModal"
+  tabindex="-1"
+  aria-labelledby="deleteConfirmationModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header border-0 pb-0">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body text-center px-4 py-3">
+        <div class="mb-4">
+          <svg
+            width="60"
+            height="60"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+              stroke="#F44336"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <h5 class="modal-title fw-bold mb-3" id="deleteConfirmationModalLabel">
+          Delete User
+        </h5>
+
+        <p class="text-muted mb-4">
+          Are you sure you want to delete User
+          <span class="fw-bold">{{ userToDelete?.firstName }}</span
+          >? This action cannot be undone.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3">
+          <button
+            type="button"
+            class="btn btn-outline-secondary px-4 py-2"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger px-4 py-2"
+            (click)="confirmDelete()"
+            data-bs-dismiss="modal"
+            [disabled]="isDeleting"
+          >
+            <span *ngIf="!isDeleting">Delete</span>
+            <span
+              *ngIf="isDeleting"
+              class="d-flex align-items-center justify-content-center gap-2"
+            >
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Deleting...
+            </span>
+          </button>
         </div>
       </div>
     </div>

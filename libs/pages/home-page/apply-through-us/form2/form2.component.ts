@@ -339,6 +339,7 @@ export class Form2Component implements OnInit {
       degreeEDocExt: updateTranscript ? this.transcriptFile?.name.split('.').pop() : '',
       degreeEDocPath: this.existingTranscript?.filePath || environment.degreeUrl,
       marksSheetEDocPath: this.existingMarksheet?.filePath || environment.marksSheetUrl,
+      
       campusName: this.campusName || "1",
       courseName: this.courseName || "1",
 
