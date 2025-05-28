@@ -87,12 +87,12 @@
                   class="text-danger cursor-pointer fa-trash-alt fas custom-icon"
                   (click)="deleteUser(user)"
                 ></i>
-                <i
+                <!-- <i
                   class="text-primary cursor-pointer fa-edit fas custom-icon"
                   data-bs-toggle="modal"
                   data-bs-target="#userManageModal"
                   (click)="editUser(user)"
-                ></i>
+                ></i> -->
               </div>
             </td>
           </tr>
@@ -102,7 +102,7 @@
 
     <!-- No Results Message -->
     <div *ngIf="filteredUsers.length === 0" class="text-center py-5 px-3">
-      <p class="mb-0">No users found matching your search criteria.</p>
+      <p class="mb-0">No users found.</p>
     </div>
 
     <!-- Pagination Section -->

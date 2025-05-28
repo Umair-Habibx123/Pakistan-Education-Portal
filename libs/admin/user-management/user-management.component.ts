@@ -190,24 +190,22 @@ export class UserManagementComponent implements OnInit {
   }
 
 
-
   onSearch(event: Event): void {
-    const searchTerm = (event.target as HTMLInputElement).value;
-    if (!searchTerm) {
-      this.filteredUsers = [...this.users];
-      return;
-    }
-
-    const term = searchTerm.toLowerCase();
-    this.filteredUsers = this.users.filter(user => {
-      return (user.firstName?.toLowerCase() ?? '').includes(term) ||
-        (user.email?.toLowerCase() ?? '').includes(term) ||
-        (user.designation?.toLowerCase() ?? '').includes(term) ||
-        (user.mobile?.toString() ?? '').includes(term) ||
-        (user.university?.some(uni => uni.universityName.toLowerCase().includes(term)) ?? false) ||
-        (user.campus?.toLowerCase() ?? '').includes(term);
-    });
+  const searchTerm = (event.target as HTMLInputElement).value;
+  if (!searchTerm) {
+    this.filteredUsers = [...this.users];
+    return;
   }
+
+  const term = searchTerm.toLowerCase();
+  this.filteredUsers = this.users.filter(user => {
+    return (user.firstName?.toLowerCase() ?? '').includes(term) ||
+      (user.email?.toLowerCase() ?? '').includes(term) ||
+      (user.designation?.toLowerCase() ?? '').includes(term) ||
+      (user.mobile?.toString() ?? '').includes(term) ||
+      (user.campus?.toLowerCase() ?? '').includes(term);
+  });
+}
 
 
   editUser(user: User): void {

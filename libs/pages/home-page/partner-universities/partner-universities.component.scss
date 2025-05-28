@@ -5,14 +5,14 @@
 }
 
 .badge-container {
-  width: auto;
-  padding: 2px;
-  margin: 0 auto;
   background-color: var(--light-green);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 48px;
+  padding: 0.5rem 3rem;
+  margin-bottom: 1.5rem;
+  width: auto;
 }
 
 .badge-icon {
@@ -222,7 +222,7 @@
 
 
 
-  .clickable {
-  cursor: pointer;
-}
+//   .clickable {
+//   cursor: pointer;
+// }
 

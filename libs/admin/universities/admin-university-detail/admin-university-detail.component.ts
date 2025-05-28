@@ -155,7 +155,8 @@ export class AdminUniversityDetailComponent implements OnInit {
       (program.programName && program.programName.toLowerCase().includes(term)) ||
       (program.educationTypeTitle && program.educationTypeTitle.toLowerCase().includes(term)) ||
       (program.tuitionFee && program.tuitionFee.toString().includes(term)) ||
-      (program.duration && program.duration.toString().includes(term))
+      (program.degreeFee && program.degreeFee.toString().includes(term)) ||
+      (program.teachingMode && program.teachingMode.toLowerCase().includes(term)) 
     );
 
     this.currentPage = 1;

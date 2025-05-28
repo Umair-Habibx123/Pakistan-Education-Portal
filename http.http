@@ -33,3 +33,11 @@ GET  {{baseUrl}}UserEducation/getStudentEducationInfo?userID=10
 ###
 
 POST {{baseUrl}}UserEducation/saveUserEducation
+
+###
+GET {{baseUrl}}Program/getEducationType
+
+
+###
+
+GET {{baseUrl}}Dashboard/getProgramCount

@@ -4,6 +4,7 @@ import { UniversityService } from "libs/service/addUniversity/university.service
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { addprogramService } from 'libs/service/addprogram/addProgram.service';
+import { ApplicationDataService } from 'libs/service/applicatinData/applicationData.service';
 import { UserSessionService } from 'libs/service/userSession/userSession.service';
 
 interface University {
@@ -70,7 +71,8 @@ export class HeroSectionComponent implements OnInit {
     private universityService: UniversityService,
     private http: HttpClient,
     private programService: addprogramService,
-    private userSessionService : UserSessionService
+    private userSessionService: UserSessionService,
+    private applicationDataService: ApplicationDataService
   ) {
     this.isUniversityPage = this.router.url === '/universities';
     this.apiURL = environment.apiUrl;
@@ -166,6 +168,14 @@ export class HeroSectionComponent implements OnInit {
     this.selectedCity = this.cities.find(
       (city: any) => city.cityID === cityID
     )?.cityName || '';
+
+    const data = {
+      studyLevel: this.selectedStudyLevel,
+      subject: this.selectedSubject,
+    };
+
+    this.applicationDataService.setApplicationData(data);
+
 
     this.universityService.getUniversityForHero(educationTypeID, programID, cityID).subscribe(
       (response) => {

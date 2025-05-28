@@ -3,6 +3,7 @@ import { UserSessionService } from 'libs/service/userSession/userSession.service
 import { UserInfoService } from 'libs/service/userinfo/user-info.service';
 import { environment } from 'src/environments/environments';
 import { addprogramService } from 'libs/service/addprogram/addProgram.service';
+import { ApplicationDataService } from 'libs/service/applicatinData/applicationData.service';
 import { Router } from '@angular/router';
 
 interface DocumentInfo {
@@ -22,6 +23,7 @@ export class Form2Component implements OnInit {
 
   campusName: string = '';
   courseName: string = '';
+  universityId: number = 0;
 
   previewData: any = {
     degree: '',
@@ -57,22 +59,32 @@ export class Form2Component implements OnInit {
   gradings = ["Annual"];
   isLoading: boolean = false;
 
+  studyLevel: string = ''; // New field
+  subject: string = '';   // New field
+
   constructor(
     private userInfoService: UserInfoService,
     private userSessionService: UserSessionService,
     private addprogramService: addprogramService,
-    private router: Router
+    private router: Router,
+    private applicationDataService: ApplicationDataService
   ) { }
 
   ngOnInit(): void {
-    this.loadEducationType();
+    this.applicationDataService.currentData.subscribe(data => {
+      if (data) {
+        this.campusName = data.campusName;
+        this.studyLevel= data.studyLevel,
+        this.subject= data.subject,
+        this.universityId = data.universityId;
+        console.log("data from service:", data);
+      }
+    });
 
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state) {
-      this.campusName = navigation.extras.state['campusName'];
-      this.courseName = navigation.extras.state['courseName'];
-    }
+    this.loadEducationType();
   }
+
+
 
   loadEducationType(): void {
     this.isLoading = true;
@@ -107,24 +119,24 @@ export class Form2Component implements OnInit {
 
             this.previewData = {
 
-        //         userEducationID: this.userEducationID,
-        // degree: '', // Send degree name
-        // institutionName: '',
-        // passingYear: 0,
-        // grading: '',
-        // totalMarks: 0,
-        // obtainMarks: 0,
-        // userID: userId,
-        // spType: 'delete',
-        // marksSheetEDoc: '',
-        // marksSheetEDocExt: '',
-        // degreeEDoc: '',
-        // degreeEDocExt: '',
-        // degreeEDocPath: '',
-        // marksSheetEDocPath: '',
-        // campusName: '',
-        // courseName: '',
-        // educationTypeID: 0
+              //         userEducationID: this.userEducationID,
+              // degree: '', // Send degree name
+              // institutionName: '',
+              // passingYear: 0,
+              // grading: '',
+              // totalMarks: 0,
+              // obtainMarks: 0,
+              // userID: userId,
+              // spType: 'delete',
+              // marksSheetEDoc: '',
+              // marksSheetEDocExt: '',
+              // degreeEDoc: '',
+              // degreeEDocExt: '',
+              // degreeEDocPath: '',
+              // marksSheetEDocPath: '',
+              // campusName: '',
+              // courseName: '',
+              // educationTypeID: 0
 
 
               degree: eduType?.educationTypeTitle || userEduInfo.degree,
@@ -324,8 +336,7 @@ export class Form2Component implements OnInit {
     console.log('Update Transcript:', this.transcriptBase64);
 
     return {
-      // degree: this.Degree.toString(),
-      degree: selectedDegree?.educationTypeTitle || '', // Send degree name
+      degree: selectedDegree?.educationTypeTitle || '', 
       institutionName: this.institutionName,
       passingYear: Number(this.passingYear),
       grading: this.grading,
@@ -339,11 +350,19 @@ export class Form2Component implements OnInit {
       degreeEDocExt: updateTranscript ? this.transcriptFile?.name.split('.').pop() : '',
       degreeEDocPath: this.existingTranscript?.filePath || environment.degreeUrl,
       marksSheetEDocPath: this.existingMarksheet?.filePath || environment.marksSheetUrl,
-      
-      campusName: this.campusName || "1",
-      courseName: this.courseName || "1",
+
+      campusName: this.campusName ,
+      courseName: this.studyLevel + " - " + this.subject ,
 
       educationTypeID: this.Degree,
+
+//       {
+//     "studyLevel": "BS",
+//     "subject": "Computer Science",
+//     "campusName": "H-9, Islamabad",
+//     "universityId": 43
+// }
+
     };
   }
 
@@ -410,7 +429,7 @@ export class Form2Component implements OnInit {
 
       this.userInfoService.deleteUserEducationalInfo(formData).subscribe({
         next: (response) => {
-          console.log("data to delete" , formData);
+          console.log("data to delete", formData);
           console.log('Delete response:', response);
           this.resetFormFields();
           this.hasExistingData = false;

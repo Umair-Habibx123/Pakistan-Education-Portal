@@ -29,8 +29,9 @@
             *ngFor="let university of filteredUniversities"
             class="col-6 col-md-3 mb-4"
             [class.clickable]="isUniversityPage"
-            (click)="isUniversityPage ? showUniversityDetail(university) : null"
+            (click)="isUniversityPage ? null : null"
           >
+          <!-- (click)="isUniversityPage ? showUniversityDetail(university) : null" -->
             <div class="university-card">
               <img
                 [src]="productUrl + university.imageEDocPath"

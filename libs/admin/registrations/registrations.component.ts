@@ -229,10 +229,10 @@ viewUserDetails(user: User): void {
     this.location.back();
   }
 
-  editUser(user: User): void {
-    this.isEditMode = true;
-    this.currentEditingUser = { ...user };
-  }
+  // editUser(user: User): void {
+  //   this.isEditMode = true;
+  //   this.currentEditingUser = { ...user };
+  // }
 
     deleteUser(user: User): void {
     this.userToDelete = user;

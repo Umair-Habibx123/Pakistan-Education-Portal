@@ -4,6 +4,7 @@ import { Location } from '@angular/common'; // Import the Location service
 import { addprogramService } from "libs/service/addprogram/addProgram.service"
 import { UniversityService } from 'libs/service/addUniversity/university.service';
 import { UserSessionService } from 'libs/service/userSession/userSession.service';
+import { ApplicationDataService } from 'libs/service/applicatinData/applicationData.service';
 
 
 interface contactInfo {
@@ -37,9 +38,11 @@ export class UniversityDetailComponent {
     private universityService: UniversityService,
     private addprogramService: addprogramService,
     private userSessionService: UserSessionService,
-    private router: Router
+    private router: Router,
+    private applicationDataService: ApplicationDataService
   ) {
   }
+
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -101,24 +104,20 @@ export class UniversityDetailComponent {
     }
   }
 
-  // onApplyThroughUs() {
-  //   if (this.userSessionService.isLoggedIn()) {
-  //     this.router.navigate(['/apply-through-us']);
-  //   } else {
-  //     this.router.navigate(['/auth/login']);
-  //   }
-  // }
-
   onApplyThroughUs() {
+    const data = {
+      campusName: this.university.campusName,
+      universityId: this.university.uniID
+    };
+
+    this.applicationDataService.setApplicationData(data);
+
     if (this.userSessionService.isLoggedIn()) {
-      this.router.navigate(['/apply-through-us'], {
-        state: {
-          campusName: this.university.campusName,
-          courseName: this.filteredPrograms[0]?.name
-        }
-      });
+      this.router.navigate(['/apply-through-us']);
     } else {
       this.router.navigate(['/auth/login']);
     }
   }
+
+
 }
