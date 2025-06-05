@@ -4,7 +4,6 @@ import { AuthService } from 'libs/service/userSignUp/userAuth.service';
 import { UniversityService } from 'libs/service/addUniversity/university.service';
 import { Location } from '@angular/common';
 
-
 interface University {
   uniID: number;
   universityName: string;
@@ -25,11 +24,10 @@ interface User {
   userRoles?: any;
 }
 
-
 @Component({
   selector: 'app-user-management',
   templateUrl: './user-management.component.html',
-  styleUrls: ['./user-management.component.scss']
+  styleUrls: ['./user-management.component.scss'],
 })
 export class UserManagementComponent implements OnInit {
   users: User[] = [];
@@ -61,7 +59,7 @@ export class UserManagementComponent implements OnInit {
     mobile: '',
     university: [],
     campus: '',
-    password: ''
+    password: '',
   };
 
   constructor(
@@ -69,18 +67,19 @@ export class UserManagementComponent implements OnInit {
     private authService: AuthService,
     private UniversityService: UniversityService,
     private location: Location
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.fetchUsers();
     this.loadUniversities();
   }
 
-
   loadUniversities() {
     this.UniversityService.getUniversity(0).subscribe(
       (response) => {
-        this.universities = response.filter((universities: any) => !universities.isDeleted);
+        this.universities = response.filter(
+          (universities: any) => !universities.isDeleted
+        );
         console.log(response);
       },
       (error) => {
@@ -91,11 +90,11 @@ export class UserManagementComponent implements OnInit {
 
   getSelectedUniversityNames(): string {
     return this.selectedUniversityIds
-      .map(id => {
-        const uni = this.universities.find(u => u.uniID === id);
+      .map((id) => {
+        const uni = this.universities.find((u) => u.uniID === id);
         return uni ? uni.universityName : '';
       })
-      .filter(name => name !== '')
+      .filter((name) => name !== '')
       .join(', ');
   }
 
@@ -110,25 +109,25 @@ export class UserManagementComponent implements OnInit {
       }
     } else {
       this.selectedUniversityIds = this.selectedUniversityIds.filter(
-        id => id !== university.uniID
+        (id) => id !== university.uniID
       );
     }
 
-
     if (this.currentEditingUser) {
-      this.currentEditingUser.university = this.selectedUniversityIds.map(id => {
-        const uni = this.universities.find(u => u.uniID === id);
-        return uni ? uni.universityName : '';
-      });
+      this.currentEditingUser.university = this.selectedUniversityIds.map(
+        (id) => {
+          const uni = this.universities.find((u) => u.uniID === id);
+          return uni ? uni.universityName : '';
+        }
+      );
     }
   }
 
   setSelectedUniversities(uniIdsString: string) {
     this.selectedUniversityIds = uniIdsString
-      ? uniIdsString.split(',').map(id => parseInt(id.trim()))
+      ? uniIdsString.split(',').map((id) => parseInt(id.trim()))
       : [];
   }
-
 
   fetchUsers(): void {
     this.isLoading = true;
@@ -137,45 +136,52 @@ export class UserManagementComponent implements OnInit {
         const allUsers = response.data || response;
         console.log(allUsers);
 
-        this.users = allUsers.filter((user: any) => {
-          if (user.userRoles && typeof user.userRoles === 'string') {
-            try {
-              const roles = JSON.parse(user.userRoles);
-              return Array.isArray(roles) && roles.some((role: any) => role.roleID === 2);
-            } catch (e) {
-              console.error('Error parsing userRoles:', e);
-              return false;
+        this.users = allUsers
+          .filter((user: any) => {
+            if (user.userRoles && typeof user.userRoles === 'string') {
+              try {
+                const roles = JSON.parse(user.userRoles);
+                return (
+                  Array.isArray(roles) &&
+                  roles.some((role: any) => role.roleID === 2)
+                );
+              } catch (e) {
+                console.error('Error parsing userRoles:', e);
+                return false;
+              }
             }
-          }
-          return false;
-        }).map((user: any) => {
-          // Parse university data if it exists
-          let universities: University[] = [];
-          if (user.university && typeof user.university === 'string') {
-            try {
-              universities = JSON.parse(user.university);
-            } catch (e) {
-              console.error('Error parsing university data:', e);
+            return false;
+          })
+          .map((user: any) => {
+            // Parse university data if it exists
+            let universities: University[] = [];
+            if (user.university && typeof user.university === 'string') {
+              try {
+                universities = JSON.parse(user.university);
+              } catch (e) {
+                console.error('Error parsing university data:', e);
+              }
             }
-          }
 
-          // Get unique university names
-          const uniqueUnis = [...new Set(universities.map(u => u.universityName))];
+            // Get unique university names
+            const uniqueUnis = [
+              ...new Set(universities.map((u) => u.universityName)),
+            ];
 
-          // Get all campus names grouped by university
-          const campusesByUni = uniqueUnis.map(uni => {
-            const campuses = universities
-              .filter(u => u.universityName === uni)
-              .map(u => u.campusName);
-            return campuses.join(', ');
+            // Get all campus names grouped by university
+            const campusesByUni = uniqueUnis.map((uni) => {
+              const campuses = universities
+                .filter((u) => u.universityName === uni)
+                .map((u) => u.campusName);
+              return campuses.join(', ');
+            });
+
+            return {
+              ...user,
+              university: uniqueUnis,
+              campus: campusesByUni.join('; '), // Separate different university campuses with semicolon
+            };
           });
-
-          return {
-            ...user,
-            university: uniqueUnis,
-            campus: campusesByUni.join('; ') // Separate different university campuses with semicolon
-          };
-        });
 
         this.filteredUsers = [...this.users];
         this.isLoading = false;
@@ -185,28 +191,28 @@ export class UserManagementComponent implements OnInit {
         this.errorMessage = 'Failed to load users. Please try again later.';
         console.error('Error fetching users:', error);
         this.isLoading = false;
-      }
+      },
     });
   }
 
-
   onSearch(event: Event): void {
-  const searchTerm = (event.target as HTMLInputElement).value;
-  if (!searchTerm) {
-    this.filteredUsers = [...this.users];
-    return;
+    const searchTerm = (event.target as HTMLInputElement).value;
+    if (!searchTerm) {
+      this.filteredUsers = [...this.users];
+      return;
+    }
+
+    const term = searchTerm.toLowerCase();
+    this.filteredUsers = this.users.filter((user) => {
+      return (
+        (user.firstName?.toLowerCase() ?? '').includes(term) ||
+        (user.email?.toLowerCase() ?? '').includes(term) ||
+        (user.designation?.toLowerCase() ?? '').includes(term) ||
+        (user.mobile?.toString() ?? '').includes(term) ||
+        (user.campus?.toLowerCase() ?? '').includes(term)
+      );
+    });
   }
-
-  const term = searchTerm.toLowerCase();
-  this.filteredUsers = this.users.filter(user => {
-    return (user.firstName?.toLowerCase() ?? '').includes(term) ||
-      (user.email?.toLowerCase() ?? '').includes(term) ||
-      (user.designation?.toLowerCase() ?? '').includes(term) ||
-      (user.mobile?.toString() ?? '').includes(term) ||
-      (user.campus?.toLowerCase() ?? '').includes(term);
-  });
-}
-
 
   editUser(user: User): void {
     this.isEditMode = true;
@@ -215,16 +221,15 @@ export class UserManagementComponent implements OnInit {
     // Reset and populate assigned universities
     this.assignedUniversities = [];
     this.selectedUniversityIds = [];
-
     // Parse existing university data if available
     if (user.university && typeof user.university === 'string') {
       try {
         const uniData: University[] = JSON.parse(user.university);
-        uniData.forEach(uni => {
+        uniData.forEach((uni) => {
           this.assignedUniversities.push({
             uniID: uni.uniID,
             universityName: uni.universityName,
-            campusName: uni.campusName
+            campusName: uni.campusName,
           });
           this.selectedUniversityIds.push(uni.uniID);
         });
@@ -259,37 +264,33 @@ export class UserManagementComponent implements OnInit {
     return this.filteredUsers.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
-
   goBack(): void {
     this.location.back();
   }
-
 
   viewUserDetails(user: any) {
     try {
       this.selectedUser = {
         ...user,
-        universityData: user.university ? JSON.parse(user.university) : []
+        universityData: user.university ? JSON.parse(user.university) : [],
       };
     } catch (e) {
       this.selectedUser = {
         ...user,
-        universityData: []
+        universityData: [],
       };
     }
   }
 
   resetForm(): void {
     this.isEditMode = false;
-    this.currentEditingUser.firstName = "";
-    this.currentEditingUser.email = "";
-    this.currentEditingUser.campus = "";
-    this.currentEditingUser.designation = "";
-    this.currentEditingUser.mobile = "";
+    this.currentEditingUser.firstName = '';
+    this.currentEditingUser.email = '';
+    this.currentEditingUser.campus = '';
+    this.currentEditingUser.designation = '';
+    this.currentEditingUser.mobile = '';
     this.currentEditingUser.university = [];
-
   }
-
 
   onUniversitySelect(event: any): void {
     this.selectedUniversityId = Number(event.target.value);
@@ -300,7 +301,9 @@ export class UserManagementComponent implements OnInit {
   loadCampuses(universityId: number): void {
     this.UniversityService.getUniversity(universityId).subscribe(
       (response) => {
-        this.campuses = response.filter((uni: any) => uni.uniID === universityId);
+        this.campuses = response.filter(
+          (uni: any) => uni.uniID === universityId
+        );
       },
       (error) => {
         console.error('Error loading campuses:', error);
@@ -308,56 +311,68 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-
   addUniversityAssignment(): void {
     if (!this.selectedUniversityId || !this.selectedCampus) {
       this.errorMessage = 'Please select both university and campus';
       return;
     }
 
-    const selectedUni = this.universities.find(u => u.uniID === this.selectedUniversityId);
+    const selectedUni = this.universities.find(
+      (u) => u.uniID === this.selectedUniversityId
+    );
 
-    this.assignedUniversities.push({
+    const newAssignment = {
       uniID: this.selectedUniversityId,
       universityName: selectedUni?.universityName || '',
-      campusName: this.selectedCampus
-    });
+      campusName: this.selectedCampus,
+    };
 
-    // Reset selection for next assignment
+    const alreadyAssigned = this.assignedUniversities.some(
+      (a) =>
+        a.uniID === newAssignment.uniID &&
+        a.campusName === newAssignment.campusName
+    );
+
+    if (!alreadyAssigned) {
+      this.assignedUniversities = [...this.assignedUniversities, newAssignment];
+    }
+
     this.selectedUniversityId = null;
     this.selectedCampus = '';
     this.campuses = [];
   }
 
-
   removeUniversityAssignment(index: number): void {
     this.assignedUniversities.splice(index, 1);
   }
 
-
-
   addUser(): void {
     this.isLoading = true;
 
-
-    const universityIds = this.assignedUniversities.map(uni => uni.uniID);
+    const universityIds = this.assignedUniversities.map((uni) => uni.uniID);
 
     // Format the university IDs in the specific backend format "[{121,66,99}]"
     const universityIDsString = `[${universityIds.join(',')}]`;
+    const universityData = this.assignedUniversities.map((uni) => ({
+      uniID: uni.uniID,
+      universityName: uni.universityName,
+      campusID: 0, // Add if you have campusID
+      campusName: uni.campusName,
+    }));
 
     const registrationData = {
-      sptype: "insert",
+      sptype: 'insert',
       roleID: 2,
       firstName: this.currentEditingUser.firstName,
       designation: this.currentEditingUser.designation,
       email: this.currentEditingUser.email,
       mobile: this.currentEditingUser.mobile,
       password: this.currentEditingUser.password,
-      universityIDs: universityIDsString,
-      campus: '' // Now handled in university assignments
+      university: JSON.stringify(universityData),
+      campus: '', // Now handled in university assignments
     };
 
-    console.log("user data : ", registrationData);
+    console.log('user data : ', registrationData);
 
     this.authService.signup(registrationData).subscribe({
       next: (response) => {
@@ -371,34 +386,33 @@ export class UserManagementComponent implements OnInit {
         this.isLoading = false;
         this.errorMessage = 'Failed to add user. Please try again.';
         console.error('Error adding user:', error);
-      }
+      },
     });
   }
-
 
   updateUser(): void {
     this.isLoading = true;
 
     // Prepare university data in the required format
-    const universityData = this.assignedUniversities.map(uni => ({
+    const universityData = this.assignedUniversities.map((uni) => ({
       uniID: uni.uniID,
       universityName: uni.universityName,
       campusID: 0, // Add if you have campusID
-      campusName: uni.campusName
+      campusName: uni.campusName,
     }));
 
     const updateData = {
-      sptype: "update",
+      sptype: 'update',
       userID: this.currentEditingUser.userID,
       firstName: this.currentEditingUser.firstName,
       designation: this.currentEditingUser.designation,
       email: this.currentEditingUser.email,
       mobile: this.currentEditingUser.mobile,
       university: JSON.stringify(universityData),
-      campus: ''
+      campus: '',
     };
 
-    console.log("Update data:", updateData);
+    console.log('Update data:', updateData);
 
     this.authService.signup(updateData).subscribe({
       next: (response) => {
@@ -412,12 +426,11 @@ export class UserManagementComponent implements OnInit {
         this.isLoading = false;
         this.errorMessage = 'Failed to update user. Please try again.';
         console.error('Error updating user:', error);
-      }
+      },
     });
   }
 
-
-   deleteUser(user: User): void {
+  deleteUser(user: User): void {
     this.userToDelete = user;
     // Show the modal
     const modalElement = document.getElementById('deleteConfirmationModal');
@@ -427,16 +440,13 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-
   confirmDelete(): void {
     if (!this.userToDelete) return;
 
     this.isDeleting = true;
 
-
-
     const deleteData = {
-      sptype: "delete",
+      sptype: 'delete',
       userID: this.userToDelete.userID,
       roleID: 2,
       firstName: '',
@@ -447,7 +457,7 @@ export class UserManagementComponent implements OnInit {
       campus: '',
     };
 
-    console.log("Delete data:", deleteData);
+    console.log('Delete data:', deleteData);
 
     this.authService.signup(deleteData).subscribe({
       next: (response) => {
@@ -459,9 +469,7 @@ export class UserManagementComponent implements OnInit {
         this.isLoading = false;
         this.errorMessage = 'Failed to delete user. Please try again.';
         console.error('Error deleting user:', error);
-      }
+      },
     });
   }
-
-
 }
