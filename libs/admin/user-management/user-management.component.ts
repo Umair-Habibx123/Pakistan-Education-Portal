@@ -471,5 +471,6 @@ export class UserManagementComponent implements OnInit {
         console.error('Error deleting user:', error);
       },
     });
+    this.isDeleting = false;
   }
 }
