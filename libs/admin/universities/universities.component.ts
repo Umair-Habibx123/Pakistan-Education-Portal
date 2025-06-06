@@ -11,14 +11,14 @@ import { UserSessionService } from 'libs/service/userSession/userSession.service
   styleUrls: ['./universities.component.scss'],
 })
 export class UniversitiesComponent implements OnInit {
-
   @ViewChild('logoInput') logoInput!: ElementRef;
   @ViewChild('imageInput') imageInput!: ElementRef;
 
   public productUrl = environment.productUrl;
   searchTerm: string = '';
   private readonly CAMPUS_REGEX = /^[a-zA-Z0-9\s\-',.()]{2,100}$/;
-  private readonly URL_REGEX =/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+  private readonly URL_REGEX =
+    /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
   private readonly emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   private readonly phoneRegex = /^[0-9]{10,15}$/;
   isEditing: boolean = false;
@@ -42,12 +42,13 @@ export class UniversitiesComponent implements OnInit {
   UniNames: any[] = [];
   countries: any[] = [];
   provinces: any[] = [];
+  userList: any[] = [];
+  userUniversityList: any[] = [];
   selectedCountryId: number | null = null;
   selectedProvinceId: number | null = null;
   universityToDelete: any = null;
   selectedUniversity: any = null;
   showDetailView = false;
-
 
   newUniversity = {
     name: null,
@@ -69,48 +70,49 @@ export class UniversitiesComponent implements OnInit {
     private adduniversityService: UniversityService,
     private cdRef: ChangeDetectorRef,
     private userSessionService: UserSessionService
-  ) { }
+  ) {}
 
-  
   ngOnInit(): void {
-  const user = this.userSessionService.getUser();
-  if (user?.roleId === 1) {
-    this.loadUniversities();
-    this.loadCountries();
-    this.loadUniversityNames();
+    const user = this.userSessionService.getUser();
+    if (user?.roleId === 1) {
+      this.loadUniversities();
+      this.loadCountries();
+      this.loadUniversityNames();
+    }
+    if (user?.roleId === 2) {
+      this.getUserUniversity(this.userId);
+    }
+    console.log(this.userId);
   }
-  console.log(this.userId);
-}
-
 
   loadUniversities(): void {
-  this.isLoading = true;
-  
-  const user = this.userSessionService.getUser();
-  
-  // If user is admin (roleId = 1), load all universities
-  if (user?.roleId === 1) {
-    this.adduniversityService.getUniversity(0).subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.universities = response.filter(
-          (universities: any) => !universities.isDeleted
-        );
-        this.searchTerm = '';
-        this.updateFilteredUniversities();
-      },
-      (error) => {
-        this.isLoading = false;
-        console.error('Error fetching universities:', error);
-      }
-    );
-  } else {
-    this.isLoading = false;
-    this.universities = [];
-    this.searchTerm = '';
-    this.updateFilteredUniversities();
+    this.isLoading = true;
+
+    const user = this.userSessionService.getUser();
+
+    // If user is admin (roleId = 1), load all universities
+    if (user?.roleId === 1) {
+      this.adduniversityService.getUniversity(0).subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.universities = response.filter(
+            (universities: any) => !universities.isDeleted
+          );
+          this.searchTerm = '';
+          this.updateFilteredUniversities();
+        },
+        (error) => {
+          this.isLoading = false;
+          console.error('Error fetching universities:', error);
+        }
+      );
+    } else {
+      this.isLoading = false;
+      this.universities = [];
+      this.searchTerm = '';
+      this.updateFilteredUniversities();
+    }
   }
-}
 
   loadCountries(): void {
     this.isLoading = true;
@@ -122,6 +124,40 @@ export class UniversitiesComponent implements OnInit {
       (error) => {
         this.isLoading = false;
         console.error('Error fetching countries:', error);
+      }
+    );
+  }
+
+  getUserUniversity(userID: number): void {
+    this.isLoading = false;
+    this.isSubmitting = false;
+    this.adduniversityService.getUserUniversities(userID).subscribe(
+      (response) => {
+        this.isLoading = false;
+        this.isSubmitting = false;
+        this.userList = response;
+        if (this.userList && this.userList[0]?.university) {
+          // Parse university if it's a JSON string
+          const rawUniversity = this.userList[0].university;
+          try {
+            this.filteredUniversities =
+              typeof rawUniversity === 'string'
+                ? JSON.parse(rawUniversity)
+                : rawUniversity;
+            this.universities =
+              typeof rawUniversity === 'string'
+                ? JSON.parse(rawUniversity)
+                : rawUniversity;
+          } catch (e) {
+            this.filteredUniversities = [];
+          }
+        }
+        console.log(this.filteredUniversities);
+      },
+      (error) => {
+        this.isLoading = false;
+        this.isSubmitting = false;
+        console.error('Error fetching data:', error);
       }
     );
   }
@@ -339,14 +375,14 @@ export class UniversitiesComponent implements OnInit {
     const logoPromise = this.selectedLogoFile
       ? this.fileToBase64(this.selectedLogoFile)
       : isEditWithExistingImages
-        ? Promise.resolve('existing')
-        : Promise.resolve(null);
+      ? Promise.resolve('existing')
+      : Promise.resolve(null);
 
     const imagePromise = this.selectedImageFile
       ? this.fileToBase64(this.selectedImageFile)
       : isEditWithExistingImages
-        ? Promise.resolve('existing')
-        : Promise.resolve(null);
+      ? Promise.resolve('existing')
+      : Promise.resolve(null);
 
     Promise.all([logoPromise, imagePromise])
       .then(([logoBase64, imageBase64]) => {
@@ -401,7 +437,8 @@ export class UniversitiesComponent implements OnInit {
               Array.isArray(response) &&
               response[0] === 'University already exists'
             ) {
-              this.errorMessage = 'A university with this name/campus name already exists';
+              this.errorMessage =
+                'A university with this name/campus name already exists';
               this.snackBar.open('University already exists!', 'Close', {
                 duration: 5000,
                 panelClass: ['error-snackbar'],
@@ -476,9 +513,13 @@ export class UniversitiesComponent implements OnInit {
   }
 
   goBack() {
+    const user = this.userSessionService.getUser();
     this.loadUniversities();
     this.showDetailView = false;
     this.selectedUniversity = null;
+    if (user?.roleId === 2) {
+      this.getUserUniversity(this.userId);
+    }
   }
 
   updateFilteredUniversities(): void {
@@ -823,4 +864,3 @@ export class UniversitiesComponent implements OnInit {
   return visiblePages;
 }
 }
-

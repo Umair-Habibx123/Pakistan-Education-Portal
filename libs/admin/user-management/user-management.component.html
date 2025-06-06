@@ -271,8 +271,8 @@
         </div>
 
         <!-- Password Fields (only show when not in edit mode) -->
-        <div class="row mt-4 custom-form-label" *ngIf="!isEditMode">
-          <div class="col-md-6 mb-3 mb-md-0">
+        <div class="row mt-4 custom-form-label">
+          <div class="col-md-6 mb-3 mb-md-0" *ngIf="!isEditMode">
             <label class="form-label">Password</label>
             <input
               type="text"
@@ -281,7 +281,7 @@
               [(ngModel)]="currentEditingUser.password"
             />
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="!isEditMode">
             <label class="form-label">Confirm Password</label>
             <input
               type="text"
