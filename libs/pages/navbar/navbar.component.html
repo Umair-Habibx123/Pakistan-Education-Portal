@@ -1,4 +1,10 @@
-<div class="navbar-container" [ngClass]="{ 'navbar-hidden': isNavbarHidden }">
+<div
+  class="navbar-container"
+  [ngClass]="{
+    'navbar-hidden': isNavbarHidden,
+    'dark-theme': (themeService.isDarkTheme$ | async)
+  }"
+>
   <div class="px-4 px-sm-8 px-md-14 py-2">
     <nav
       class="d-flex justify-content-between align-items-center py-2 px-4 px-md-8"
@@ -41,8 +47,19 @@
         </a>
       </div>
 
-      <!-- Auth Section -->
-      <div class="d-none d-md-flex align-items-center">
+      <div class="d-none d-md-flex align-items-center gap-4">
+        <!-- Theme Toggle Button -->
+        <button
+          class="theme-toggle"
+          (click)="toggleTheme()"
+          [title]="'Toggle theme (' + themeService.currentTheme + ')'"
+        >
+          <i-lucide
+            [name]="themeService.getThemeIcon()"
+            class="theme-icon"
+          ></i-lucide>
+        </button>
+
         <!-- Show user icon when logged in -->
         <div *ngIf="sessionService.isLoggedIn()" class="position-relative">
           <button
@@ -50,20 +67,6 @@
             (click)="toggleDropdown()"
             (mouseenter)="(null)"
           >
-            <!-- <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle> -->
-            <!-- </svg> -->
             {{ getInitials(sessionService.getUser()?.loginName) }}
           </button>
 
@@ -103,7 +106,10 @@
               </div>
             </div>
             <div
-              *ngIf="sessionService.getUser()?.roleId === 1 || sessionService.getUser()?.roleId === 2"
+              *ngIf="
+                sessionService.getUser()?.roleId === 1 ||
+                sessionService.getUser()?.roleId === 2
+              "
               class="dropdown-item"
               (click)="goToDashboard()"
             >
@@ -179,6 +185,19 @@
       *ngIf="isMenuOpen"
       class="d-md-none d-flex flex-column gap-3 px-4 py-2 mobile-menu"
     >
+      <!-- Theme Toggle Button for Mobile -->
+      <button
+        class="theme-toggle mobile-menu-link"
+        (click)="toggleTheme()"
+        [title]="'Toggle theme (' + themeService.currentTheme + ')'"
+      >
+        <i-lucide
+          [name]="themeService.getThemeIcon()"
+          class="theme-icon"
+        ></i-lucide>
+        <span>Toggle Theme ({{ themeService.currentTheme }})</span>
+      </button>
+
       <!-- Navbar Links for Mobile -->
       <a
         *ngFor="let link of navLinks"

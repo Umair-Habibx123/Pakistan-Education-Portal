@@ -1,3 +1,7 @@
+.dark-theme {
+ 
+}
+
 .navbar-container {
   position: fixed;
   top: 0;
@@ -7,6 +11,7 @@
   transition: transform 0.3s ease-in-out;
   background-color: var(--main-pink);
 }
+
 
 .navbar-hidden {
   transform: translateY(-100%);
@@ -211,4 +216,46 @@
       font-size: 14px;
     }
   }
+}
+
+
+/* Add to your navbar styles */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--black);
+}
+
+/* Dark mode styles for navbar */
+.dark-theme {
+  .navbar-container {
+    background-color: var(--dark-bg-color); /* Define this in your variables */
+  }
+  
+  .router-link,
+  .mobile-menu-link,
+  .auth-link {
+    color: var(--dark-text-color); /* Define this in your variables */
+  }
+  
+  .theme-icon {
+    color: var(--dark-text-color);
+  }
+  
 }

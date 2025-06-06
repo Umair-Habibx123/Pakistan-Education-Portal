@@ -1,6 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { UserSessionService } from 'libs/service/userSession/userSession.service';
 import { Router } from '@angular/router';
+import { ThemeService } from 'libs/service/SystemTheme/theme.service';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -23,12 +26,15 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     public sessionService: UserSessionService,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
     this.lastScrollPosition = window.pageYOffset;
   }
+
+
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
@@ -78,5 +84,9 @@ export class NavbarComponent implements OnInit {
     const parts = name.split(' ');
     if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
     return `${parts[0].charAt(0)}${parts[parts.length - 1].charAt(0)}`.toUpperCase();
+  }
+
+   toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }
