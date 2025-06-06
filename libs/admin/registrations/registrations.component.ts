@@ -37,7 +37,7 @@ export class RegistrationsComponent {
   errorMessage: string = '';
   isLoading: boolean = false;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 9;
   selectedUser: any = null;
   searchTerm: string = ''
   isModalLoading: boolean = false;
@@ -279,7 +279,34 @@ viewUserDetails(user: User): void {
       }
     });
   }
+getMiddlePages(): number[] {
+  if (this.totalPages <= 5) {
+    const middlePages = [];
+    for (let i = 2; i < this.totalPages; i++) {
+      middlePages.push(i);
+    }
+    return middlePages;
+  }
 
+  const middlePages = [];
+  const range = 5;
+  const start = Math.max(2, this.currentPage - range);
+  const end = Math.min(this.totalPages - 1, this.currentPage + range);
+
+  for (let i = start; i <= end; i++) {
+    middlePages.push(i);
+  }
+
+  return middlePages;
+}
+
+shouldShowLeadingEllipsis(): boolean {
+  return this.totalPages > 5 && this.currentPage - 1 > 2;
+}
+
+shouldShowTrailingEllipsis(): boolean {
+  return this.totalPages > 5 && this.totalPages - this.currentPage > 2;
+}
 
 
 

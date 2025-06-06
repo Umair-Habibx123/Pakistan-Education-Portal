@@ -119,5 +119,34 @@ export class UniversityDetailComponent {
     }
   }
 
+  getMiddlePages(): number[] {
+  if (this.totalPages <= 5) {
+    const middlePages = [];
+    for (let i = 2; i < this.totalPages; i++) {
+      middlePages.push(i);
+    }
+    return middlePages;
+  }
+
+  const middlePages = [];
+  const range = 3; 
+  const start = Math.max(2, this.currentPage - range);
+  const end = Math.min(this.totalPages - 1, this.currentPage + range);
+
+  for (let i = start; i <= end; i++) {
+    middlePages.push(i);
+  }
+
+  return middlePages;
+}
+
+shouldShowLeadingEllipsis(): boolean {
+  return this.totalPages > 5 && this.currentPage - 1 > 2;
+}
+
+shouldShowTrailingEllipsis(): boolean {
+  return this.totalPages > 5 && this.totalPages - this.currentPage > 2;
+}
+
 
 }

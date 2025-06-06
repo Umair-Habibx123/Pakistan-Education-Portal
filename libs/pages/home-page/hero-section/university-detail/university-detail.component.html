@@ -204,41 +204,81 @@
         </div>
       </div>
     </div>
+<!-- Pagination Section -->
+<div *ngIf="filteredPrograms.length > 0"
+     class="d-flex flex-column flex-sm-row align-items-center justify-content-end gap-2 mt-4 border-top pt-4">
+  
+  <!-- Page Numbers -->
+  <div class="d-flex align-items-center gap-3 flex-wrap justify-content-center">
+    <!-- Mobile Previous Button -->
+    <button class="fw-bold btn btn-link p-0 d-sm-none"
+            (click)="previousPage()"
+            [disabled]="currentPage === 1">
+      <lucide-angular name="ArrowLeft" size="16"></lucide-angular>
+    </button>
 
-    <!-- Pagination Section -->
-    <div
-      *ngIf="filteredPrograms.length > 0"
-      class="d-flex flex-column flex-sm-row align-items-center justify-content-end gap-2 mt-4 border-top pt-4"
-    >
-      <div class="d-flex align-items-center gap-3">
-        <button
-          *ngFor="let page of [].constructor(totalPages); let i = index"
-          class="fw-bold btn btn-link p-0"
-          [ngClass]="{
-            'fw-bold': currentPage === i + 1,
-            'fw-medium': currentPage !== i + 1
-          }"
-          (click)="goToPage(i + 1)"
-        >
-          {{ i + 1 }}
-        </button>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <button
-          class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light custom-pagination-btn"
-          (click)="previousPage()"
-        >
-          <span> <lucide-angular name="ArrowLeft"></lucide-angular></span>
-          <span>Previous</span>
-        </button>
-        <button
-          class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light custom-pagination-btn"
-          (click)="nextPage()"
-        >
-          <span>Next</span>
-          <span> <lucide-angular name="ArrowRight"></lucide-angular></span>
-        </button>
-      </div>
-    </div>
+    <!-- First Page -->
+    <button class="fw-bold btn btn-link p-0"
+            [ngClass]="{
+              'text-primary': currentPage === 1,
+              'text-muted': currentPage !== 1
+            }"
+            (click)="goToPage(1)">
+      1
+    </button>
+
+    <!-- Leading Ellipsis -->
+    <span *ngIf="shouldShowLeadingEllipsis()" class="px-1 text-muted">...</span>
+
+    <!-- Middle Pages -->
+    <ng-container *ngFor="let page of getMiddlePages()">
+      <button class="fw-bold btn btn-link p-0"
+              [ngClass]="{
+                'text-primary': currentPage === page,
+                'text-muted': currentPage !== page
+              }"
+              (click)="goToPage(page)">
+        {{ page }}
+      </button>
+    </ng-container>
+
+    <!-- Trailing Ellipsis -->
+    <span *ngIf="shouldShowTrailingEllipsis()" class="px-1 text-muted">...</span>
+
+    <!-- Last Page (if different from first) -->
+    <button *ngIf="totalPages > 1"
+            class="fw-bold btn btn-link p-0"
+            [ngClass]="{
+              'text-primary': currentPage === totalPages,
+              'text-muted': currentPage !== totalPages
+            }"
+            (click)="goToPage(totalPages)">
+      {{ totalPages }}
+    </button>
+
+    <!-- Mobile Next Button -->
+    <button class="fw-bold btn btn-link p-0 d-sm-none"
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages">
+      <lucide-angular name="ArrowRight" size="16"></lucide-angular>
+    </button>
+  </div>
+
+  <!-- Desktop Previous/Next Buttons -->
+  <div class="d-flex align-items-center gap-2 d-none d-sm-flex">
+    <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light custom-pagination-btn"
+            (click)="previousPage()"
+            [disabled]="currentPage === 1">
+      <lucide-angular name="ArrowLeft" size="16"></lucide-angular>
+      <span>Previous</span>
+    </button>
+    <button class="d-flex align-items-center gap-2 px-4 py-2 rounded border border-2 fw-medium btn btn-light custom-pagination-btn"
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages">
+      <span>Next</span>
+      <lucide-angular name="ArrowRight" size="16"></lucide-angular>
+    </button>
+  </div>
+</div>
   </div>
 </div>

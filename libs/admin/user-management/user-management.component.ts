@@ -37,7 +37,7 @@ export class UserManagementComponent implements OnInit {
   errorMessage: string = '';
   isLoading: boolean = false;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 9;
   selectedUser: any = null;
   universities: any[] = [];
   selectedUniversityIds: number[] = [];
@@ -463,5 +463,25 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  getMiddlePages(): number[] {
+  if (this.totalPages <= 5) {
+    const middlePages = [];
+    for (let i = 2; i < this.totalPages; i++) {
+      middlePages.push(i);
+    }
+    return middlePages;
+  }
+
+  const middlePages = [];
+  const range = 5; 
+  const start = Math.max(2, this.currentPage - range);
+  const end = Math.min(this.totalPages - 1, this.currentPage + range);
+
+  for (let i = start; i <= end; i++) {
+    middlePages.push(i);
+  }
+
+  return middlePages;
+}
 
 }

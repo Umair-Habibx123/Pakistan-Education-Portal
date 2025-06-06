@@ -156,7 +156,7 @@ export class AdminUniversityDetailComponent implements OnInit {
       (program.educationTypeTitle && program.educationTypeTitle.toLowerCase().includes(term)) ||
       (program.tuitionFee && program.tuitionFee.toString().includes(term)) ||
       (program.degreeFee && program.degreeFee.toString().includes(term)) ||
-      (program.teachingMode && program.teachingMode.toLowerCase().includes(term)) 
+      (program.teachingMode && program.teachingMode.toLowerCase().includes(term))
     );
 
     this.currentPage = 1;
@@ -377,5 +377,34 @@ export class AdminUniversityDetailComponent implements OnInit {
     this.newProgram.degreeFee = "";
     this.newProgram.campusProgramID = 0;
     this.newProgram.teachingModeID = null;
+  }
+
+  getMiddlePages(): number[] {
+    if (this.totalPages <= 5) {
+      const middlePages = [];
+      for (let i = 2; i < this.totalPages; i++) {
+        middlePages.push(i);
+      }
+      return middlePages;
+    }
+
+    const middlePages = [];
+    const range = 3;
+    const start = Math.max(2, this.currentPage - range);
+    const end = Math.min(this.totalPages - 1, this.currentPage + range);
+
+    for (let i = start; i <= end; i++) {
+      middlePages.push(i);
+    }
+
+    return middlePages;
+  }
+
+  shouldShowLeadingEllipsis(): boolean {
+    return this.totalPages > 5 && this.currentPage - 1 > 2;
+  }
+
+  shouldShowTrailingEllipsis(): boolean {
+    return this.totalPages > 5 && this.totalPages - this.currentPage > 2;
   }
 }

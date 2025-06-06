@@ -29,9 +29,9 @@
             *ngFor="let university of filteredUniversities"
             class="col-6 col-md-3 mb-4"
             [class.clickable]="isUniversityPage"
-            (click)="isUniversityPage ? null : null"
+            (click)="(isUniversityPage ? null : null)"
           >
-          <!-- (click)="isUniversityPage ? showUniversityDetail(university) : null" -->
+            <!-- (click)="isUniversityPage ? showUniversityDetail(university) : null" -->
             <div class="university-card">
               <img
                 [src]="productUrl + university.imageEDocPath"
@@ -93,15 +93,50 @@
         class="d-flex flex-column flex-sm-row align-items-center justify-content-end gap-2 mt-4 pt-4 pagination-container"
       >
         <div class="d-flex align-items-center gap-3">
+          <!-- First page -->
           <button
-            *ngFor="let page of [].constructor(totalPages); let i = index"
             class="btn btn-link p-0 fw-bold"
-            [class.text-primary]="currentPage === i + 1"
-            (click)="goToPage(i + 1)"
+            [class.text-primary]="currentPage === 1"
+            (click)="goToPage(1)"
           >
-            {{ i + 1 }}
+            1
+          </button>
+
+          <!-- Ellipsis before current page -->
+          <span *ngIf="currentPage > 3 && totalPages > 5" class="px-1"
+            >...</span
+          >
+
+          <!-- Pages around current page -->
+          <ng-container *ngFor="let page of getVisiblePages()">
+            <button
+              *ngIf="page > 1 && page < totalPages"
+              class="btn btn-link p-0 fw-bold"
+              [class.text-primary]="currentPage === page"
+              (click)="goToPage(page)"
+            >
+              {{ page }}
+            </button>
+          </ng-container>
+
+          <!-- Ellipsis after current page -->
+          <span
+            *ngIf="currentPage < totalPages - 2 && totalPages > 5"
+            class="px-1"
+            >...</span
+          >
+
+          <!-- Last page -->
+          <button
+            *ngIf="totalPages > 1"
+            class="btn btn-link p-0 fw-bold"
+            [class.text-primary]="currentPage === totalPages"
+            (click)="goToPage(totalPages)"
+          >
+            {{ totalPages }}
           </button>
         </div>
+
         <div class="d-flex align-items-center gap-2">
           <button
             class="d-flex btn btn-light align-items-center border border-2 rounded fw-medium gap-2 px-4 py-2 w-100 w-sm-auto custom-pagination-btn"

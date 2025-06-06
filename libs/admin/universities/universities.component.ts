@@ -802,5 +802,25 @@ export class UniversitiesComponent implements OnInit {
       this.imageInput.nativeElement.value = '';
     }
   }
+
+  getVisiblePages(): number[] {
+  const visiblePages = [];
+  const maxVisible = 5;
+  
+  if (this.totalPages <= 5) {
+    for (let i = 2; i < this.totalPages; i++) {
+      visiblePages.push(i);
+    }
+  } else {
+    const start = Math.max(2, this.currentPage - maxVisible);
+    const end = Math.min(this.totalPages - 1, this.currentPage + maxVisible);
+    
+    for (let i = start; i <= end; i++) {
+      visiblePages.push(i);
+    }
+  }
+  
+  return visiblePages;
+}
 }
 
