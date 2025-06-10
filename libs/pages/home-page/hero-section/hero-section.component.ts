@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environments';
 import { addprogramService } from 'libs/service/addprogram/addProgram.service';
 import { ApplicationDataService } from 'libs/service/applicatinData/applicationData.service';
 import { UserSessionService } from 'libs/service/userSession/userSession.service';
+import { ThemeService } from 'libs/service/SystemTheme/theme.service';
 
 interface University {
   universityName: string;
@@ -69,10 +70,10 @@ export class HeroSectionComponent implements OnInit {
   constructor(
     private router: Router,
     private universityService: UniversityService,
-    private http: HttpClient,
     private programService: addprogramService,
     private userSessionService: UserSessionService,
-    private applicationDataService: ApplicationDataService
+    private applicationDataService: ApplicationDataService,
+    public themeService: ThemeService
   ) {
     this.isUniversityPage = this.router.url === '/universities';
     this.apiURL = environment.apiUrl;

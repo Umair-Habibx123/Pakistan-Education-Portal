@@ -1,5 +1,18 @@
+:root {
+  /* Light theme colors */
+  --main-pink: #ff6b98;
+  --active-link-pink: #d43d6d;
+  --black: #000000;
+  --dark-green: #006400;
+  --white: #ffffff;
+}
+
 .dark-theme {
- 
+  /* Dark theme colors */
+  --main-pink: #ff6b98;
+  --active-link-pink: #d43d6d;
+  --black: #e0e0e0;
+  --dark-green: #00a000;
 }
 
 .navbar-container {
@@ -8,10 +21,9 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease;
   background-color: var(--main-pink);
 }
-
 
 .navbar-hidden {
   transform: translateY(-100%);
@@ -21,13 +33,17 @@
   color: var(--active-link-pink) !important;
 }
 
-/* Logo Image */
+
 .logo-img {
   height: 50px;
   width: 220px;
+  filter: brightness(0.9); /* Slightly reduce brightness in dark mode */
+  
+  .dark-theme & {
+    filter: brightness(1.1); /* Slightly increase brightness in dark mode */
+  }
 }
 
-/* Mobile Menu Button */
 .mobile-menu-button {
   border: none;
   background: none;
@@ -37,9 +53,10 @@
   width: 24px;
   height: 24px;
   color: var(--black);
+  transition: color 0.3s ease;
 }
 
-/* Navbar Links (Desktop) */
+
 .navbar-links {
   font-size: 18px;
 }
@@ -49,12 +66,14 @@
   font-weight: 500;
   letter-spacing: 0.025em;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 /* Auth Buttons (Desktop) */
 .auth-buttons-container {
   border: 3px solid var(--dark-green);
   border-radius: 48px;
+  transition: border-color 0.3s ease;
 }
 
 .auth-link {
@@ -63,6 +82,7 @@
   letter-spacing: 0.025em;
   text-decoration: none;
   padding: 2px 4px;
+  transition: color 0.3s ease;
 }
 
 .auth-icon-container {
@@ -73,6 +93,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.3s ease;
 }
 
 .auth-icon {
@@ -85,6 +106,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  background-color: var(--main-pink);
+  transition: background-color 0.3s ease;
 }
 
 .mobile-menu-link {
@@ -92,12 +115,17 @@
   font-weight: 500;
   letter-spacing: 0.025em;
   text-decoration: none;
+  transition: color 0.3s ease;
+  
+  svg {
+    color: var(--black);
+    transition: color 0.3s ease;
+  }
 }
 
 .pointer {
   cursor: pointer;
 }
-
 
 /* User Avatar */
 .user-avatar {
@@ -113,6 +141,7 @@
   transition: all 0.3s ease;
   padding: 0;
   margin-left: 12px;
+  color: var(--white);
 
   &:hover {
     background-color: #e0e0e0;
@@ -122,7 +151,7 @@
   svg {
     width: 20px;
     height: 20px;
-    color: #ffffff;
+    color: var(--white);
   }
 }
 
@@ -141,18 +170,18 @@
   color: white;
 }
 
-
 /* User Dropdown */
 .user-dropdown {
   position: absolute;
   right: 0;
   top: calc(100% + 8px);
-  background: white;
+  background: var(--white);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   min-width: 240px;
   z-index: 1000;
   overflow: hidden;
+  transition: background-color 0.3s ease;
 
   .dropdown-header {
     padding: 16px;
@@ -218,8 +247,7 @@
   }
 }
 
-
-/* Add to your navbar styles */
+/* Theme Toggle */
 .theme-toggle {
   background: none;
   border: none;
@@ -230,7 +258,7 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease;
-  
+
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
@@ -240,22 +268,51 @@
   width: 20px;
   height: 20px;
   color: var(--black);
+  transition: color 0.3s ease;
 }
 
-/* Dark mode styles for navbar */
+
+
+/* Dark theme specific styles */
 .dark-theme {
-  .navbar-container {
-    background-color: var(--dark-bg-color); /* Define this in your variables */
+  .user-dropdown {
+    background: #2d3748;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+    .dropdown-header {
+      border-bottom-color: #4a5568;
+
+      .user-avatar-large {
+        background-color: #4a5568;
+        
+        svg {
+          color: #e2e8f0;
+        }
+      }
+
+      .user-name {
+        color: #f7fafc;
+      }
+
+      .user-role {
+        color: #cbd5e0;
+      }
+    }
+
+    .dropdown-item {
+      color: #e2e8f0;
+
+      &:hover {
+        background-color: #4a5568;
+      }
+
+      svg {
+        color: #cbd5e0;
+      }
+    }
   }
-  
-  .router-link,
-  .mobile-menu-link,
-  .auth-link {
-    color: var(--dark-text-color); /* Define this in your variables */
+
+  .auth-icon-container {
+    background-color: var(--dark-green);
   }
-  
-  .theme-icon {
-    color: var(--dark-text-color);
-  }
-  
 }

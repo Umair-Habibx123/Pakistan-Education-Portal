@@ -26,7 +26,7 @@ export class ThemeService {
       this.currentTheme = savedTheme;
     } else {
 
-      this.currentTheme = 'system';
+      this.currentTheme = 'light';
     }
 
     this.applyTheme();
@@ -40,6 +40,8 @@ export class ThemeService {
     } else {
       isDark = this.currentTheme === 'dark';
     }
+
+     console.log(`Applying theme: ${this.currentTheme}, isDark: ${isDark}`); 
 
     if (isDark) {
       document.documentElement.classList.add(this.DARK_THEME_CLASS);
